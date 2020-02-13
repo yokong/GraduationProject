@@ -1,41 +1,61 @@
 // admin 路由文件
-
 module.exports = app => {
   const express = require("express");
-  const router = express.Router();
+  const router = express.Router({
+    // 合并url参数 把父级路由参数合并到子路由里面让子路由也拿得到
+    mergeParams: true
+  });
   // 引入模型
-  const Category = require("../../models/Category");
+  // const Category = require("../../models/Category");
 
-  // 创建分类接口
-  router.post("/categories", async (req, res) => {
-    const model = await Category.create(req.body);
+  // 创建接口
+  router.post("/", async (req, res) => {
+    const model = await req.Model.create(req.body);
     res.send(model);
   });
-  // 分类列表接口
-  router.get("/categories", async (req, res) => {
-    const items = await Category.find()
-      .populate("parent")
+  // 列表接口
+  router.get("/", async (req, res) => {
+    const queryOptions = {};
+    // console.log(req.Model.modelName);
+    if (req.Model.modelName === "Category") {
+      queryOptions.populate = "parent";
+    }
+    const items = await req.Model.find()
+      .setOptions({
+        queryOptions
+      })
       .limit(10);
     res.send(items);
   });
-  // 分类详情页面接口-编辑页面-加了个id
-  router.get("/categories/:id", async (req, res) => {
-    const model = await Category.findById(req.params.id);
+  // 详情页面接口-编辑页面-加了个id
+  router.get("/:id", async (req, res) => {
+    const model = await req.Model.findById(req.params.id);
     res.send(model);
   });
   // 修改分类接口
-  router.put("/categories/:id", async (req, res) => {
-    const model = await Category.findByIdAndUpdate(req.params.id, req.body);
+  router.put("/:id", async (req, res) => {
+    const model = await req.Model.findByIdAndUpdate(req.params.id, req.body);
     res.send(model);
   });
   // 删除分类接口
-  router.delete("/categories/:id", async (req, res) => {
-    await Category.findByIdAndDelete(req.params.id, req.body);
+  router.delete("/:id", async (req, res) => {
+    await req.Model.findByIdAndDelete(req.params.id, req.body);
     res.send({
       success: true
     });
   });
 
   // 挂载路由
-  app.use("/admin/api", router);
+  // app.use("/admin/api", router);
+  app.use(
+    "/admin/api/rest/:resource",
+    async (req, res, next) => {
+      const modelName = require("inflection").classify(req.params.resource);
+      // 给请求对象上挂载一个Model
+      req.Model = require(`../../models/${modelName}`);
+      console.dir(req.Model);
+      next();
+    },
+    router
+  );
 };

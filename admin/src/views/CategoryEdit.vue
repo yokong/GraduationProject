@@ -4,12 +4,7 @@
     <el-form label-width="120px" @submit.native.prevent="save">
       <el-form-item label="上级分类">
         <el-select v-model="model.parent">
-          <el-option
-            v-for="item in parents"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          ></el-option>
+          <el-option v-for="item in parents" :key="item._id" :label="item.name" :value="item._id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="分类">
@@ -55,12 +50,12 @@ export default {
     },
     // 获取所编辑分类信息的方法
     async fetch() {
-      const res = await this.$http.get(`categories/${this.id}`);
+      const res = await this.$http.get(`rest/categories/${this.id}`);
       this.model = res.data;
     },
     // 获取父级分类
     async fetchParents() {
-      const res = await this.$http.get(`categories`);
+      const res = await this.$http.get(`rest/categories`);
       this.parents = res.data;
     }
   },
