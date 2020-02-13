@@ -46,10 +46,12 @@ module.exports = app => {
   });
 
   // 挂载路由
-  // app.use("/admin/api", router);
+  // 为了进行通用CRUD改造后台接口为动态参数
   app.use(
     "/admin/api/rest/:resource",
+    // 使用中间件保证所有子路由都能获取到req上挂载的Model(模型名称)
     async (req, res, next) => {
+      // inflection包--用来转换名称 这里是将 req.params.resource(动态路径)转为类名形式(首字母大写 单数)
       const modelName = require("inflection").classify(req.params.resource);
       // 给请求对象上挂载一个Model
       req.Model = require(`../../models/${modelName}`);
