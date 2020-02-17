@@ -6,11 +6,21 @@
           <template slot="title">
             <i class="el-icon-message"></i>内容管理
           </template>
+          <!-- 分类开始 -->
           <el-menu-item-group>
             <template slot="title">分类</template>
             <el-menu-item index="/categories/create">新建分类</el-menu-item>
             <el-menu-item index="/categories/list">分类列表</el-menu-item>
           </el-menu-item-group>
+          <!-- 分类结束 -->
+
+          <!-- 物品开始 -->
+          <el-menu-item-group>
+            <template slot="title">物品</template>
+            <el-menu-item index="/items/create">新建物品</el-menu-item>
+            <el-menu-item index="/items/list">物品列表</el-menu-item>
+          </el-menu-item-group>
+          <!-- 物品结束 -->
         </el-submenu>
       </el-menu>
     </el-aside>

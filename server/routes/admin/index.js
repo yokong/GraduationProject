@@ -11,6 +11,7 @@ module.exports = app => {
   // 创建接口
   router.post("/", async (req, res) => {
     const model = await req.Model.create(req.body);
+    console.log("333", req.Model);
     res.send(model);
   });
   // 列表接口
@@ -30,6 +31,7 @@ module.exports = app => {
   // 详情页面接口-编辑页面-加了个id
   router.get("/:id", async (req, res) => {
     const model = await req.Model.findById(req.params.id);
+    console.log(req.url);
     res.send(model);
   });
   // 修改分类接口
@@ -51,13 +53,22 @@ module.exports = app => {
     "/admin/api/rest/:resource",
     // 使用中间件保证所有子路由都能获取到req上挂载的Model(模型名称)
     async (req, res, next) => {
+      console.log(req.baseUrl);
       // inflection包--用来转换名称 这里是将 req.params.resource(动态路径)转为类名形式(首字母大写 单数)
       const modelName = require("inflection").classify(req.params.resource);
       // 给请求对象上挂载一个Model
       req.Model = require(`../../models/${modelName}`);
-      console.dir(req.Model);
       next();
     },
     router
   );
+
+  const multer = require("multer"); // 用来做文件上传的模块
+  // 文件上传到哪里 upLoad中间件
+  const upload = multer({ dest: __dirname + "/../../uploads" });
+  app.post("/admin/api/upload", upload.single("file"), async (req, res) => {
+    const file = req.file;
+    file.url = `http://localhost:3000/uploads/${file.filename}`;
+    res.send(file);
+  });
 };

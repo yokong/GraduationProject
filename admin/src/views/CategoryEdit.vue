@@ -37,10 +37,10 @@ export default {
       let res;
       if (this.id) {
         // 修改
-        res = await this.$http.put(`/categories/${this.id}`, this.model);
+        res = await this.$http.put(`rest/categories/${this.id}`, this.model);
       } else {
         // 新建
-        res = await this.$http.post(`/categories`, this.model);
+        res = await this.$http.post(`rest/categories`, this.model);
       }
       this.$router.push("/categories/list");
       this.$message({
@@ -50,12 +50,12 @@ export default {
     },
     // 获取所编辑分类信息的方法
     async fetch() {
-      const res = await this.$http.get(`rest/categories/${this.id}`);
+      const res = await this.$http.get(`/rest/categories/${this.id}`);
       this.model = res.data;
     },
     // 获取父级分类
     async fetchParents() {
-      const res = await this.$http.get(`rest/categories`);
+      const res = await this.$http.get(`/rest/categories`);
       this.parents = res.data;
     }
   },
