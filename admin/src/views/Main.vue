@@ -29,6 +29,22 @@
             <el-menu-item index="/heros/list">英雄列表</el-menu-item>
           </el-menu-item-group>
           <!-- 英雄结束 -->
+
+          <!-- 文章开始 -->
+          <el-menu-item-group>
+            <template slot="title">文章</template>
+            <el-menu-item index="/articles/create">新建文章</el-menu-item>
+            <el-menu-item index="/articles/list">文章列表</el-menu-item>
+          </el-menu-item-group>
+          <!-- 文章结束 -->
+
+          <!-- 广告开始 -->
+          <el-menu-item-group>
+            <template slot="title">广告</template>
+            <el-menu-item index="/ads/create">新建广告位</el-menu-item>
+            <el-menu-item index="/ads/list">广告列表</el-menu-item>
+          </el-menu-item-group>
+          <!-- 广告结束 -->
         </el-submenu>
       </el-menu>
     </el-aside>
@@ -57,7 +73,6 @@
     </el-container>
   </el-container>
 </template>
-
 
 <style>
 .el-header {
