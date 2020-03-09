@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-02-12 16:45:34
+ * @LastEditTime: 2020-03-08 23:14:06
+ * @LastEditors: 赵昱青
+ * @Description: In User Settings Edit
+ * @FilePath: \King\server\routes\admin\index.js
+ */
 // admin 路由文件
 module.exports = app => {
   const express = require("express");
@@ -11,19 +19,22 @@ module.exports = app => {
   // 创建接口
   router.post("/", async (req, res) => {
     const model = await req.Model.create(req.body);
-    console.log("333", req.Model);
+    // console.log("333", req.Model);
     res.send(model);
   });
   // 列表接口
   router.get("/", async (req, res) => {
     const queryOptions = {};
-    // console.log(req.Model.modelName);
-    if (req.Model.modelName === "Category") {
-      queryOptions.populate = "parent";
+    console.log("cirno");
+    console.log(req.Model.modelName, "赵昱青");
+    if (req.Model.modelName == "Meter") {
+      console.log("succeff");
+      queryOptions.populate = "meter";
     }
     const items = await req.Model.find()
-      .setOptions(queryOptions)
-      .limit(10);
+      .populate("meter")
+      // .setOptions(queryOptions)
+      .limit(15);
     res.send(items);
   });
   // 详情页面接口-编辑页面-加了个id
@@ -66,8 +77,8 @@ module.exports = app => {
   const upload = multer({ dest: __dirname + "/../../uploads" });
   app.post("/admin/api/upload", upload.single("file"), async (req, res) => {
     const file = req.file;
-    console.log(123456);
-    console.log(file);
+    // console.log(123456);
+    // console.log(file);
     file.url = `http://localhost:3000/uploads/${file.filename}`;
     res.send(file);
   });

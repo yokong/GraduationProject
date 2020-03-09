@@ -1,11 +1,39 @@
+<!--
+ * @Author: 赵昱青
+ * @Date: 2020-02-12 16:07:48
+ * @LastEditTime: 2020-03-09 20:25:51
+ * @LastEditors: 赵昱青
+ * @Description: 主界面
+ -->
 <template>
   <el-container style="height: 100vh; border: 1px solid #eee">
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu router :default-openeds="['1', '3']">
+    <el-aside width="200px">
+      <el-menu router style="height:100%" unique-opened :default-openeds="['2']">
+        <!-- 参数管理开始 -->
         <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-odometer"></i>相关参数信息
+          </template>
+
+          <!-- 仪器开始 -->
+          <el-menu-item-group>
+            <template slot="title">仪表</template>
+            <el-menu-item index="/meters/create">新建仪表</el-menu-item>
+            <el-menu-item index="/meters/list">仪表列表</el-menu-item>
+          </el-menu-item-group>
+          <!-- 仪器结束 -->
+        </el-submenu>
+        <!-- 参数管理结束 -->
+
+        <!-- 报告管理开始 -->
+        <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-message"></i>内容管理
           </template>
+          <el-menu-item-group>
+            <template slot="title">主页</template>
+            <el-menu-item index="/home">主页</el-menu-item>
+          </el-menu-item-group>
           <!-- 分类开始 -->
           <el-menu-item-group>
             <template slot="title">分类</template>
@@ -14,52 +42,48 @@
           </el-menu-item-group>
           <!-- 分类结束 -->
 
-          <!-- 物品开始 -->
+          <!-- 安装报告开始 -->
           <el-menu-item-group>
-            <template slot="title">物品</template>
-            <el-menu-item index="/items/create">新建物品</el-menu-item>
-            <el-menu-item index="/items/list">物品列表</el-menu-item>
+            <template slot="title">安装报告</template>
+            <el-menu-item index="/erectionReports/create">新建安装报告</el-menu-item>
+            <el-menu-item index="/erectionReports/list">安装报告列表</el-menu-item>
           </el-menu-item-group>
-          <!-- 物品结束 -->
-
-          <!-- 英雄开始 -->
-          <el-menu-item-group>
-            <template slot="title">英雄</template>
-            <el-menu-item index="/heros/create">新建英雄</el-menu-item>
-            <el-menu-item index="/heros/list">英雄列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 英雄结束 -->
-
-          <!-- 文章开始 -->
-          <el-menu-item-group>
-            <template slot="title">文章</template>
-            <el-menu-item index="/articles/create">新建文章</el-menu-item>
-            <el-menu-item index="/articles/list">文章列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 文章结束 -->
-
-          <!-- 广告开始 -->
-          <el-menu-item-group>
-            <template slot="title">广告</template>
-            <el-menu-item index="/ads/create">新建广告位</el-menu-item>
-            <el-menu-item index="/ads/list">广告列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 广告结束 -->
+          <!-- 安装报告结束 -->
         </el-submenu>
+        <!-- 报告单管理结束 -->
+
+        <!-- 账户管理开始 -->
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-user"></i>账户管理
+          </template>
+
+          <el-menu-item-group>
+            <template slot="title">账号</template>
+            <el-menu-item index="/accounts/create">新建账号</el-menu-item>
+            <el-menu-item index="/accounts/list">账号列表</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <!-- 账户管理结束 -->
       </el-menu>
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
-        <el-dropdown>
-          <i class="el-icon-setting" style="margin-right: 15px"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item>新增</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <span>鱼见</span>
+      <el-header>
+        <el-row type="flex">
+          <el-col :span="20"></el-col>
+          <el-col class="person" :span="4">
+            <el-dropdown>
+              <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
+              <el-avatar :size="40" :src="circleUrl" style="margin:0.5rem 0 0 1rem"></el-avatar>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item disabled style="color:#333">鱼见</el-dropdown-item>
+                <el-dropdown-item>个人信息</el-dropdown-item>
+                <el-dropdown-item>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-col>
+        </el-row>
       </el-header>
 
       <el-main>
@@ -76,13 +100,21 @@
 
 <style>
 .el-header {
-  background-color: #b3c0d1;
+  background-color: #a1e6e3;
   color: #333;
-  line-height: 60px;
+  /* display: flex;
+  justify-content: flex-end;
+  align-items: center; */
+}
+.person {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .el-aside {
   color: #333;
+  /* background: #f8b195; */
 }
 </style>
 
@@ -95,6 +127,8 @@ export default {
       address: "上海市普陀区金沙江路 1518 弄"
     };
     return {
+      circleUrl:
+        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg",
       tableData: Array(20).fill(item)
     };
   }
