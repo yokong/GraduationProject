@@ -1,14 +1,20 @@
 <!--
  * @Author: 赵昱青
  * @Date: 2020-02-12 16:07:48
- * @LastEditTime: 2020-03-09 20:25:51
+ * @LastEditTime: 2020-03-09 21:02:30
  * @LastEditors: 赵昱青
  * @Description: 主界面
  -->
 <template>
   <el-container style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px">
-      <el-menu router style="height:100%" unique-opened :default-openeds="['2']">
+      <el-menu router style="height:100%" unique-opened>
+        <!-- 主页开始 -->
+        <el-menu-item index="/home">
+          <i class="el-icon-house"></i>
+          主页
+        </el-menu-item>
+        <!-- 主页结束 -->
         <!-- 参数管理开始 -->
         <el-submenu index="1">
           <template slot="title">
@@ -28,12 +34,9 @@
         <!-- 报告管理开始 -->
         <el-submenu index="2">
           <template slot="title">
-            <i class="el-icon-message"></i>内容管理
+            <i class="el-icon-message"></i>安装报告单
           </template>
-          <el-menu-item-group>
-            <template slot="title">主页</template>
-            <el-menu-item index="/home">主页</el-menu-item>
-          </el-menu-item-group>
+
           <!-- 分类开始 -->
           <el-menu-item-group>
             <template slot="title">分类</template>
@@ -124,7 +127,7 @@ export default {
     const item = {
       date: "2016-05-02",
       name: "王小虎",
-      address: "上海市普陀区金沙江路 1518 弄"
+      address: "上海市普陀区金沙江路 1518 "
     };
     return {
       circleUrl:

@@ -1,7 +1,7 @@
 /*
  * @Author: 赵昱青
  * @Date: 2020-02-24 13:41:58
- * @LastEditTime: 2020-03-08 23:10:25
+ * @LastEditTime: 2020-03-09 22:48:07
  * @LastEditors: 赵昱青
  * @Description: 安装表单信息 erectionReport
  * @FilePath: \King\server\models\Hero.js
@@ -49,8 +49,10 @@ const schema = new mongoose.Schema({
   //----------------- 客户结束----------------
 
   //---------------工况开始-------------------
+  // 关联一个文档 Meter
   // 仪表信息
   meter: {
+    // type: mongoose.SchemaTypes.ObjectId,
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Meter"
   },
@@ -137,7 +139,7 @@ const schema = new mongoose.Schema({
   probePanorama: { type: String },
   // -------------现场数据结束------------------------
   // -----------附加信息开始------------
-  supervisor: { type: mongoose.SchemaTypes.ObjectId, ref: "Account" },
+  supervisor: { type:mongoose.SchemaTypes.ObjectId,ref: "Account" },
   otherContent: { type: String },
   // -----------附加信息结束-------
 

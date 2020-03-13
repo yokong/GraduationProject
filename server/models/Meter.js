@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-03-08 11:40:26
- * @LastEditTime: 2020-03-08 12:01:13
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-03-09 22:48:27
+ * @LastEditors: 赵昱青
  * @Description: 仪表模型
  * @FilePath: \King\server\models\Instrument.js
  */

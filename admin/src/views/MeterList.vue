@@ -1,7 +1,7 @@
 <!--
  * @Author: 赵昱青
  * @Date: 2020-03-08 11:35:14
- * @LastEditTime: 2020-03-08 22:17:56
+ * @LastEditTime: 2020-03-09 22:14:45
  * @LastEditors: 赵昱青
  * @Description: 仪表列表页面
  -->
@@ -14,7 +14,7 @@
     <el-table :data="items">
       <el-table-column prop="_id" label="ID" width="220"></el-table-column>
       <el-table-column prop="meterName" label="仪表名称" width="220"></el-table-column>
-      <el-table-column prop="meterNumber" label="仪表编号" width="220"></el-table-column>
+      <el-table-column prop="tagNumber" label="位号" width="220"></el-table-column>
       <!-- <el-table-column prop="icon" label="图标" width="220">
         <template slot-scope="scope">
           <img :src="scope.row.icon" style="height:3em" />

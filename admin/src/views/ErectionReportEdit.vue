@@ -1,7 +1,7 @@
 <!--
  * @Author: 赵昱青
  * @Date: 2020-02-24 13:22:59
- * @LastEditTime: 2020-03-08 23:12:48
+ * @LastEditTime: 2020-03-09 22:24:25
  * @LastEditors: 赵昱青
  * @Description: 安装报告单组件
  -->
@@ -510,7 +510,7 @@ export default {
           qq: null
         },
         // 现场工况
-        meter: "",
+        meter: null,
         otherCondition: "",
         meterType: "",
         useTime: "",
@@ -554,10 +554,10 @@ export default {
         pipelinePanorama: "",
         probePanorama: "",
         // 附加信息
-        supervisor: "",
+        supervisor: null,
         otherContent: "",
         // 特殊信息
-        reportStatus: "已经提交"
+        reportStatus: ""
       }
     };
   },
@@ -574,7 +574,7 @@ export default {
         );
       } else {
         // 新建
-        res = await this.$http.post(`rest/erectionReports`, this.model);
+        res = await this.$http.post(`rest/erectionReports/`, this.model);
       }
       this.$router.push("/erectionReports/list");
       this.$message({

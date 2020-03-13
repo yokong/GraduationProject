@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-12 16:45:34
- * @LastEditTime: 2020-03-08 23:14:06
+ * @LastEditTime: 2020-03-09 23:06:14
  * @LastEditors: 赵昱青
  * @Description: In User Settings Edit
  * @FilePath: \King\server\routes\admin\index.js
@@ -11,10 +11,14 @@ module.exports = app => {
   const express = require("express");
   const router = express.Router({
     // 合并url参数 把父级路由参数合并到子路由里面让子路由也拿得到
+    // mergeParams: true
     mergeParams: true
   });
+  
   // 引入模型
-  // const Category = require("../../models/Category");
+  const Meter = require("../../models/Meter");
+  const Account = require("../../models/Account");
+
 
   // 创建接口
   router.post("/", async (req, res) => {
@@ -25,22 +29,21 @@ module.exports = app => {
   // 列表接口
   router.get("/", async (req, res) => {
     const queryOptions = {};
-    console.log("cirno");
-    console.log(req.Model.modelName, "赵昱青");
-    if (req.Model.modelName == "Meter") {
-      console.log("succeff");
+    console.log(req.Model.modelName );
+    if (req.Model.modelName == "Erectionreport") {
+      console.log(123);
       queryOptions.populate = "meter";
     }
-    const items = await req.Model.find()
-      .populate("meter")
-      // .setOptions(queryOptions)
-      .limit(15);
+    // .populate('meter')
+
+    const items = await req.Model.find().setOptions(queryOptions)
+    .limit(100);
     res.send(items);
   });
   // 详情页面接口-编辑页面-加了个id
   router.get("/:id", async (req, res) => {
     const model = await req.Model.findById(req.params.id);
-    console.log(req.url);
+    // console.log(req.url);
     res.send(model);
   });
   // 修改分类接口
@@ -62,11 +65,12 @@ module.exports = app => {
     "/admin/api/rest/:resource",
     // 使用中间件保证所有子路由都能获取到req上挂载的Model(模型名称)
     async (req, res, next) => {
-      console.log(req.baseUrl);
+      // console.log(req.baseUrl);
       // inflection包--用来转换名称 这里是将 req.params.resource(动态路径)转为类名形式(首字母大写 单数)
       const modelName = require("inflection").classify(req.params.resource);
       // 给请求对象上挂载一个Model
       req.Model = require(`../../models/${modelName}`);
+      console.log('123123',req.Model);
       next();
     },
     router

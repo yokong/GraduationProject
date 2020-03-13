@@ -1,7 +1,7 @@
 <!--
  * @Author: 赵昱青
  * @Date: 2020-02-12 16:06:22
- * @LastEditTime: 2020-03-09 11:55:48
+ * @LastEditTime: 2020-03-09 21:44:30
  * @LastEditors: 赵昱青
  * @Description: 主页面
  -->
@@ -9,7 +9,7 @@
   <div class="home">
     <el-row type="flex">
       <el-col :span="8">
-        <el-card class="box-card">
+        <el-card class>
           <div class="user-info">
             <div class="user-info-avatar">
               <el-avatar :size="150" :src="circleUrl"></el-avatar>
@@ -33,7 +33,29 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="16"></el-col>
+      <el-col :span="16">
+        <el-row class="right-info">
+          <el-card shadow="hover" class="box-card">
+            <div slot="header" class="clearfix">
+              <h4>全部报告单</h4>
+            </div>
+            <div>{{items.length}}</div>
+          </el-card>
+
+          <el-card shadow="hover" class="box-card">
+            <div slot="header" class="clearfix">
+              <h4>已提交</h4>
+            </div>
+            <div>{{commit}}</div>
+          </el-card>
+          <el-card shadow="hover" class="box-card">
+            <div slot="header" class="clearfix">
+              <h4>已通过</h4>
+            </div>
+            <div>{{pass}}</div>
+          </el-card>
+        </el-row>
+      </el-col>
     </el-row>
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
@@ -47,12 +69,32 @@ export default {
   name: "Home",
   data() {
     return {
+      items: [],
       circleUrl:
         "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2686231306,63998876&fm=26&gp=0.jpg"
     };
   },
+  methods: {
+    async fetchReport() {
+      const res = await this.$http.get("rest/erectionReports");
+      this.items = res.data;
+      console.log(this.items);
+    }
+  },
+  computed: {
+    commit() {
+      return this.items.filter(item => item.reportStatus == "已提交").length;
+    },
+    pass() {
+      return this.items.filter(item => item.reportStatus == "已通过").length;
+    }
+  },
   components: {
     // HelloWorld
+  },
+  created() {
+    this.fetchReport();
+    const a = [];
   }
 };
 </script>
@@ -82,5 +124,21 @@ export default {
 }
 .contact-information span i {
   margin: 0 0.6rem 0 0;
+}
+
+.right-info {
+  /* background: pink; */
+  height: 180px;
+  display: flex;
+  justify-content: space-around;
+}
+.right-info .box-card {
+  padding: 0;
+  margin: 0 1rem;
+  height: 100%;
+  flex: 1;
+}
+div.el-card__header {
+  background: yellow;
 }
 </style>

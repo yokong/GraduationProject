@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-24 13:23:06
- * @LastEditTime: 2020-03-09 11:39:36
+ * @LastEditTime: 2020-03-09 23:04:35
  * @LastEditors: 赵昱青
  * @Description: In User Settings Edit
  * @FilePath: \King\admin\src\views\ErectionReportList.vue
@@ -15,8 +15,8 @@
     <el-table :data="items">
       <el-table-column prop="_id" label="ID" width="220"></el-table-column>
       <el-table-column prop="company" label="用户单位" width="220"></el-table-column>
-      <el-table-column prop="code" label="仪表编码" width="220"></el-table-column>
-      <el-table-column prop="meter.meterName" label="仪表编码" width="220"></el-table-column>
+      <el-table-column prop="code" label="用户编码" width="220"></el-table-column>
+      <el-table-column prop="meter.meterName" label="仪表" width="220"></el-table-column>
 
       <el-table-column fixed="right" label="安装报告单状态" width="220">
         <template slot-scope="scope">
@@ -58,6 +58,8 @@ export default {
     async fetch() {
       const res = await this.$http.get("rest/erectionReports");
       this.items = res.data;
+      // console.log(this.items);
+      console.log(res.data);
     },
     // 删除方法
     async remove(row) {
