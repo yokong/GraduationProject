@@ -14,11 +14,10 @@ module.exports = app => {
     // mergeParams: true
     mergeParams: true
   });
-  
+
   // 引入模型
   const Meter = require("../../models/Meter");
   const Account = require("../../models/Account");
-
 
   // 创建接口
   router.post("/", async (req, res) => {
@@ -29,17 +28,19 @@ module.exports = app => {
   // 列表接口
   router.get("/", async (req, res) => {
     const queryOptions = {};
-    console.log(req.Model.modelName );
+    console.log(req.Model.modelName);
     if (req.Model.modelName == "Erectionreport") {
       console.log(123);
       queryOptions.populate = "meter";
     }
     // .populate('meter')
 
-    const items = await req.Model.find().setOptions(queryOptions)
-    .limit(100);
+    const items = await req.Model.find()
+      .setOptions(queryOptions)
+      .limit(100);
     res.send(items);
   });
+
   // 详情页面接口-编辑页面-加了个id
   router.get("/:id", async (req, res) => {
     const model = await req.Model.findById(req.params.id);
@@ -70,7 +71,7 @@ module.exports = app => {
       const modelName = require("inflection").classify(req.params.resource);
       // 给请求对象上挂载一个Model
       req.Model = require(`../../models/${modelName}`);
-      console.log('123123',req.Model);
+      console.log("123123", req.Model);
       next();
     },
     router

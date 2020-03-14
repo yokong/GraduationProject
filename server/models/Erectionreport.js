@@ -139,14 +139,17 @@ const schema = new mongoose.Schema({
   probePanorama: { type: String },
   // -------------现场数据结束------------------------
   // -----------附加信息开始------------
-  supervisor: { type:mongoose.SchemaTypes.ObjectId,ref: "Account" },
+  //主管选择
+  supervisor: { type: mongoose.SchemaTypes.ObjectId, ref: "Account" },
+  //安装情况说明信息
   otherContent: { type: String },
   // -----------附加信息结束-------
 
   // --------------特殊信息------------------
   // 报告单状态
-  reportStatus: {
-    type: String
-  }
+  reportStatus: { type: String },
+
+  //提交者
+  submitter: { type: mongoose.SchemaTypes.ObjectId }
 });
 module.exports = mongoose.model("Erectionreport", schema);

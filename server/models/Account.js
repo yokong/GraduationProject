@@ -8,19 +8,19 @@
 const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
   // 权限
-  authority: { type: Number },
+  authority: { type: Number, required: true },
   // 账号
-  account: { type: String },
+  account: { type: String, required: true },
   // 密码
-  password: { type: String },
+  password: { type: String, required: true },
   // 姓名
-  name: { type: String },
+  name: { type: String, required: true },
   // 电话
-  phoneNumber: { type: Number },
+  phoneNumber: { type: Number, required: true },
   // 邮箱
-  email: { type: String },
+  email: { type: String, required: true },
   // 头像
-  avatar: { type: String }
+  avatar: { type: String, required: true }
 });
 
 module.exports = mongoose.model("Account", schema);

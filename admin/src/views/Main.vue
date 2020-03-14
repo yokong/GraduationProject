@@ -37,14 +37,6 @@
             <i class="el-icon-message"></i>安装报告单
           </template>
 
-          <!-- 分类开始 -->
-          <el-menu-item-group>
-            <template slot="title">分类</template>
-            <el-menu-item index="/categories/create">新建分类</el-menu-item>
-            <el-menu-item index="/categories/list">分类列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 分类结束 -->
-
           <!-- 安装报告开始 -->
           <el-menu-item-group>
             <template slot="title">安装报告</template>

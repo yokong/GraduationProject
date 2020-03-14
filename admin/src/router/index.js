@@ -10,9 +10,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 const Main = () => import("../views/Main.vue");
 
-const CategoryEdit = () => import("../views/CategoryEdit.vue");
-const CategoryList = () => import("../views/CategoryList.vue");
-
 const ErectionReportEdit = () => import("../views/ErectionReportEdit.vue");
 const ErectionReportList = () => import("../views/ErectionReportList.vue");
 
@@ -34,10 +31,6 @@ const routes = [
     children: [
       { path: "/", redirect: "/home" },
       { path: "/home", component: Home },
-
-      { path: "/categories/create", component: CategoryEdit },
-      { path: "/categories/edit/:id", component: CategoryEdit, props: true },
-      { path: "/categories/list", component: CategoryList },
 
       { path: "/erectionReports/create", component: ErectionReportEdit },
       {

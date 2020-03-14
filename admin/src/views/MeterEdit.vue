@@ -12,31 +12,49 @@
     <el-divider></el-divider>
 
     <el-form label-width="120px" @submit.native.prevent="save">
-      <el-form-item label="仪表名称">
-        <el-input v-model="model.meterName"></el-input>
-      </el-form-item>
-      <el-form-item label="仪表编号">
-        <el-input v-model="model.meterNumber"></el-input>
-      </el-form-item>
-      <el-form-item label="位号">
-        <el-input v-model="model.tagNumber"></el-input>
-      </el-form-item>
-      <el-form-item label="容器形状尺寸">
-        <el-input v-model="model.shape"></el-input>
-      </el-form-item>
-      <el-form-item label="容器材质">
-        <el-input v-model="model.material"></el-input>
-      </el-form-item>
-      <el-form-item label="保温层">
-        <el-switch
-          style="display: block;margin-top:0.5rem"
-          v-model="model.thermalInsulation"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
-          active-text="有"
-          inactive-text="无"
-        ></el-switch>
-      </el-form-item>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="仪表名称">
+            <el-input v-model="model.meterName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="仪表编号">
+            <el-input v-model="model.meterNumber"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="位号">
+            <el-input v-model="model.tagNumber"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="容器形状尺寸">
+            <el-input v-model="model.shape"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="容器材质">
+            <el-input v-model="model.material"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="保温层">
+            <el-switch
+              style="display: block;margin-top:0.5rem"
+              v-model="model.thermalInsulation"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-text="有"
+              inactive-text="无"
+            ></el-switch>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
       <!-- <el-form-item label="图标">
         <el-upload
           class="avatar-uploader"

@@ -40,7 +40,7 @@
             @click="$router.push(`/erectionReports/edit/${scope.row._id}`)"
           >编辑</el-button>
           <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
-          <el-button type="text" size="small">提交</el-button>
+          <el-button type="text" size="small" @click="submit(scope.row)">提交</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,7 +59,7 @@ export default {
       const res = await this.$http.get("rest/erectionReports");
       this.items = res.data;
       // console.log(this.items);
-      console.log(res.data);
+      // console.log(res.data);
     },
     // 删除方法
     async remove(row) {
@@ -78,6 +78,20 @@ export default {
           message: "删除成功!"
         });
         this.fetch();
+      });
+    },
+    //提交方法
+    async submit(row) {
+      console.log(row);
+      this.$confirm(`将向${row.supervisor.name}提交报告的`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "警告"
+      }).then(async () => {
+        // console.log(row);
+        row.reportStatus = "已提交";
+        // const res = await this.$http.put(`rest/erectionReports`);
+        console.log(123);
       });
     }
   },
