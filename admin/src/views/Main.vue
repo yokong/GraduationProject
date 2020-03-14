@@ -65,12 +65,14 @@
 
     <el-container>
       <el-header>
-        <el-row type="flex">
-          <el-col :span="20"></el-col>
-          <el-col class="person" :span="4">
+        <el-row type="flex" align="middle" class="header-bar">
+          <el-col :span="20">
+            <h3>基于B/S的危化品仪表行业客服管理系统</h3>
+          </el-col>
+          <el-col class="profile" :span="4">
             <el-dropdown>
               <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
-              <el-avatar :size="40" :src="circleUrl" style="margin:0.5rem 0 0 1rem"></el-avatar>
+              <el-avatar :size="40" :src="circleUrl"></el-avatar>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item disabled style="color:#333">鱼见</el-dropdown-item>
                 <el-dropdown-item>个人信息</el-dropdown-item>
@@ -82,7 +84,9 @@
       </el-header>
 
       <el-main>
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
         <!-- <el-table :data="tableData">
           <el-table-column prop="date" label="日期" width="140"></el-table-column>
           <el-table-column prop="name" label="姓名" width="120"></el-table-column>
@@ -101,7 +105,7 @@
   justify-content: flex-end;
   align-items: center; */
 }
-.person {
+.profile {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -111,20 +115,34 @@
   color: #333;
   /* background: #f8b195; */
 }
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-leave {
+  opacity: 1;
+}
+.fade-enter-active {
+  transition: opacity 0.3s;
+}
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 </style>
 
 <script>
 export default {
   data() {
-    const item = {
-      date: "2016-05-02",
-      name: "王小虎",
-      address: "上海市普陀区金沙江路 1518 "
-    };
+    // const item = {
+    //   date: "2016-05-02",
+    //   name: "王小虎",
+    //   address: "上海市普陀区金沙江路 1518 "
+    // };
     return {
       circleUrl:
-        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg",
-      tableData: Array(20).fill(item)
+        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg"
+      // tableData: Array(20).fill(item)
     };
   }
 };

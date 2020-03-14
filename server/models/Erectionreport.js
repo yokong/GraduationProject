@@ -53,8 +53,7 @@ const schema = new mongoose.Schema({
   // 仪表信息
   meter: {
     // type: mongoose.SchemaTypes.ObjectId,
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Meter"
+    type: mongoose.SchemaTypes.ObjectId
   },
   // 其他液位计安装情况
   otherCondition: { type: String },
@@ -140,7 +139,7 @@ const schema = new mongoose.Schema({
   // -------------现场数据结束------------------------
   // -----------附加信息开始------------
   //主管选择
-  supervisor: { type: mongoose.SchemaTypes.ObjectId, ref: "Account" },
+  supervisor: { type: mongoose.SchemaTypes.ObjectId },
   //安装情况说明信息
   otherContent: { type: String },
   // -----------附加信息结束-------

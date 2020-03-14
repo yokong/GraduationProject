@@ -18,6 +18,7 @@ module.exports = app => {
   // 引入模型
   const Meter = require("../../models/Meter");
   const Account = require("../../models/Account");
+  // const Erectionreport = require("../../models/Erectionreport.js");
 
   // 创建接口
   router.post("/", async (req, res) => {
@@ -28,17 +29,36 @@ module.exports = app => {
   // 列表接口
   router.get("/", async (req, res) => {
     const queryOptions = {};
-    console.log(req.Model.modelName);
+    // console.log(req.Model.modelName);
+
     if (req.Model.modelName == "Erectionreport") {
-      console.log(123);
-      queryOptions.populate = "meter";
+      const items = await req.Model.aggregate([
+        {
+          $lookup: {
+            from: "accounts",
+            localField: "supervisor",
+            foreignField: "_id",
+            as: "supervisor_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "meters",
+            localField: "meter",
+            foreignField: "_id",
+            as: "meter_info"
+          }
+        }
+      ]);
+      // console.log(myData, "1231232");
+      res.send(items);
+    } else {
+      const items = await req.Model.find()
+        .setOptions(queryOptions)
+        .limit(100);
+      res.send(items);
     }
     // .populate('meter')
-
-    const items = await req.Model.find()
-      .setOptions(queryOptions)
-      .limit(100);
-    res.send(items);
   });
 
   // 详情页面接口-编辑页面-加了个id
@@ -71,7 +91,7 @@ module.exports = app => {
       const modelName = require("inflection").classify(req.params.resource);
       // 给请求对象上挂载一个Model
       req.Model = require(`../../models/${modelName}`);
-      console.log("123123", req.Model);
+      // console.log("123123", req.Model);
       next();
     },
     router

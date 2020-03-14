@@ -8,7 +8,7 @@
 
 <template>
   <div>
-    <h2 style="color:#606266;">仪器列表</h2>
+    <h2 style="color:#606266;">仪表列表</h2>
     <el-divider></el-divider>
     <!-- 表格数据 items -->
     <el-table :data="items">
