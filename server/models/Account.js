@@ -12,7 +12,16 @@ const schema = new mongoose.Schema({
   // 账号
   account: { type: String, required: true },
   // 密码
-  password: { type: String, required: true },
+  password: {
+    type: String,
+    required: true,
+    // 别把它查出来查出来再保存 又会进行一次散列
+    select: false,
+    // 使用bcryptjs来做密码的散列
+    set(val) {
+      return require("bcryptjs").hashSync(val, 12);
+    }
+  },
   // 姓名
   name: { type: String, required: true },
   // 电话

@@ -12,23 +12,23 @@
         <el-card class>
           <div class="user-info">
             <div class="user-info-avatar">
-              <el-avatar :size="150" :src="circleUrl"></el-avatar>
+              <el-avatar :size="150" :src="model.avatar"></el-avatar>
             </div>
             <div class="user-info-detail">
-              <h2>赵昱青</h2>
-              <span>技术主管</span>
+              <h2>{{model.name}}</h2>
+              <span>{{authority}}</span>
             </div>
           </div>
           <el-divider content-position="left">基础信息</el-divider>
           <div class="contact-information">
             <span>
               <i class="el-icon-phone"></i>
-              18309203061
+              {{model.phoneNumber}}
             </span>
 
             <span>
               <i class="el-icon-message"></i>
-              18309203061@qq.com
+              {{model.email}}
             </span>
           </div>
         </el-card>
@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       items: [],
+      model: {},
       circleUrl:
         "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2686231306,63998876&fm=26&gp=0.jpg"
     };
@@ -78,7 +79,16 @@ export default {
     async fetchReport() {
       const res = await this.$http.get("rest/erectionReports");
       this.items = res.data;
-      console.log(this.items);
+      // console.log(this.items);
+    },
+    async fetchAccount() {
+      const res = await this.$http.get("rest/accounts");
+      this.model = res.data
+        .filter((item, index) => {
+          return item.account == localStorage.getItem("account");
+        })
+        .pop();
+      console.log(this.model);
     }
   },
   computed: {
@@ -87,26 +97,41 @@ export default {
     },
     pass() {
       return this.items.filter(item => item.reportStatus == "已通过").length;
+    },
+    authority() {
+      if (this.model.authority == 1) {
+        return `安装工程师`;
+      } else if (this.model.authority == 2) {
+        return `技术主管`;
+      } else {
+        return `管理员`;
+      }
     }
   },
   components: {
     // HelloWorld
   },
   created() {
+    // console.log("$router", this.$router);
+    // console.log("$route", this.$route);
+    // console.log(this.$router.currentRoute == this.$route);
     this.fetchReport();
-    const a = [];
+    this.fetchAccount();
+    console.log(this.model);
+    console.log(localStorage.getItem("account"));
+    // const a = [];
   }
 };
 </script>
 
-<style scoped>
-.user-info {
+<style >
+.home .user-info {
   display: flex;
 }
-.user-info-avatar {
+.home .user-info-avatar {
   flex: 1;
 }
-.user-info-detail {
+.home .user-info-detail {
   flex: 1;
 
   display: flex;
@@ -114,31 +139,37 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
 }
-.contact-information {
+.home .contact-information {
   display: flex;
   flex-direction: column;
   color: #606266;
 }
-.contact-information span {
+.home .contact-information span {
   margin: 0.8rem 0;
 }
-.contact-information span i {
+.home .contact-information span i {
   margin: 0 0.6rem 0 0;
 }
 
-.right-info {
+.home .right-info {
   /* background: pink; */
   height: 180px;
   display: flex;
   justify-content: space-around;
 }
-.right-info .box-card {
+.home .right-info .box-card {
   padding: 0;
   margin: 0 1rem;
   height: 100%;
   flex: 1;
 }
-div.el-card__header {
-  background: yellow;
+.home .right-info .box-card:nth-child(1) .el-card__header {
+  background: #909399;
+}
+.home .right-info .box-card:nth-child(2) .el-card__header {
+  background: #e6a23c;
+}
+.home .right-info .box-card:nth-child(3) .el-card__header {
+  background: #67c23a;
 }
 </style>

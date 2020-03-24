@@ -7,8 +7,8 @@
  -->
 <template>
   <el-container style="height: 100vh; border: 1px solid #eee">
-    <el-aside width="200px">
-      <el-menu router style="height:100%" unique-opened>
+    <el-aside style="background-color:#F3" width="200px">
+      <el-menu style="height:100%;background-color:#F3F3F3" router unique-opened>
         <!-- 主页开始 -->
         <el-menu-item index="/home">
           <i class="el-icon-house"></i>
@@ -70,13 +70,13 @@
             <h3>基于B/S的危化品仪表行业客服管理系统</h3>
           </el-col>
           <el-col class="profile" :span="4">
-            <el-dropdown>
+            <el-dropdown @command="handleCommand">
               <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
-              <el-avatar :size="40" :src="circleUrl"></el-avatar>
+              <el-avatar :size="40" :src="model.avatar"></el-avatar>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item disabled style="color:#333">鱼见</el-dropdown-item>
-                <el-dropdown-item>个人信息</el-dropdown-item>
-                <el-dropdown-item>退出</el-dropdown-item>
+                <el-dropdown-item disabled style="color:#333">{{model.name}}</el-dropdown-item>
+                <el-dropdown-item command="person">个人信息</el-dropdown-item>
+                <el-dropdown-item command="exit">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-col>
@@ -85,7 +85,7 @@
 
       <el-main>
         <transition name="fade" mode="out-in">
-          <router-view></router-view>
+          <router-view :key=" $route.path"></router-view>
         </transition>
         <!-- <el-table :data="tableData">
           <el-table-column prop="date" label="日期" width="140"></el-table-column>
@@ -99,7 +99,7 @@
 
 <style>
 .el-header {
-  background-color: #a1e6e3;
+  background-color: #f3f3f3;
   color: #333;
   /* display: flex;
   justify-content: flex-end;
@@ -140,10 +140,42 @@ export default {
     //   address: "上海市普陀区金沙江路 1518 "
     // };
     return {
+      model: {},
       circleUrl:
         "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg"
       // tableData: Array(20).fill(item)
     };
+  },
+  methods: {
+    async fetchAccount() {
+      const res = await this.$http.get("rest/accounts");
+      this.model = res.data
+        .filter((item, index) => {
+          return item.account == localStorage.getItem("account");
+        })
+        .pop();
+      console.log(this.model);
+    },
+    handleCommand(command) {
+      if (command == "person") {
+        if (this.$route.path != "/home") {
+          this.$router.push({ path: "/home" });
+        }
+      } else if (command == "exit") {
+        this.$router.push("/login");
+
+        localStorage.clear();
+      }
+    },
+
+    person() {},
+    exit() {
+      alert(123);
+      // localStorage.clear();
+    }
+  },
+  created() {
+    this.fetchAccount();
   }
 };
 </script>

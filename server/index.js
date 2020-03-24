@@ -3,6 +3,8 @@
 const express = require("express");
 const app = express();
 
+app.set("secret", "12bvckj435czxvnk23");
+
 app.use(express.json());
 app.use(require("cors")()); //引入跨域模块
 

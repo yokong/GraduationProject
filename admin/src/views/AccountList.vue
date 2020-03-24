@@ -12,7 +12,6 @@
 
     <!-- 表格数据 items -->
     <el-table :data="items">
-      <el-table-column prop="_id" label="ID" width="220"></el-table-column>
       <el-table-column prop="account" label="账号" width="220"></el-table-column>
       <el-table-column prop="name" label="姓名" width="220"></el-table-column>
       <el-table-column label="权限" width="220">

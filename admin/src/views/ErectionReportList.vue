@@ -17,6 +17,7 @@
       <el-table-column prop="company" label="用户单位" width="220"></el-table-column>
       <el-table-column prop="code" label="用户编码" width="220"></el-table-column>
       <!-- <el-table-column prop="meter.meterName" label="仪表" width="220"></el-table-column> -->
+      <el-table-column prop="supervisor_info[0].name" label="提交人" width="220"></el-table-column>
       <el-table-column prop="supervisor_info[0].name" label="提交主管" width="220"></el-table-column>
       <el-table-column fixed="right" label="安装报告单状态" width="220">
         <template slot-scope="scope">

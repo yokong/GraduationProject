@@ -8,6 +8,9 @@
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
+
+const Login = () => import("../views/Login.vue");
+
 const Main = () => import("../views/Main.vue");
 
 const ErectionReportEdit = () => import("../views/ErectionReportEdit.vue");
@@ -24,6 +27,7 @@ const Home = () => import("../views/Home.vue");
 Vue.use(VueRouter);
 
 const routes = [
+  { path: "/login", name: "login", component: Login, meta: { isLogin: true } },
   {
     path: "/",
     name: "Home",
@@ -55,4 +59,41 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isLogin && !localStorage.account) {
+    return next("/login");
+  }
+  // if (
+  //   (to.path == "/accounts/list" || to.path == "/accounts/create") &&
+  //   localStorage.authority != 3
+  // ) {
+  //   return Vue.prototype.$message({
+  //     type: "error",
+  //     message: "权限不足，您不是管理员"
+  //   });
+  // }
+  if (
+    (to.path == "/erectionReports/create" ||
+      to.path == "/erectionReports/list") &&
+    localStorage.authority != 1 &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是安装工程师或管理员"
+    });
+  }
+
+  if (
+    (to.path == "/meters/create" || to.path == "/meters/list") &&
+    localStorage.authority != 2 &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是技术主管或管理员"
+    });
+  }
+  next();
+});
 export default router;
