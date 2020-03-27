@@ -1,44 +1,51 @@
 <!--
  * @Author: 赵昱青
- * @Date: 2020-03-08 11:35:14
- * @LastEditTime: 2020-03-09 22:14:45
+ * @Date: 2020-03-08 17:45:48
+ * @LastEditTime: 2020-03-08 22:17:09
  * @LastEditors: 赵昱青
- * @Description: 仪表列表页面
+ * @Description: 账号列表
  -->
-
 <template>
-  <div>
-    <h2 style="color:#606266;">仪表列表</h2>
+  <div class="container">
+    <h2 style="color:#606266;">账号列表</h2>
     <el-divider></el-divider>
+    <!-- :data="items"  -->
+    <!-- 表格数据 items -->
     <el-row style="margin-bottom:20px" class="mysearch">
       <el-col :span="6">
         <el-input
           @keyup.enter.native="search"
           v-model="searchData"
-          placeholder="输入仪表名称"
+          placeholder="输入姓名或账号搜索"
         ></el-input>
       </el-col>
       <el-col :span="2">
         <el-button type="primary" @click="search">搜索</el-button>
       </el-col>
     </el-row>
-    <!-- 表格数据 items -->
+
     <el-table :fit="true" :data="list">
-      <el-table-column prop="_id" label="ID"></el-table-column>
-      <el-table-column prop="meterName" label="仪表名称"></el-table-column>
-      <el-table-column prop="tagNumber" label="位号"></el-table-column>
-      <!-- <el-table-column prop="icon" label="图标" width="220">
+      <el-table-column prop="account" label="账号"></el-table-column>
+      <el-table-column prop="name" label="姓名"></el-table-column>
+
+      <el-table-column label="权限">
         <template slot-scope="scope">
-          <img :src="scope.row.icon" style="height:3em" />
+          <el-tag type="info">{{
+            scope.row.authority == "1"
+              ? "安装工程师"
+              : scope.row.authority == "2"
+              ? "技术主管"
+              : "管理员"
+          }}</el-tag>
         </template>
-      </el-table-column>-->
+      </el-table-column>
 
       <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            @click="$router.push(`/meters/edit/${scope.row._id}`)"
+            @click="$router.push(`/accounts/edit/${scope.row._id}`)"
             >编辑</el-button
           >
           <el-button type="text" size="small" @click="remove(scope.row)"
@@ -76,21 +83,24 @@ export default {
       currentPage: 1
     };
   },
+  computed: {},
   methods: {
-    // 查询仪表数据方法-fetch
+    // 查询分类数据方法-fetch
     async fetch() {
-      const res = await this.$http.get("rest/meters");
+      const res = await this.$http.get("rest/accounts");
       this.items = res.data;
+
       this.getList();
     },
+
     // 删除方法
     async remove(row) {
-      this.$confirm(`此操作将删除${row.meterName}, 是否继续?`, "提示", {
+      this.$confirm(`此操作将删除${row.name}, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(async () => {
-        const res = await this.$http.delete(`rest/meters/${row._id}`);
+        const res = await this.$http.delete(`rest/accounts/${row._id}`);
         this.$message({
           type: "success",
           message: "删除成功!"
@@ -98,6 +108,12 @@ export default {
         this.fetch();
       });
     },
+    search() {
+      this.page = 1;
+      this.getList();
+      console.log(this.list);
+    },
+
     // 分页
     handleSizeChange(val) {
       this.pageSize = val;
@@ -110,15 +126,13 @@ export default {
       console.log(this.list);
       console.log(`当前页: ${val}`);
     },
-    search() {
-      this.page = 1;
-      this.getList();
-      console.log(this.list);
-    },
     getList() {
       // 通过filter方法过滤得到满足搜索条件的展示数据
       let list = this.items.filter((item, index) => {
-        return item.meterName.includes(this.searchData);
+        return (
+          item.name.includes(this.searchData) ||
+          item.account.includes(this.searchData)
+        );
         // return true;
       });
       this.list = list;

@@ -30,6 +30,8 @@ const schema = new mongoose.Schema({
   email: { type: String, required: true },
   // 头像
   avatar: { type: String, required: true }
+  // 报告单-安装工程师特有
+  // erectionReport: { type: mongoose.SchemaTypes.ObjectId }
 });
 
 module.exports = mongoose.model("Account", schema);

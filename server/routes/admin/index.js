@@ -18,7 +18,7 @@ module.exports = app => {
   // 引入模型
   const Meter = require("../../models/Meter");
   const Account = require("../../models/Account");
-
+  const mongoose = require("mongoose");
   // const Erectionreport = require("../../models/Erectionreport.js");
 
   // 引入jsonwebtoken
@@ -53,38 +53,45 @@ module.exports = app => {
       await next();
     },
     async (req, res) => {
-      const queryOptions = {};
-      // console.log(req.Model.modelName);
-
-      if (req.Model.modelName == "Erectionreport") {
-        const items = await req.Model.aggregate([
-          {
-            $lookup: {
-              from: "accounts",
-              localField: "supervisor",
-              foreignField: "_id",
-              as: "supervisor_info"
-            }
-          },
-          {
-            $lookup: {
-              from: "meters",
-              localField: "meter",
-              foreignField: "_id",
-              as: "meter_info"
-            }
+      // if (
+      //   req.Model.modelName == "Erectionreport" ||
+      // ) {
+      const items = await req.Model.aggregate([
+        {
+          $lookup: {
+            from: "accounts",
+            localField: "supervisor",
+            foreignField: "_id",
+            as: "supervisor_info"
           }
-        ]);
-        // console.log(myData, "1231232");
-        res.send(items);
-      } else {
-        const items = await req.Model.find()
-          .setOptions(queryOptions)
-          .limit(100);
-        res.send(items);
-      }
-      // .populate('meter')
+        },
+        {
+          $lookup: {
+            from: "meters",
+            localField: "meter",
+            foreignField: "_id",
+            as: "meter_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "accounts",
+            localField: "submitter",
+            foreignField: "_id",
+            as: "submitter_info"
+          }
+        }
+      ]);
+
+      res.send(items);
+      // } else {
+      // const items = await req.Model.find()
+      //   .setOptions(queryOptions)
+
+      // res.send(items);
     }
+    // .populate('meter')
+    // }
   );
 
   // 详情页面接口-编辑页面-加了个id
@@ -107,8 +114,39 @@ module.exports = app => {
       await next();
     },
     async (req, res) => {
-      const model = await req.Model.findById(req.params.id);
+      // const model = await req.Model.findById(req.params.id);
       // console.log(req.url);
+      const model = await req.Model.aggregate([
+        {
+          $match: {
+            _id: mongoose.Types.ObjectId(req.params.id)
+          }
+        },
+        {
+          $lookup: {
+            from: "accounts",
+            localField: "supervisor",
+            foreignField: "_id",
+            as: "supervisor_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "meters",
+            localField: "meter",
+            foreignField: "_id",
+            as: "meter_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "accounts",
+            localField: "submitter",
+            foreignField: "_id",
+            as: "submitter_info"
+          }
+        }
+      ]);
       res.send(model);
     }
   );
@@ -143,6 +181,15 @@ module.exports = app => {
       success: true
     });
   });
+
+  // 提交审核接口
+  // router.post('/aduit', async (req, res) => {
+
+  // })
+  // // 审核列表接口
+  // router.get('/audit', async (req, res) => {
+
+  // })
 
   // 挂载路由
   // 为了进行通用CRUD改造后台接口为动态参数
@@ -194,6 +241,7 @@ module.exports = app => {
     const { account, password } = req.body;
     // 1.根据账号 查找用户
     const user = await Account.findOne({ account }).select("+password");
+    // console.log("ddddddddddddd", user);
     assert(user, 422, "用户不存在");
     // if (!user) {
     //   return res.status(422).send({
@@ -213,16 +261,22 @@ module.exports = app => {
     // jwt.sign 生成一个token 1.数据 2.secret
     const token = jwt.sign(
       {
-        id: user._id,
-        account: user.account,
-        authority: user.authority,
-        name: user.name
+        id: user._id
+        // account: user.account,
+        // authority: user.authority,
+        // name: user.name
       },
       app.get("secret")
     );
     // console.log(token);
 
-    res.send({ token, authority: user.authority, account: user.account });
+    res.send({
+      token,
+      authority: user.authority,
+      account: user.account,
+      name: user.name,
+      id: user._id
+    });
   });
 
   // 错误处理

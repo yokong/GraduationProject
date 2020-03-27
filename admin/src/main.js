@@ -2,8 +2,9 @@ import Vue from "vue";
 import App from "./App.vue";
 import "./plugins/element.js";
 import router from "./router";
-
 import "./style.css";
+import "./icon/iconfont.css";
+
 // 导入axios配置文件
 import http from "./http";
 Vue.prototype.$http = http;

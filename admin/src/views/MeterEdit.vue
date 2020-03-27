@@ -111,7 +111,7 @@ export default {
     // 获取所编辑分类信息的方法
     async fetch() {
       const res = await this.$http.get(`rest/meters/${this.id}`);
-      this.model = res.data;
+      this.model = res.data.pop();
     }
     // res->服务端返回的数据
     // afterUpload(res) {

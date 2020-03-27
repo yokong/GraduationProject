@@ -557,7 +557,9 @@ export default {
         supervisor: null,
         otherContent: "",
         // 特殊信息
-        reportStatus: ""
+        reportStatus: "",
+        // 提交者
+        submitter: ""
       }
     };
   },
@@ -567,6 +569,9 @@ export default {
       // this.$http.post()
       let res;
       if (this.id) {
+        this.model.submitter = localStorage.id;
+        this.model.reportStatus = "未提交";
+        console.log(this.model);
         // 修改
         res = await this.$http.put(
           `rest/erectionReports/${this.id}`,
@@ -574,6 +579,8 @@ export default {
         );
       } else {
         // 新建
+        this.model.submitter = localStorage.id;
+        this.model.reportStatus = "未提交";
         res = await this.$http.post(`rest/erectionReports/`, this.model);
       }
       this.$router.push("/erectionReports/list");
@@ -588,8 +595,9 @@ export default {
       const res = await this.$http.get(`rest/erectionReports/${this.id}`);
 
       //  有个问题会把服务端的数据完整替换到客户端 相当于scores还是个undefined undefined.difficlut还会报错
-      this.model = Object.assign({}, this.model, res.data);
-      console.log(this.model.meter.meterName);
+      this.model = Object.assign({}, this.model, res.data.pop());
+      // console.log(this.model.meter.meterName);
+      console.log(localStorage.id);
     },
 
     // 安装示意图
@@ -626,7 +634,7 @@ export default {
     async fetchMeters() {
       const res = await this.$http.get(`rest/meters`);
       this.meters = res.data;
-      console.log(this.meters);
+      // console.log(this.meters);
     },
 
     // 查询主管
@@ -638,7 +646,7 @@ export default {
     select(item) {
       this.model.status.label = item.label;
       this.model.status.value = item.value;
-      console.log(item);
+      // console.log(item);
     }
   },
   created() {
@@ -646,8 +654,9 @@ export default {
     this.fetchSupervisor();
     this.id && this.fetch();
     // console.log(this.supervisors);
-    console.log(this.model.supervisor);
-    console.log(this.supervisors);
+    // console.log(this.model.supervisor);
+    // console.log(this.supervisors);
+    console.log(localStorage.id);
   }
 };
 </script>

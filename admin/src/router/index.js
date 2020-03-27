@@ -13,17 +13,21 @@ const Login = () => import("../views/Login.vue");
 
 const Main = () => import("../views/Main.vue");
 
-const ErectionReportEdit = () => import("../views/ErectionReportEdit.vue");
-const ErectionReportList = () => import("../views/ErectionReportList.vue");
+const ErectionReportEdit = () =>
+  import("../views/report/ErectionReportEdit.vue");
+const ErectionReportList = () =>
+  import("../views/report/ErectionReportList.vue");
 
 const MeterEdit = () => import("../views/MeterEdit.vue");
 const MeterList = () => import("../views/MeterList.vue");
 
-const AccountEdit = () => import("../views/AccountEdit.vue");
-const AccountList = () => import("../views/AccountList.vue");
+const AccountEdit = () => import("../views/account/AccountEdit.vue");
+const AccountList = () => import("../views/account/AccountList.vue");
 
 const Home = () => import("../views/Home.vue");
 
+const AuditList = () => import("../views/AuditList.vue");
+const AuditShow = () => import("../views/AuditShow.vue");
 Vue.use(VueRouter);
 
 const routes = [
@@ -50,7 +54,12 @@ const routes = [
 
       { path: "/accounts/create", component: AccountEdit },
       { path: "/accounts/edit/:id", component: AccountEdit, props: true },
-      { path: "/accounts/list", component: AccountList }
+      { path: "/accounts/list", component: AccountList },
+
+      // { path: "/accounts/create", component: AccountEdit },
+      // { path: "/accounts/edit/:id", component: AccountEdit, props: true },
+      { path: "/audits/list", component: AuditList },
+      { path: "/audits/show/:id", component: AuditShow, props: true }
     ]
   }
 ];
@@ -63,15 +72,15 @@ router.beforeEach((to, from, next) => {
   if (!to.meta.isLogin && !localStorage.account) {
     return next("/login");
   }
-  // if (
-  //   (to.path == "/accounts/list" || to.path == "/accounts/create") &&
-  //   localStorage.authority != 3
-  // ) {
-  //   return Vue.prototype.$message({
-  //     type: "error",
-  //     message: "权限不足，您不是管理员"
-  //   });
-  // }
+  if (
+    (to.path == "/accounts/list" || to.path == "/accounts/create") &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是管理员"
+    });
+  }
   if (
     (to.path == "/erectionReports/create" ||
       to.path == "/erectionReports/list") &&

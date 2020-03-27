@@ -12,23 +12,27 @@
         <el-card class>
           <div class="user-info">
             <div class="user-info-avatar">
-              <el-avatar :size="150" :src="model.avatar"></el-avatar>
+              <el-avatar
+                fit="contain"
+                :size="150"
+                :src="model.avatar"
+              ></el-avatar>
             </div>
             <div class="user-info-detail">
-              <h2>{{model.name}}</h2>
-              <span>{{authority}}</span>
+              <h2>{{ model.name }}</h2>
+              <span>{{ authority }}</span>
             </div>
           </div>
           <el-divider content-position="left">基础信息</el-divider>
           <div class="contact-information">
             <span>
               <i class="el-icon-phone"></i>
-              {{model.phoneNumber}}
+              {{ model.phoneNumber }}
             </span>
 
             <span>
               <i class="el-icon-message"></i>
-              {{model.email}}
+              {{ model.email }}
             </span>
           </div>
         </el-card>
@@ -39,20 +43,20 @@
             <div slot="header" class="clearfix">
               <h4>全部报告单</h4>
             </div>
-            <div>{{items.length}}</div>
+            <div>{{ items.length }}</div>
           </el-card>
 
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <h4>已提交</h4>
             </div>
-            <div>{{commit}}</div>
+            <div>{{ commit }}</div>
           </el-card>
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <h4>已通过</h4>
             </div>
-            <div>{{pass}}</div>
+            <div>{{ pass }}</div>
           </el-card>
         </el-row>
       </el-col>
@@ -88,7 +92,7 @@ export default {
           return item.account == localStorage.getItem("account");
         })
         .pop();
-      console.log(this.model);
+      // console.log(this.model);
     }
   },
   computed: {
@@ -117,14 +121,14 @@ export default {
     // console.log(this.$router.currentRoute == this.$route);
     this.fetchReport();
     this.fetchAccount();
-    console.log(this.model);
-    console.log(localStorage.getItem("account"));
+    // console.log(this.model);
+    // console.log(localStorage.getItem("account"));
     // const a = [];
   }
 };
 </script>
 
-<style >
+<style>
 .home .user-info {
   display: flex;
 }
@@ -171,5 +175,8 @@ export default {
 }
 .home .right-info .box-card:nth-child(3) .el-card__header {
   background: #67c23a;
+}
+el-avatar img {
+  width: 100%;
 }
 </style>

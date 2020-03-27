@@ -127,8 +127,9 @@ export default {
     // 获取所编辑信息的方法
     async fetch() {
       const res = await this.$http.get(`/rest/accounts/${this.id}`);
+      console.log(res.data);
       // this.model = res.data;
-      this.model = Object.assign({}, this.model, res.data);
+      this.model = Object.assign({}, this.model, res.data.pop());
     },
     afterUpload(res) {
       // this.$set(this.model,'icon',res.url)
