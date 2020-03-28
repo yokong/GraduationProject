@@ -1,33 +1,32 @@
-/*
- * @Author: your name
- * @Date: 2020-02-12 16:06:22
- * @LastEditTime: 2020-03-09 11:43:19
- * @LastEditors: 赵昱青
- * @Description: In User Settings Edit
- * @FilePath: \King\admin\src\router\index.js
- */
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+// 登录组件
 const Login = () => import("../views/Login.vue");
-
+// 主面板组件
 const Main = () => import("../views/Main.vue");
-
+// 报告单编辑组件
 const ErectionReportEdit = () =>
   import("../views/report/ErectionReportEdit.vue");
+// 报告单列表组件
 const ErectionReportList = () =>
   import("../views/report/ErectionReportList.vue");
-
-const MeterEdit = () => import("../views/MeterEdit.vue");
-const MeterList = () => import("../views/MeterList.vue");
-
+// 仪表编辑组件
+const MeterEdit = () => import("../views/meter/MeterEdit.vue");
+// 仪表列表组件
+const MeterList = () => import("../views/meter/MeterList.vue");
+// 账号编辑组件
 const AccountEdit = () => import("../views/account/AccountEdit.vue");
+// 账号列表组件
 const AccountList = () => import("../views/account/AccountList.vue");
-
+//
 const Home = () => import("../views/Home.vue");
+// 审核列表组件
+const AuditList = () => import("../views/audit/AuditList.vue");
+// 审核展示组件
+const AuditShow = () => import("../views/audit/AuditShow.vue");
+const AuditPass = () => import("../views/audit/AuditPass.vue");
 
-const AuditList = () => import("../views/AuditList.vue");
-const AuditShow = () => import("../views/AuditShow.vue");
 Vue.use(VueRouter);
 
 const routes = [
@@ -56,9 +55,8 @@ const routes = [
       { path: "/accounts/edit/:id", component: AccountEdit, props: true },
       { path: "/accounts/list", component: AccountList },
 
-      // { path: "/accounts/create", component: AccountEdit },
-      // { path: "/accounts/edit/:id", component: AccountEdit, props: true },
       { path: "/audits/list", component: AuditList },
+      { path: "/audits/pass", component: AuditPass },
       { path: "/audits/show/:id", component: AuditShow, props: true }
     ]
   }
@@ -105,4 +103,5 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
 export default router;

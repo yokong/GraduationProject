@@ -455,6 +455,10 @@
               <el-form-item label="特殊情况说明">
                 <el-input type="textarea" v-model="model.otherContent"></el-input>
               </el-form-item>
+              <div>
+                <span>退回理由</span>
+                :{{model.returnReason}}
+              </div>
             </el-col>
           </el-row>
         </el-tab-pane>

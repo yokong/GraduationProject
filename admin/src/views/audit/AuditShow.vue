@@ -337,6 +337,7 @@
       </el-row>
     </div>
     <el-button @click="reject">打回报告单</el-button>
+    <el-button @click="pass">通过报告单</el-button>
   </div>
 </template>
 
@@ -446,11 +447,6 @@ export default {
       this.meter_info = this.model.meter_info[0];
       this.submitter_info = this.model.submitter_info[0];
       this.supervisor_info = this.model.supervisor_info[0];
-      // console.log(this.meter_info);
-      //   console.log(this.model);
-
-      // console.log(this.model.meter.meterName);
-      //   console.log(localStorage.id);
     },
     saveImg() {
       html2canvas(this.$refs.imageWrapper, {
@@ -497,7 +493,8 @@ export default {
             type: "success",
             message: "退回理由是: " + value
           });
-          this.reportStatus = "未通过";
+          this.model.returnReason = value;
+          this.model.reportStatus = "未通过";
           await this.$http.put(`rest/erectionReports/${this.id}`, this.model);
         })
         .catch(() => {
@@ -506,6 +503,17 @@ export default {
             message: "取消输入"
           });
         });
+    },
+    // 通过报告单
+    async pass() {
+      this.$confirm(`请确定是否通过此报告单`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "警告"
+      }).then(async () => {
+        this.model.reportStatus = "已通过";
+        await this.$http.put(`rest/erectionReports/${this.id}`, this.model);
+      });
     }
   },
   created() {

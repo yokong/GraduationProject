@@ -12,11 +12,7 @@
         <el-card class>
           <div class="user-info">
             <div class="user-info-avatar">
-              <el-avatar
-                fit="contain"
-                :size="150"
-                :src="model.avatar"
-              ></el-avatar>
+              <el-avatar :fit="fit " :size="150" :src="model.avatar"></el-avatar>
             </div>
             <div class="user-info-detail">
               <h2>{{ model.name }}</h2>
@@ -73,6 +69,7 @@ export default {
   name: "Home",
   data() {
     return {
+      fit: "fill",
       items: [],
       model: {},
       circleUrl:

@@ -12,11 +12,7 @@
     <el-divider></el-divider>
     <el-row style="margin-bottom:20px" class="mysearch">
       <el-col :span="6">
-        <el-input
-          @keyup.enter.native="search"
-          v-model="searchData"
-          placeholder="输入提交人姓名搜索"
-        ></el-input>
+        <el-input @keyup.enter.native="search" v-model="searchData" placeholder="输入提交人姓名搜索"></el-input>
       </el-col>
       <el-col :span="2">
         <el-button type="primary" @click="search">搜索</el-button>
@@ -25,33 +21,16 @@
     <!-- 表格数据 items -->
     <el-table :fit="true" :data="list">
       <!-- <el-table-column prop="_id" label="ID" width="220"></el-table-column> -->
-      <el-table-column
-        prop="company"
-        label="用户单位"
-        width="220"
-      ></el-table-column>
-      <el-table-column
-        prop="code"
-        label="用户编码"
-        width="220"
-      ></el-table-column>
+      <el-table-column prop="company" label="用户单位" width="220"></el-table-column>
+      <el-table-column prop="code" label="用户编码" width="220"></el-table-column>
       <!-- <el-table-column prop="meter.meterName" label="仪表" width="220"></el-table-column> -->
-      <el-table-column
-        prop="submitter_info[0].name"
-        label="提交人"
-        width="220"
-      ></el-table-column>
-      <el-table-column
-        prop="supervisor_info[0].name"
-        label="提交主管"
-        width="220"
-      ></el-table-column>
+      <el-table-column prop="submitter_info[0].name" label="提交人" width="220"></el-table-column>
+      <el-table-column prop="supervisor_info[0].name" label="提交主管" width="220"></el-table-column>
       <el-table-column fixed="right" label="安装报告单状态" width="220">
         <template slot-scope="scope">
           <el-tag
             :type="scope.row.reportStatus == '未提交' ? 'info' : 'warning'"
-            >{{ scope.row.reportStatus }}</el-tag
-          >
+          >{{ scope.row.reportStatus }}</el-tag>
           <span>{{ scope.row.reportStatus.cssType }}</span>
         </template>
       </el-table-column>
@@ -62,14 +41,9 @@
             type="text"
             size="small"
             @click="$router.push(`/erectionReports/edit/${scope.row._id}`)"
-            >编辑</el-button
-          >
-          <el-button type="text" size="small" @click="remove(scope.row)"
-            >删除</el-button
-          >
-          <el-button type="text" size="small" @click="submit(scope.row)"
-            >提交</el-button
-          >
+          >编辑</el-button>
+          <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="submit(scope.row)">提交</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,8 +56,7 @@
         :page-size="pageSize"
         layout="prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -142,7 +115,6 @@ export default {
     },
     //提交方法
     async submit(row) {
-      console.log(row);
       this.$confirm(`将向提交${row.supervisor_info[0].name}报告的`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

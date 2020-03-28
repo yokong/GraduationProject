@@ -149,6 +149,8 @@ const schema = new mongoose.Schema({
   reportStatus: { type: String },
 
   //提交者
-  submitter: { type: mongoose.SchemaTypes.ObjectId }
+  submitter: { type: mongoose.SchemaTypes.ObjectId },
+  // 退回理由
+  returnReason: { type: String }
 });
 module.exports = mongoose.model("Erectionreport", schema);
