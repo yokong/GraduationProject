@@ -53,9 +53,6 @@ module.exports = app => {
       await next();
     },
     async (req, res) => {
-      // if (
-      //   req.Model.modelName == "Erectionreport" ||
-      // ) {
       const items = await req.Model.aggregate([
         {
           $lookup: {
@@ -63,6 +60,14 @@ module.exports = app => {
             localField: "supervisor",
             foreignField: "_id",
             as: "supervisor_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "media",
+            localField: "medium",
+            foreignField: "_id",
+            as: "medium_info"
           }
         },
         {
@@ -79,6 +84,14 @@ module.exports = app => {
             localField: "submitter",
             foreignField: "_id",
             as: "submitter_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "containers",
+            localField: "container",
+            foreignField: "_id",
+            as: "container_info"
           }
         }
       ]);
@@ -144,6 +157,30 @@ module.exports = app => {
             localField: "submitter",
             foreignField: "_id",
             as: "submitter_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "accounts",
+            localField: "submitter",
+            foreignField: "_id",
+            as: "submitter_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "containers",
+            localField: "container",
+            foreignField: "_id",
+            as: "container_info"
+          }
+        },
+        {
+          $lookup: {
+            from: "media",
+            localField: "medium",
+            foreignField: "_id",
+            as: "medium_info"
           }
         }
       ]);
@@ -217,8 +254,10 @@ module.exports = app => {
       // console.log(req.baseUrl);
       // inflection包--用来转换名称 这里是将 req.params.resource(动态路径)转为类名形式(首字母大写 单数)
       const modelName = require("inflection").classify(req.params.resource);
+      console.log("222222222222", modelName);
       // 给请求对象上挂载一个Model
       req.Model = require(`../../models/${modelName}`);
+      console.log(modelName);
       // console.log("123123", req.Model);
       next();
     },

@@ -1,10 +1,3 @@
-/*
- * @Author: 赵昱青
- * @Date: 2020-03-08 17:46:21
- * @LastEditTime: 2020-03-08 18:32:42
- * @LastEditors: 赵昱青
- * @Description:账号管理模型
- */
 const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
   // 权限
@@ -30,8 +23,6 @@ const schema = new mongoose.Schema({
   email: { type: String, required: true },
   // 头像
   avatar: { type: String, required: true }
-  // 报告单-安装工程师特有
-  // erectionReport: { type: mongoose.SchemaTypes.ObjectId }
 });
 
 module.exports = mongoose.model("Account", schema);

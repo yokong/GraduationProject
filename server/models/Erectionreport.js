@@ -1,11 +1,3 @@
-/*
- * @Author: 赵昱青
- * @Date: 2020-02-24 13:41:58
- * @LastEditTime: 2020-03-09 22:48:07
- * @LastEditors: 赵昱青
- * @Description: 安装表单信息 erectionReport
- * @FilePath: \King\server\models\Hero.js
- */
 const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
   //-------------- 客户开始---------------
@@ -61,6 +53,11 @@ const schema = new mongoose.Schema({
   meterType: { type: String },
   // 容器投用时间
   useTime: { type: String },
+
+  // 介质信息
+  medium: { type: mongoose.SchemaTypes.ObjectId },
+  // 容器信息
+  container: { type: mongoose.SchemaTypes.ObjectId },
   // 液体介质
   liquidMedium: { type: String },
   // 粘度
@@ -147,10 +144,11 @@ const schema = new mongoose.Schema({
   // --------------特殊信息------------------
   // 报告单状态
   reportStatus: { type: String },
-
   //提交者
   submitter: { type: mongoose.SchemaTypes.ObjectId },
   // 退回理由
-  returnReason: { type: String }
+  returnReason: { type: String },
+  // 报告单得分
+  scoreReport: { type: Number }
 });
 module.exports = mongoose.model("Erectionreport", schema);

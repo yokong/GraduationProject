@@ -1,13 +1,11 @@
-<!--
- * @Author: 赵昱青
- * @Date: 2020-03-08 17:45:38
- * @LastEditTime: 2020-03-08 22:14:42
- * @LastEditors: 赵昱青
- * @Description: 账号管理页面
- -->
 <template>
   <div>
-    <h2 style="color:#606266;">{{ id ? "编辑" : "新建" }}账号</h2>
+    <!-- <h2 class="title">{{ id ? "编辑" : "新建" }}账号</h2> -->
+    <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>账号</el-breadcrumb-item>
+      <el-breadcrumb-item>{{ id ? "编辑" : "新建" }}账号</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-divider></el-divider>
     <el-form label-width="120px" @submit.native.prevent="save">
       <el-row type="flex">
@@ -142,4 +140,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.title {
+  color: #606266;
+  border-left: 6px solid #409eff;
+  padding-left: 2rem;
+  font-size: 1em;
+}
+</style>

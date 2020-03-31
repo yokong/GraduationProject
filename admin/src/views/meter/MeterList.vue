@@ -1,17 +1,13 @@
-<!--
- * @Author: 赵昱青
- * @Date: 2020-03-08 11:35:14
- * @LastEditTime: 2020-03-09 22:14:45
- * @LastEditors: 赵昱青
- * @Description: 仪表列表页面
- -->
-
 <template>
   <div>
-    <h2 style="color:#606266;">仪表列表</h2>
+    <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>仪表</el-breadcrumb-item>
+      <el-breadcrumb-item>仪表列表</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-divider></el-divider>
     <el-row style="margin-bottom:20px" class="mysearch">
-      <el-col :span="6">
+      <el-col :span="4">
         <el-input
           @keyup.enter.native="search"
           v-model="searchData"
@@ -23,8 +19,12 @@
       </el-col>
     </el-row>
     <!-- 表格数据 items -->
-    <el-table :fit="true" :data="list">
-      <el-table-column prop="_id" label="ID"></el-table-column>
+    <el-table border :data="list">
+      <el-table-column label="序号" align="center" width="70">
+        <template scope="scope">
+          <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="meterName" label="仪表名称"></el-table-column>
       <el-table-column prop="tagNumber" label="位号"></el-table-column>
       <!-- <el-table-column prop="icon" label="图标" width="220">
@@ -33,7 +33,7 @@
         </template>
       </el-table-column>-->
 
-      <el-table-column fixed="right" label="操作" width="180">
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -56,8 +56,7 @@
         :page-size="pageSize"
         layout="prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -149,6 +148,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  color: #606266;
+  border-left: 6px solid #409eff;
+  padding-left: 2rem;
+  font-size: 1em;
+}
 .pagination {
   margin-top: 20px;
   display: flex;

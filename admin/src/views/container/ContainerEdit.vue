@@ -2,40 +2,16 @@
   <div>
     <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>仪表</el-breadcrumb-item>
-      <el-breadcrumb-item>{{ id ? "编辑" : "新建" }}仪表</el-breadcrumb-item>
+      <el-breadcrumb-item>容器</el-breadcrumb-item>
+      <el-breadcrumb-item>{{ id ? "编辑" : "新建" }}容器</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
 
     <el-form label-width="120px" @submit.native.prevent="save">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="仪表名称">
-            <el-input v-model="model.meterName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="仪表编号">
-            <el-input v-model="model.meterNumber"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="位号">
-            <el-input v-model="model.tagNumber"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col>
-          <el-form-item label="备注">
-            <el-input v-model="model.note" type="textarea"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <!-- <el-row>
-        <el-col :span="8">
-          <el-form-item label="容器形状尺寸">
-            <el-input v-model="model.shape"></el-input>
+          <el-form-item label="容器材质编号">
+            <el-input v-model="model.materialNumber"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -43,6 +19,13 @@
             <el-input v-model="model.material"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item label="容器形状尺寸">
+            <el-input v-model="model.shape"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="8">
           <el-form-item label="保温层">
             <el-switch
@@ -55,19 +38,14 @@
             ></el-switch>
           </el-form-item>
         </el-col>
-      </el-row> -->
-
-      <!-- <el-form-item label="图标">
-        <el-upload
-          class="avatar-uploader"
-          :action="$http.defaults.baseURL + '/upload'"
-          :show-file-list="false"
-          :on-success="afterUpload"
-        >
-          <img v-if="model.icon" :src="model.icon" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>-->
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="备注">
+            <el-input v-model="model.note" type="textarea"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
       </el-form-item>
@@ -83,15 +61,14 @@ export default {
   data() {
     return {
       model: {
-        meterName: "",
-        meterNumber: "",
-        tagNumber: "",
-        shape: "",
+        materialNumber: "",
         material: "",
-        thermalInsulation: false
+        shape: "",
+        note: ""
       }
     };
   },
+  // containers
   methods: {
     // 保存方法
     async save() {
@@ -99,12 +76,12 @@ export default {
       let res;
       if (this.id) {
         // 修改
-        res = await this.$http.put(`rest/meters/${this.id}`, this.model);
+        res = await this.$http.put(`rest/containers/${this.id}`, this.model);
       } else {
         // 新建
-        res = await this.$http.post(`rest/meters`, this.model);
+        res = await this.$http.post(`rest/containers`, this.model);
       }
-      this.$router.push("/meters/list");
+      this.$router.push("/containers/list");
       this.$message({
         type: "success",
         message: "保存成功"
@@ -112,7 +89,7 @@ export default {
     },
     // 获取所编辑分类信息的方法
     async fetch() {
-      const res = await this.$http.get(`rest/meters/${this.id}`);
+      const res = await this.$http.get(`rest/containers/${this.id}`);
       this.model = res.data.pop();
     }
     // res->服务端返回的数据

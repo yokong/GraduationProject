@@ -2,17 +2,16 @@
   <div>
     <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>审核报告单</el-breadcrumb-item>
-      <el-breadcrumb-item>待审核报告单列表</el-breadcrumb-item>
+      <el-breadcrumb-item>容器</el-breadcrumb-item>
+      <el-breadcrumb-item>容器列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
-    <!-- 搜索 -->
     <el-row style="margin-bottom:20px" class="mysearch">
       <el-col :span="4">
         <el-input
           @keyup.enter.native="search"
           v-model="searchData"
-          placeholder="输入提交者姓名"
+          placeholder="输入容器名称"
         ></el-input>
       </el-col>
       <el-col :span="2">
@@ -26,38 +25,26 @@
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
-      <el-table-column prop="company" label="用户单位"></el-table-column>
-      <el-table-column prop="code" label="用户编码"></el-table-column>
-      <!-- <el-table-column prop="meter.meterName" label="仪表" width="220"></el-table-column> -->
       <el-table-column
-        prop="submitter_info[0].name"
-        label="提交人"
+        prop="materialNumber"
+        label="容器材质编号"
       ></el-table-column>
-      <el-table-column
-        prop="supervisor_info[0].name"
-        label="提交主管"
-      ></el-table-column>
-      <el-table-column label="安装报告单状态" width="220">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.reportStatus == '未提交' ? 'info' : 'warning'"
-            >{{ scope.row.reportStatus }}</el-tag
-          >
-          <span>{{ scope.row.reportStatus.cssType }}</span>
-        </template>
-      </el-table-column>
-
+      <el-table-column prop="material" label="容器材质名称"></el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            @click="$router.push(`/audits/show/${scope.row._id}`)"
-            >查看</el-button
+            @click="$router.push(`/containers/edit/${scope.row._id}`)"
+            >编辑</el-button
+          >
+          <el-button type="text" size="small" @click="remove(scope.row)"
+            >删除</el-button
           >
         </template>
       </el-table-column>
     </el-table>
+
     <div class="pagination">
       <el-pagination
         class="abc"
@@ -78,7 +65,7 @@ export default {
       items: [],
       list: [],
       searchData: "",
-      // 总共数据书
+      // 总共数据
       total: null,
       // 每页多少条数据
       pageSize: 5,
@@ -87,32 +74,27 @@ export default {
     };
   },
   methods: {
-    // 查询分类数据方法-fetch
+    // 查询仪表数据方法-fetch
     async fetch() {
-      const res = await this.$http.get("rest/erectionReports");
-      console.log(res.data);
-      if (localStorage.authority == 3) {
-        this.items = res.data;
-        this.getList();
-      } else {
-        this.items = res.data.filter((item, index) => {
-          return (
-            item.supervisor == localStorage.id && item.reportStatus == "已提交"
-          );
-        });
-        console.log(this.items);
-        this.getList();
-      }
-    },
-
-    //提交方法
-
-    search() {
-      this.page = 1;
+      const res = await this.$http.get("rest/containers");
+      this.items = res.data;
       this.getList();
-      console.log(this.list);
     },
-
+    // 删除方法
+    async remove(row) {
+      this.$confirm(`此操作将删除${row.meterName}, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(async () => {
+        const res = await this.$http.delete(`rest/containers/${row._id}`);
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+        this.fetch();
+      });
+    },
     // 分页
     handleSizeChange(val) {
       this.pageSize = val;
@@ -125,10 +107,17 @@ export default {
       console.log(this.list);
       console.log(`当前页: ${val}`);
     },
+    // 搜索
+    search() {
+      this.page = 1;
+      this.getList();
+      console.log(this.list);
+    },
+    // 获取展示数据
     getList() {
       // 通过filter方法过滤得到满足搜索条件的展示数据
       let list = this.items.filter((item, index) => {
-        return item.submitter_info[0].name.includes(this.searchData);
+        return item.material.includes(this.searchData);
         // return true;
       });
       this.list = list;
@@ -157,12 +146,13 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .title {
   color: #606266;
   border-left: 6px solid #409eff;
-  font-size: 1em;
   padding-left: 2rem;
+  font-size: 1em;
 }
 .pagination {
   margin-top: 20px;

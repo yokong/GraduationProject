@@ -15,6 +15,14 @@ const ErectionReportList = () =>
 const MeterEdit = () => import("../views/meter/MeterEdit.vue");
 // 仪表列表组件
 const MeterList = () => import("../views/meter/MeterList.vue");
+// 介质编辑组件
+const MediumEdit = () => import("../views/medium/MediumEdit.vue");
+// 介质列表组件
+const MediumList = () => import("../views/medium/MediumList.vue");
+// 容器编辑组件
+const ContainerEdit = () => import("../views/container/ContainerEdit.vue");
+// 容器列表组件
+const ContainerList = () => import("../views/container/ContainerList.vue");
 // 账号编辑组件
 const AccountEdit = () => import("../views/account/AccountEdit.vue");
 // 账号列表组件
@@ -50,6 +58,14 @@ const routes = [
       { path: "/meters/create", component: MeterEdit },
       { path: "/meters/edit/:id", component: MeterEdit, props: true },
       { path: "/meters/list", component: MeterList },
+
+      { path: "/mediums/create", component: MediumEdit },
+      { path: "/mediums/edit/:id", component: MediumEdit, props: true },
+      { path: "/mediums/list", component: MediumList },
+
+      { path: "/containers/create", component: ContainerEdit },
+      { path: "/containers/edit/:id", component: ContainerEdit, props: true },
+      { path: "/containers/list", component: ContainerList },
 
       { path: "/accounts/create", component: AccountEdit },
       { path: "/accounts/edit/:id", component: AccountEdit, props: true },

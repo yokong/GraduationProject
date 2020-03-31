@@ -6,20 +6,7 @@
  * @Description: 主界面
  -->
 <template>
-  <div>
-    <el-backtop :bottom="100">
-      <div
-        style="{
-        height: 100%;
-        width: 100%;
-        background-color: #f2f5f6;
-        box-shadow: 0 0 6px rgba(0,0,0, .12);
-        text-align: center;
-        line-height: 40px;
-        color: #1989fa;
-      }"
-      >↑</div>
-    </el-backtop>
+  <div class="container">
     <el-container style="height: 100vh;">
       <el-menu
         class="el-menu-vertical-demo"
@@ -48,13 +35,32 @@
 
           <!-- 仪器开始 -->
           <el-menu-item-group>
-            <!-- <template slot="title">
-                  <strong>仪表</strong>
-            </template>-->
+            <template slot="title">
+              <strong>仪表</strong>
+            </template>
             <el-menu-item index="/meters/create">新建仪表</el-menu-item>
             <el-menu-item index="/meters/list">仪表列表</el-menu-item>
           </el-menu-item-group>
           <!-- 仪器结束 -->
+          <!-- 介质开始 -->
+          <el-menu-item-group>
+            <template slot="title">
+              <strong>介质</strong>
+            </template>
+            <el-menu-item index="/mediums/create">新建介质</el-menu-item>
+            <el-menu-item index="/mediums/list">介质列表</el-menu-item>
+          </el-menu-item-group>
+          <!-- 介质结束 -->
+
+          <!-- 容器开始 -->
+          <el-menu-item-group>
+            <template slot="title">
+              <strong>容器</strong>
+            </template>
+            <el-menu-item index="/containers/create">新建容器</el-menu-item>
+            <el-menu-item index="/containers/list">容器列表</el-menu-item>
+          </el-menu-item-group>
+          <!-- 容器结束 -->
         </el-submenu>
         <!-- 参数管理结束 -->
 
@@ -66,8 +72,12 @@
           </template>
           <!-- 安装报告开始 -->
           <el-menu-item-group>
-            <el-menu-item index="/erectionReports/create">新建安装报告</el-menu-item>
-            <el-menu-item index="/erectionReports/list">安装报告列表</el-menu-item>
+            <el-menu-item index="/erectionReports/create"
+              >新建安装报告</el-menu-item
+            >
+            <el-menu-item index="/erectionReports/list"
+              >安装报告列表</el-menu-item
+            >
           </el-menu-item-group>
           <!-- 安装报告结束 -->
         </el-submenu>
@@ -110,7 +120,9 @@
               <i
                 @click="show"
                 style="font-size:20px;"
-                :class="[isCollapse?'el-icon-arrow-right':'el-icon-arrow-left']"
+                :class="[
+                  isCollapse ? 'el-icon-arrow-right' : 'el-icon-arrow-left'
+                ]"
               ></i>
             </el-col>
             <el-col class="project-title" :span="19">
@@ -119,12 +131,15 @@
             <el-col class="profile-avatar" :span="4">
               <el-dropdown class="dropdown" @command="handleCommand">
                 <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
-                <el-avatar shape="square" :fit="fit" :size="40" :src="model.avatar"></el-avatar>
+                <el-avatar
+                  shape="square"
+                  :fit="fit"
+                  :size="40"
+                  :src="model.avatar"
+                ></el-avatar>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item disabled>
-                    {{
-                    model.name
-                    }}
+                    {{ model.name }}
                   </el-dropdown-item>
                   <el-dropdown-item command="person">个人信息</el-dropdown-item>
                   <el-dropdown-item command="exit">退出</el-dropdown-item>
@@ -133,7 +148,7 @@
             </el-col>
           </el-row>
         </el-header>
-        <el-main style="margin:20px;">
+        <el-main>
           <transition name="fade" mode="out-in">
             <router-view :key="$route.path"></router-view>
           </transition>
@@ -142,7 +157,6 @@
     </el-container>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -157,6 +171,7 @@ export default {
     };
   },
   methods: {
+    // 请求数据
     async fetchAccount() {
       const res = await this.$http.get("rest/accounts");
       this.model = res.data
@@ -164,8 +179,8 @@ export default {
           return item.account == localStorage.getItem("account");
         })
         .pop();
-      // console.log(this.model);
     },
+    // 头像下拉功能
     handleCommand(command) {
       if (command == "person") {
         if (this.$route.path != "/home") {
@@ -183,6 +198,7 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+    // 面板折叠效果
     show() {
       this.isCollapse = !this.isCollapse;
     }
@@ -194,21 +210,19 @@ export default {
 </script>
 
 <style lang="scss">
+.container {
+  background-color: #eee;
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 100vh;
 }
-.warp {
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
 
 .el-header {
   font: Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
-  background-color: #dddddd;
+  background-color: #31353d;
   border-bottom: 1px solid #dcdfe6;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .profile-avatar {

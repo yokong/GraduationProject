@@ -8,31 +8,22 @@
             <h1>登 录</h1>
 
             <el-form class="more-padding">
-              <input type="text" v-model="model.account" placeholder="account" />
-              <input type="password" v-model="model.password" placeholder="password" />
+              <input
+                type="text"
+                v-model="model.account"
+                placeholder="account"
+              />
+              <input
+                type="password"
+                v-model="model.password"
+                placeholder="password"
+              />
 
               <button @click="login" class="button submit">login</button>
             </el-form>
           </div>
         </div>
-        <!-- <div class="leftbox">
-        <h2 class="title">
-          <span>BLOOM</span>&
-          <br />BOUQ是是是UET
-        </h2>
-        <p class="desc">
-          pick your perfect
-          <span>bouquet</span>
-        </p>
-        <img
-          class="flower smaller"
-          src="https://image.ibb.co/d5X6pn/1357d638624297b.jpg"
-          alt="1357d638624297b"
-          border="0"
-        />
-        <p class="account">have an account?</p>
-        <button class="button" id="signin">login</button>
-        </div>-->
+
         <div class="rightbox">
           <h2 class="title">
             <span>注意</span>
@@ -43,30 +34,16 @@
             <span>权限</span>
             有所不同
           </p>
-          <img class="flower" src="https://preview.ibb.co/jvu2Un/0057c1c1bab51a0.jpg" />
+          <img
+            class="flower"
+            src="https://preview.ibb.co/jvu2Un/0057c1c1bab51a0.jpg"
+          />
 
           <p class="account">安装工程师 技术主管 管理员</p>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- ----------------------- -->
-  <!-- <div class="login-container">
-      <el-card header="请登录">
-        <el-form @submit.native.prevent="login">
-          <el-form-item label="用户名">
-            <el-input v-model="model.account" placeholder></el-input>
-          </el-form-item>
-          <el-form-item label="密码">
-            <el-input v-model="model.password" placeholder></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" native-type="submint">登录</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-  </div>-->
 </template>
 
 <script>
@@ -97,7 +74,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 /* .container {
   background: url("../assets/login-bg.jpg");
   height: 100vh;

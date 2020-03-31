@@ -1,20 +1,34 @@
-
 <template>
   <div class="container">
-    <h2 style="color:#606266;">账号列表</h2>
+    <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>账号</el-breadcrumb-item>
+      <el-breadcrumb-item>账号列表</el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-divider></el-divider>
     <!-- :data="items"  -->
     <!-- 搜索框 -->
-    <el-row style="margin-bottom:20px" class="mysearch">
-      <el-col :span="6">
-        <el-input @keyup.enter.native="search" v-model="searchData" placeholder="输入姓名或账号搜索"></el-input>
+    <el-row style="margin-bottom:20px" class="my-search">
+      <el-col :span="4">
+        <el-input
+          @keyup.enter.native="search"
+          v-model="searchData"
+          placeholder="输入姓名或账号搜索"
+        ></el-input>
       </el-col>
       <el-col :span="2">
         <el-button type="primary" @click="search">搜索</el-button>
       </el-col>
     </el-row>
     <!-- 表格数据 items -->
-    <el-table :fit="true" :data="list">
+    <el-table border :data="list">
+      <el-table-column label="序号" align="center" width="70">
+        <template scope="scope">
+          <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
+        </template>
+      </el-table-column>
+
       <el-table-column prop="account" label="账号"></el-table-column>
       <el-table-column prop="name" label="姓名"></el-table-column>
 
@@ -22,24 +36,27 @@
         <template slot-scope="scope">
           <el-tag type="info">
             {{
-            scope.row.authority == "1"
-            ? "安装工程师"
-            : scope.row.authority == "2"
-            ? "技术主管"
-            : "管理员"
+              scope.row.authority == "1"
+                ? "安装工程师"
+                : scope.row.authority == "2"
+                ? "技术主管"
+                : "管理员"
             }}
           </el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" label="操作" width="180">
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
             @click="$router.push(`/accounts/edit/${scope.row._id}`)"
-          >编辑</el-button>
-          <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
+            >编辑</el-button
+          >
+          <el-button type="text" size="small" @click="remove(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -151,6 +168,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  color: #606266;
+  border-left: 6px solid #409eff;
+  padding-left: 2rem;
+  font-size: 1em;
+}
 .pagination {
   margin-top: 20px;
   display: flex;

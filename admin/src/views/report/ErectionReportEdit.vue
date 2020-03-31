@@ -7,7 +7,13 @@
  -->
 <template>
   <div>
-    <h2 style="color:#606266;">{{ id ? "编辑" : "新建" }}安装报告</h2>
+    <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>按照报告</el-breadcrumb-item>
+      <el-breadcrumb-item
+        >{{ id ? "编辑" : "新建" }}安装报告</el-breadcrumb-item
+      >
+    </el-breadcrumb>
     <el-divider></el-divider>
 
     <!-- 表单开始 -->
@@ -124,7 +130,10 @@
             <!-- 邮箱开始 -->
             <el-col :span="6">
               <el-form-item label="邮箱">
-                <el-input type="email" v-model="model.contacts2.email"></el-input>
+                <el-input
+                  type="email"
+                  v-model="model.contacts2.email"
+                ></el-input>
               </el-form-item>
             </el-col>
             <!-- 邮箱结束 -->
@@ -144,16 +153,30 @@
         <el-tab-pane label="现场工况" name="working">
           <!-- 仪表开始 -->
           <el-row>
-            <el-form-item label="仪表">
-              <el-select v-model="model.meter">
-                <el-option
-                  v-for="item of meters"
-                  :label="item.meterName"
-                  :value="item._id"
-                  :key="item._id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
+            <el-col :span="8">
+              <el-form-item label="仪表">
+                <el-select v-model="model.meter">
+                  <el-option
+                    v-for="item of meters"
+                    :label="item.meterName"
+                    :value="item._id"
+                    :key="item._id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="容器">
+                <el-select v-model="model.container">
+                  <el-option
+                    v-for="item of containers"
+                    :label="item.material"
+                    :value="item._id"
+                    :key="item._id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
           <!-- 仪表结束 -->
           <!-- 其他信息开始 -->
@@ -178,8 +201,18 @@
           <el-row type="flex">
             <el-col :span="6">
               <el-form-item label="液体介质">
-                <el-input v-model="model.liquidMedium"></el-input>
+                <el-select v-model="model.medium">
+                  <el-option
+                    v-for="item of mediums"
+                    :label="item.mediumName"
+                    :value="item._id"
+                    :key="item._id"
+                  ></el-option>
+                </el-select>
               </el-form-item>
+              <!-- <el-form-item label="液体介质">
+                <el-input v-model="model.liquidMedium"></el-input>
+              </el-form-item> -->
             </el-col>
             <el-col :span="6">
               <el-form-item label="粘度">
@@ -237,7 +270,9 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="校准1信号">
-                <el-input v-model="model.maxVoltage.calibratingSignal"></el-input>
+                <el-input
+                  v-model="model.maxVoltage.calibratingSignal"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -249,7 +284,9 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="校准2信号">
-                <el-input v-model="model.minVoltage.calibratingSignal"></el-input>
+                <el-input
+                  v-model="model.minVoltage.calibratingSignal"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -380,7 +417,11 @@
                 :show-file-list="false"
                 :on-success="afterUpload2"
               >
-                <img v-if="model.signalFigure" :src="model.signalFigure" class="avatar" />
+                <img
+                  v-if="model.signalFigure"
+                  :src="model.signalFigure"
+                  class="avatar"
+                />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -398,7 +439,11 @@
               :show-file-list="false"
               :on-success="afterUpload3"
             >
-              <img v-if="model.meterPanorama" :src="model.meterPanorama" class="avatar" />
+              <img
+                v-if="model.meterPanorama"
+                :src="model.meterPanorama"
+                class="avatar"
+              />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -409,7 +454,11 @@
               :show-file-list="false"
               :on-success="afterUpload4"
             >
-              <img v-if="model.meterClose" :src="model.meterClose" class="avatar" />
+              <img
+                v-if="model.meterClose"
+                :src="model.meterClose"
+                class="avatar"
+              />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -420,7 +469,11 @@
               :show-file-list="false"
               :on-success="afterUpload5"
             >
-              <img v-if="model.pipelinePanorama" :src="model.pipelinePanorama" class="avatar" />
+              <img
+                v-if="model.pipelinePanorama"
+                :src="model.pipelinePanorama"
+                class="avatar"
+              />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -431,7 +484,11 @@
               :show-file-list="false"
               :on-success="afterUpload6"
             >
-              <img v-if="model.probePanorama" :src="model.probePanorama" class="avatar" />
+              <img
+                v-if="model.probePanorama"
+                :src="model.probePanorama"
+                class="avatar"
+              />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -445,7 +502,9 @@
               <el-form-item label="技术主管">
                 <el-select v-model="model.supervisor">
                   <el-option
-                    v-for="item of supervisors.filter(item=>item.authority=='2')"
+                    v-for="item of supervisors.filter(
+                      item => item.authority == '2'
+                    )"
                     :label="item.name"
                     :value="item._id"
                     :key="item._id"
@@ -453,12 +512,28 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="特殊情况说明">
-                <el-input type="textarea" v-model="model.otherContent"></el-input>
+                <el-input
+                  type="textarea"
+                  v-model="model.otherContent"
+                ></el-input>
               </el-form-item>
-              <div>
-                <span>退回理由</span>
-                :{{model.returnReason}}
-              </div>
+              <el-form-item label="报告评分">
+                <el-rate
+                  style="margin-top:0.6rem"
+                  v-model="model.scoreReport"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}"
+                ></el-rate>
+              </el-form-item>
+              <el-form-item label="退回理由">
+                <span>{{
+                  model.returnReason == undefined
+                    ? "暂无"
+                    : model.returnReasonscoreReportscoreReport
+                }}</span>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-tab-pane>
@@ -493,7 +568,10 @@ export default {
       meters: [],
       // 装备数据
       supervisors: [],
-
+      // 容器数据
+      containers: [],
+      // 介质数据
+      mediums: [],
       model: {
         company: "",
         code: null,
@@ -515,9 +593,12 @@ export default {
         },
         // 现场工况
         meter: null,
+
+        container: null,
         otherCondition: "",
         meterType: "",
         useTime: "",
+        medium: "",
         liquidMedium: "",
         viscosity: "",
         desity: "",
@@ -557,8 +638,10 @@ export default {
         meterClose: "",
         pipelinePanorama: "",
         probePanorama: "",
-        // 附加信息
+        // 提交人
         supervisor: null,
+        // 附加信息
+
         otherContent: "",
         // 特殊信息
         reportStatus: "",
@@ -575,7 +658,7 @@ export default {
       if (this.id) {
         this.model.submitter = localStorage.id;
         this.model.reportStatus = "未提交";
-        console.log(this.model);
+        // console.log(this.model);
         // 修改
         res = await this.$http.put(
           `rest/erectionReports/${this.id}`,
@@ -593,17 +676,14 @@ export default {
         message: "保存成功"
       });
     },
-
     // 获取所编辑分类信息的方法
     async fetch() {
       const res = await this.$http.get(`rest/erectionReports/${this.id}`);
-
       //  有个问题会把服务端的数据完整替换到客户端 相当于scores还是个undefined undefined.difficlut还会报错
       this.model = Object.assign({}, this.model, res.data.pop());
       // console.log(this.model.meter.meterName);
-      console.log(localStorage.id);
+      // console.log(localStorage.id);
     },
-
     // 安装示意图
     afterUpload1(res) {
       // this.$set(this.model,'avatar',res.url)
@@ -647,23 +727,36 @@ export default {
       this.supervisors = res.data;
       // console.log(this.supervisors);
     },
+    // 查询容器
+    async fetchContainer() {
+      const res = await this.$http.get(`rest/containers`);
+      this.containers = res.data;
+    },
+    // 查询介质
+    async fetchMedium() {
+      const res = await this.$http.get(`rest/mediums`);
+      this.mediums = res.data;
+    },
     select(item) {
       this.model.status.label = item.label;
       this.model.status.value = item.value;
-      // console.log(item);
     }
   },
   created() {
     this.fetchMeters();
+    this.fetchContainer();
+    this.fetchMedium();
     this.fetchSupervisor();
     this.id && this.fetch();
-    // console.log(this.supervisors);
-    // console.log(this.model.supervisor);
-    // console.log(this.supervisors);
-    console.log(localStorage.id);
   }
 };
 </script>
 
-<style>
+<style scoped>
+.title {
+  color: #606266;
+  border-left: 6px solid #409eff;
+  padding-left: 2rem;
+  font-size: 1em;
+}
 </style>
