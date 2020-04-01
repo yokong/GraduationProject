@@ -8,111 +8,118 @@
 <template>
   <div class="container">
     <el-container style="height: 100vh;">
-      <el-menu
-        class="el-menu-vertical-demo"
-        background-color="#31353d"
-        text-color="#b8bfce"
-        active-text-color="#409eff"
-        router
-        unique-opened
-        @open="handleOpen"
-        @close="handleClose"
-        :collapse="isCollapse"
-      >
-        <!-- 主页开始 -->
-        <el-menu-item style="height:60px" index="/home">
-          <i class="el-icon-house"></i>
-          <span>主页</span>
-        </el-menu-item>
-        <!-- 主页结束 -->
+      <el-aside :width="isCollapse ? '64px' : '200px'">
+        <el-menu
+          style="height:100vh"
+          class="el-menu-vertical-demo"
+          background-color="#31353d"
+          text-color="#b8bfce"
+          active-text-color="#409eff"
+          router
+          unique-opened
+          @open="handleOpen"
+          @close="handleClose"
+          :collapse="isCollapse"
+          :collapse-transition="false"
+        >
+          <!-- 主页开始 -->
+          <el-menu-item style="height:60px" index="/home">
+            <i class="el-icon-house"></i>
+            <span>主页</span>
+          </el-menu-item>
+          <!-- 主页结束 -->
 
-        <!-- 参数管理开始 -->
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-odometer"></i>
-            <span>相关参数</span>
-          </template>
-
-          <!-- 仪器开始 -->
-          <el-menu-item-group>
+          <!-- 参数管理开始 -->
+          <el-submenu index="1">
             <template slot="title">
-              <strong>仪表</strong>
+              <i class="el-icon-odometer"></i>
+              <span>相关参数</span>
             </template>
-            <el-menu-item index="/meters/create">新建仪表</el-menu-item>
-            <el-menu-item index="/meters/list">仪表列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 仪器结束 -->
-          <!-- 介质开始 -->
-          <el-menu-item-group>
+
+            <!-- 仪器开始 -->
+            <el-menu-item-group>
+              <template slot="title">
+                <strong>仪表</strong>
+              </template>
+              <el-menu-item index="/meters/create">新建仪表</el-menu-item>
+              <el-menu-item index="/meters/list">仪表列表</el-menu-item>
+            </el-menu-item-group>
+            <!-- 仪器结束 -->
+            <!-- 介质开始 -->
+            <el-menu-item-group>
+              <template slot="title">
+                <strong>介质</strong>
+              </template>
+              <el-menu-item index="/mediums/create">新建介质</el-menu-item>
+              <el-menu-item index="/mediums/list">介质列表</el-menu-item>
+            </el-menu-item-group>
+            <!-- 介质结束 -->
+
+            <!-- 容器开始 -->
+            <el-menu-item-group>
+              <template slot="title">
+                <strong>容器</strong>
+              </template>
+              <el-menu-item index="/containers/create">新建容器</el-menu-item>
+              <el-menu-item index="/containers/list">容器列表</el-menu-item>
+            </el-menu-item-group>
+            <!-- 容器结束 -->
+          </el-submenu>
+          <!-- 参数管理结束 -->
+
+          <!-- 报告管理开始 -->
+          <el-submenu index="2">
             <template slot="title">
-              <strong>介质</strong>
+              <i class="el-icon-tickets"></i>
+              <span>安装报告单</span>
             </template>
-            <el-menu-item index="/mediums/create">新建介质</el-menu-item>
-            <el-menu-item index="/mediums/list">介质列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 介质结束 -->
+            <!-- 安装报告开始 -->
+            <el-menu-item-group>
+              <el-menu-item index="/erectionReports/create"
+                >新建安装报告</el-menu-item
+              >
+              <el-menu-item index="/erectionReports/list"
+                >安装报告列表</el-menu-item
+              >
+            </el-menu-item-group>
+            <!-- 安装报告结束 -->
+          </el-submenu>
+          <!-- 报告单管理结束 -->
 
-          <!-- 容器开始 -->
-          <el-menu-item-group>
+          <!-- 账户管理开始 -->
+          <el-submenu index="3">
             <template slot="title">
-              <strong>容器</strong>
+              <i class="el-icon-user"></i>
+              <span>账号管理</span>
             </template>
-            <el-menu-item index="/containers/create">新建容器</el-menu-item>
-            <el-menu-item index="/containers/list">容器列表</el-menu-item>
-          </el-menu-item-group>
-          <!-- 容器结束 -->
-        </el-submenu>
-        <!-- 参数管理结束 -->
 
-        <!-- 报告管理开始 -->
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-tickets"></i>
-            <span>安装报告单</span>
-          </template>
-          <!-- 安装报告开始 -->
-          <el-menu-item-group>
-            <el-menu-item index="/erectionReports/create"
-              >新建安装报告</el-menu-item
-            >
-            <el-menu-item index="/erectionReports/list"
-              >安装报告列表</el-menu-item
-            >
-          </el-menu-item-group>
-          <!-- 安装报告结束 -->
-        </el-submenu>
-        <!-- 报告单管理结束 -->
-
-        <!-- 账户管理开始 -->
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-user"></i>
-            <span>账号管理</span>
-          </template>
-
-          <el-menu-item-group>
-            <!-- <template slot="title">
+            <el-menu-item-group>
+              <!-- <template slot="title">
                   <strong>账号</strong>
             </template>-->
-            <el-menu-item index="/accounts/create">新建账号</el-menu-item>
-            <el-menu-item index="/accounts/list">账号列表</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <!-- 账户管理结束 -->
+              <el-menu-item index="/accounts/create">新建账号</el-menu-item>
+              <el-menu-item index="/accounts/list">账号列表</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 账户管理结束 -->
 
-        <!-- 审核开始 -->
-        <el-submenu index="4">
-          <template slot="title">
-            <i class="el-icon-document"></i>
-            <span>审核安装报告</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="/audits/list">待审核报告列表</el-menu-item>
-            <el-menu-item index="/audits/pass">已通过审核报告列表</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <!-- 审核结束 -->
-      </el-menu>
+          <!-- 审核开始 -->
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span>审核安装报告</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/audits/list">待审核报告列表</el-menu-item>
+              <el-menu-item index="/audits/pass"
+                >已通过审核报告列表</el-menu-item
+              >
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 审核结束 -->
+        </el-menu>
+      </el-aside>
+
       <el-container>
         <el-header>
           <el-row type="flex" align="middle" :gutter="24">

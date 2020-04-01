@@ -11,32 +11,46 @@ const schema = new mongoose.Schema({
   route: { type: String },
   // // // 用户名称
   // name: { type: String },
+  contacts: [
+    {
+      // 联系人姓名
+      name: { type: String },
+      // 部门职务
+      department: { type: String },
+      // 手机号
+      phoneNumber: { type: Number },
+      // 邮箱
+      email: { type: String },
+      // qq号
+      qq: { type: Number }
+    }
+  ],
   // 联系人1
-  contacts1: {
-    // 联系人姓名
-    name: { type: String },
-    // 部门职务
-    department: { type: String },
-    // 手机号
-    phoneNumber: { type: Number },
-    // 邮箱
-    email: { type: String },
-    // qq号
-    qq: { type: Number }
-  },
-  // 联系人2
-  contacts2: {
-    // 联系人姓名
-    name: { type: String },
-    // 部门职务
-    department: { type: String },
-    // 手机号
-    phoneNumber: { type: Number },
-    // 邮箱
-    email: { type: String },
-    // qq号
-    qq: { type: Number }
-  },
+  // contacts1: {
+  //   // 联系人姓名
+  //   name: { type: String },
+  //   // 部门职务
+  //   department: { type: String },
+  //   // 手机号
+  //   phoneNumber: { type: Number },
+  //   // 邮箱
+  //   email: { type: String },
+  //   // qq号
+  //   qq: { type: Number }
+  // },
+  // // 联系人2
+  // contacts2: {
+  //   // 联系人姓名
+  //   name: { type: String },
+  //   // 部门职务
+  //   department: { type: String },
+  //   // 手机号
+  //   phoneNumber: { type: Number },
+  //   // 邮箱
+  //   email: { type: String },
+  //   // qq号
+  //   qq: { type: Number }
+  // },
 
   //----------------- 客户结束----------------
 
@@ -71,7 +85,14 @@ const schema = new mongoose.Schema({
   // 液位变化范围
   liquidLevelRange: { type: String },
   // 用户参数
-  userPreferences: { type: String },
+  userPreferences: [
+    {
+      // 参数号
+      parameterNumber: { type: Number },
+      // 参数值
+      parameterValue: { type: Number }
+    }
+  ],
   // ---------------工况结束-----------------
 
   //----------------- 技术信息开始------------------------
@@ -96,7 +117,14 @@ const schema = new mongoose.Schema({
   // 模拟输出回路电阻
   resistance: { type: String },
   // 内部参数
-  intrinsicParameter: { type: String },
+  intrinsicPreferences: [
+    {
+      // 参数号
+      parameterNumber: { type: Number },
+      // 参数值
+      parameterValue: { type: Number }
+    }
+  ],
   // 安装示意图
   installationDiagram: { type: String },
 

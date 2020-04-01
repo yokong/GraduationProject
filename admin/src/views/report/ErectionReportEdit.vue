@@ -57,95 +57,69 @@
             </el-col>
             <!-- 行车路线结束 -->
           </el-row>
-          <!-- 联系人1开始 -->
-          <el-divider content-position="left">联系人1</el-divider>
-          <el-row type="flex">
-            <!-- 联系人姓名开始 -->
-            <el-col :span="6">
-              <el-form-item label="联系人姓名">
-                <el-input v-model="model.contacts1.name"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 联系人姓名结束 -->
-            <!-- 部门职务开始 -->
-            <el-col :span="6">
-              <el-form-item label="部门职务">
-                <el-input v-model="model.contacts1.department"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 部门职务姓名结束 -->
-          </el-row>
+          <el-divider content-position="left">联系人</el-divider>
+          <el-button
+            style="margin-left:2.5em"
+            type="text"
+            @click="model.contacts.push({})"
+            ><i class="el-icon-plus"></i>添加</el-button
+          >
+          <!-- 联系人渲染列表 -->
+          <el-row v-for="(item, index) in model.contacts" :key="index">
+            <el-row type="flex">
+              <!-- 联系人姓名开始 -->
+              <el-col :span="6">
+                <el-form-item label="联系人姓名">
+                  <el-input v-model="item.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <!-- 联系人姓名结束 -->
+              <!-- 部门职务开始 -->
+              <el-col :span="6">
+                <el-form-item label="部门职务">
+                  <el-input v-model="item.department"></el-input>
+                </el-form-item>
+              </el-col>
+              <!-- 部门职务姓名结束 -->
+              <!-- 联系人手机号开始 -->
 
-          <el-row type="flex">
-            <!-- 联系人手机号开始 -->
-            <el-col :span="6">
-              <el-form-item label="手机号">
-                <el-input v-model="model.contacts1.phoneNumber"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 联系人手机号结束 -->
-            <!-- 邮箱开始 -->
-            <el-col :span="6">
-              <el-form-item label="邮箱">
-                <el-input v-model="model.contacts1.email"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 邮箱结束 -->
-            <!-- qq开始 -->
-            <el-col :span="6">
-              <el-form-item label="QQ">
-                <el-input v-model="model.contacts1.qq"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- qq结束 -->
-          </el-row>
-          <!-- 联系人1结束 -->
+              <el-col :span="6">
+                <el-form-item label="手机号">
+                  <el-input v-model="item.phoneNumber"></el-input>
+                </el-form-item>
+              </el-col>
 
-          <!-- 联系人2开始 -->
-          <el-divider content-position="left">联系人2</el-divider>
-          <el-row type="flex">
-            <!-- 联系人姓名开始 -->
-            <el-col :span="6">
-              <el-form-item label="联系人姓名">
-                <el-input v-model="model.contacts2.name"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 联系人姓名结束 -->
-            <!-- 部门职务开始 -->
-            <el-col :span="6">
-              <el-form-item label="部门职务">
-                <el-input v-model="model.contacts2.department"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 部门职务姓名结束 -->
+              <!-- 联系人手机号结束 -->
+            </el-row>
+
+            <el-row type="flex">
+              <!-- 邮箱开始 -->
+              <el-col :span="6">
+                <el-form-item label="邮箱">
+                  <el-input v-model="item.email"></el-input>
+                </el-form-item>
+              </el-col>
+              <!-- 邮箱结束 -->
+              <!-- qq开始 -->
+              <el-col :span="6">
+                <el-form-item label="QQ">
+                  <el-input v-model="item.qq"></el-input>
+                </el-form-item>
+              </el-col>
+              <!-- qq结束 -->
+              <el-col :span="6">
+                <el-form-item>
+                  <el-button
+                    type="danger"
+                    size="small"
+                    @click="model.contacts.splice(index, 1)"
+                    >删除</el-button
+                  >
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-divider></el-divider>
           </el-row>
-          <el-row type="flex">
-            <!-- 联系人手机号开始 -->
-            <el-col :span="6">
-              <el-form-item label="手机号">
-                <el-input v-model="model.contacts2.phoneNumber"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 联系人手机号结束 -->
-            <!-- 邮箱开始 -->
-            <el-col :span="6">
-              <el-form-item label="邮箱">
-                <el-input
-                  type="email"
-                  v-model="model.contacts2.email"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- 邮箱结束 -->
-            <!-- qq开始 -->
-            <el-col :span="6">
-              <el-form-item label="QQ">
-                <el-input v-model="model.contacts2.qq"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- qq结束 -->
-          </el-row>
-          <!-- 联系人2结束 -->
         </el-tab-pane>
         <!-- 分页1:客户信息结束 -->
 
@@ -244,16 +218,44 @@
             </el-col>
           </el-row>
 
-          <el-row>
-            <el-form-item label="用户参数">
-              <el-input
-                type="textarea"
-                placeholder="多个数据请用英文逗号(,)隔开"
-                :rows="2"
-                :cols="4"
-                v-model="model.userPreferences"
-              ></el-input>
-            </el-form-item>
+          <el-divider content-position="left">用户参数</el-divider>
+          <el-button
+            style="margin-left:2.5em"
+            type="primary"
+            icon="el-icon-plus"
+            size="mini"
+            circle
+            @click="model.userPreferences.push({})"
+          ></el-button>
+          <el-button
+            style="margin-left:2.5em"
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            circle
+            @click="
+              model.userPreferences.length ? model.userPreferences.pop() : null
+            "
+          ></el-button>
+          <el-row type="flex" style="flex-wrap:wrap">
+            <el-col
+              v-for="(item, index) in model.userPreferences"
+              :key="index"
+              :md="6"
+            >
+              <el-form-item style="margin-top:45px" label="参数号">
+                <el-input
+                  v-model="item.parameterNumber"
+                  placeholder="参数号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="参数值">
+                <el-input
+                  v-model="item.parameterValue"
+                  placeholder="参数值"
+                ></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <!-- 其他信息结束 -->
         </el-tab-pane>
@@ -308,7 +310,50 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+
+          <el-divider content-position="left">内部参数</el-divider>
+          <el-button
+            style="margin-left:2.5em"
+            type="primary"
+            icon="el-icon-plus"
+            size="mini"
+            circle
+            @click="model.intrinsicPreferences.push({})"
+          ></el-button>
+          <el-button
+            style="margin-left:1.5em"
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            circle
+            @click="
+              model.intrinsicPreferences.length
+                ? model.intrinsicPreferences.pop()
+                : null
+            "
+          ></el-button>
+          <el-row type="flex" style="flex-wrap:wrap">
+            <el-col
+              v-for="(item, index) in model.intrinsicPreferences"
+              :key="index"
+              :md="6"
+            >
+              <el-form-item style="margin-top:45px" label="参数号">
+                <el-input
+                  v-model="item.parameterNumber"
+                  placeholder="参数号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="参数值">
+                <el-input
+                  v-model="item.parameterValue"
+                  placeholder="参数值"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <!-- <el-row>
             <el-form-item label="内部参数">
               <el-input
                 type="textarea"
@@ -318,7 +363,8 @@
                 v-model="model.intrinsicParameter"
               ></el-input>
             </el-form-item>
-          </el-row>
+          </el-row> -->
+
           <el-divider></el-divider>
           <el-row>
             <el-form-item label="安装示意图">
@@ -577,6 +623,7 @@ export default {
         code: null,
         address: "",
         route: "",
+        contacts: [],
         contacts1: {
           name: "",
           department: "",
@@ -605,7 +652,7 @@ export default {
         temperatureRange: "",
         pressureRange: "",
         liquidLevelRange: "",
-        userPreferences: "",
+        userPreferences: [],
         // 技术信息
         maxVoltage: {
           voltage: "",
@@ -618,7 +665,8 @@ export default {
         electricity: "",
         liquidLevel: "",
         resistance: "",
-        intrinsicParameter: "",
+        intrinsicPreferences: [],
+        // intrinsicParameter: "",
         installationDiagram: "",
         // 现场数据记录
         time: "",
