@@ -67,7 +67,7 @@ export default {
       // 每页多少条数据
       pageSize: 5,
       // 当前在第几页
-      currentPage: 1
+      currentPage: 1,
     };
   },
   methods: {
@@ -82,12 +82,12 @@ export default {
       this.$confirm(`此操作将删除${row.meterName}, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       }).then(async () => {
         const res = await this.$http.delete(`rest/mediums/${row._id}`);
         this.$message({
           type: "success",
-          message: "删除成功!"
+          message: "删除成功!",
         });
         this.fetch();
       });
@@ -114,6 +114,7 @@ export default {
     getList() {
       // 通过filter方法过滤得到满足搜索条件的展示数据
       let list = this.items.filter((item, index) => {
+        console.log(item.mediumName);
         return item.mediumName.includes(this.searchData);
         // return true;
       });
@@ -129,7 +130,7 @@ export default {
       this.total = list.length;
       console.log(this.list);
       // 过滤分页
-    }
+    },
   },
   created() {
     this.fetch();
@@ -139,8 +140,8 @@ export default {
       if (value == "") {
         this.search();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -12,7 +12,7 @@
         <el-card class>
           <div class="user-info">
             <div class="user-info-avatar">
-              <el-avatar :fit="fit " :size="150" :src="model.avatar"></el-avatar>
+              <el-avatar :fit="fit" :size="150" :src="model.avatar"></el-avatar>
             </div>
             <div class="user-info-detail">
               <h2>{{ model.name }}</h2>
@@ -73,12 +73,12 @@ export default {
       items: [],
       model: {},
       circleUrl:
-        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2686231306,63998876&fm=26&gp=0.jpg"
+        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2686231306,63998876&fm=26&gp=0.jpg",
     };
   },
   methods: {
     async fetchReport() {
-      const res = await this.$http.get("rest/erectionReports");
+      const res = await this.$http.get("rest/installationReports");
       this.items = res.data;
       // console.log(this.items);
     },
@@ -90,14 +90,14 @@ export default {
         })
         .pop();
       // console.log(this.model);
-    }
+    },
   },
   computed: {
     commit() {
-      return this.items.filter(item => item.reportStatus == "已提交").length;
+      return this.items.filter((item) => item.reportStatus == "已提交").length;
     },
     pass() {
-      return this.items.filter(item => item.reportStatus == "已通过").length;
+      return this.items.filter((item) => item.reportStatus == "已通过").length;
     },
     authority() {
       if (this.model.authority == 1) {
@@ -107,7 +107,7 @@ export default {
       } else {
         return `管理员`;
       }
-    }
+    },
   },
   components: {
     // HelloWorld
@@ -121,7 +121,7 @@ export default {
     // console.log(this.model);
     // console.log(localStorage.getItem("account"));
     // const a = [];
-  }
+  },
 };
 </script>
 

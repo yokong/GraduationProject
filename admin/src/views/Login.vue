@@ -50,27 +50,26 @@
 export default {
   data() {
     return {
-      model: {}
+      model: {},
     };
   },
   methods: {
     async login() {
       //请求完成得到一个token
       const res = await this.$http.post("/login", this.model);
-      // console.log(res.data.token);
+      console.log(res);
       localStorage.token = res.data.token;
-      localStorage.authority = res.data.authority;
-      localStorage.account = res.data.account;
-      localStorage.id = res.data.id;
+      localStorage.authority = res.data.user.authority;
+      localStorage.account = res.data.user.account;
+      localStorage.id = res.data.user._id;
 
       this.$router.push("/");
       this.$message({
         type: "success",
-        message: "登陆成功"
+        message: "登陆成功",
       });
-      console.log(res.data.id);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -26,18 +26,22 @@
     </el-backtop>
     <div class="wrap" ref="imageWrapper">
       <el-row class="container">
-        <el-row type="flex" align="middle" class="row" :gutter="24">
+        <el-row class="report-header " :gutter="24">
+          <!-- 安装人员 -->
           <el-col :span="6">
-            <strong>客服人员</strong>
+            <strong>安装人员</strong>
           </el-col>
           <el-col :span="6">{{ this.submitter_info.name }}</el-col>
+          <!-- 填写时间 -->
           <el-col :span="6">
             <strong>填写时间</strong>
           </el-col>
           <el-col :span="6">123</el-col>
         </el-row>
+
         <el-divider content-position="left">客户信息</el-divider>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 用户单位 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>用户单位</strong>
@@ -46,6 +50,7 @@
           <el-col :span="10">
             <div class="grid-content bg-purple">{{ this.model.company }}</div>
           </el-col>
+          <!-- 客户编码 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>客户编码</strong>
@@ -56,82 +61,60 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 详细地址 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>详细地址</strong>
             </div>
           </el-col>
           <el-col :span="20">
-            <div class="grid-content bg-purple">{{ model.addreess }}</div>
+            <div class="grid-content bg-purple">{{ model.address }}</div>
           </el-col>
         </el-row>
-        <el-row type="flex" align="middle" class="row" :gutter="24">
+        <!-- 联系人 -->
+        <el-row
+          type="flex"
+          align="middle"
+          v-for="(item, index) in model.contacts"
+          :key="index"
+          class="row"
+          :gutter="24"
+        >
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>联系人姓名</strong>
-              :{{ model.contacts1.name }}
+              :{{ (item.name, 333) }}
             </div>
           </el-col>
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>职务</strong>
-              :{{ model.contacts1.department }}
+              :{{ item.department }}
             </div>
           </el-col>
           <el-col :span="5">
             <div class="grid-content bg-purple">
               <strong>手机</strong>
-              :{{ model.contacts1.phoneNumber }}
+              :{{ item.phoneNumber }}
             </div>
           </el-col>
           <el-col :span="6">
             <div class="grid-content bg-purple">
               <strong>email</strong>
-              :{{ model.contacts1.email }}
+              :{{ item.email }}
             </div>
           </el-col>
           <el-col :span="5">
             <div class="grid-content bg-purple">
               <strong>qq</strong>
-              :{{ model.contacts1.qq }}
-            </div>
-          </el-col>
-        </el-row>
-        <el-row type="flex" align="middle" class="row" :gutter="24">
-          <el-col :span="4">
-            <div class="grid-content bg-purple">
-              <strong>联系人姓名</strong>
-              :{{ model.contacts2.name }}
-            </div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple">
-              <strong>职务</strong>
-              :{{ model.contacts2.department }}
-            </div>
-          </el-col>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">
-              <strong>手机</strong>
-              :{{ model.contacts2.phoneNumber }}
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="grid-content bg-purple">
-              <strong>email</strong>
-              :{{ model.contacts2.email }}
-            </div>
-          </el-col>
-          <el-col :span="5">
-            <div class="grid-content bg-purple">
-              <strong>qq</strong>
-              :{{ model.contacts2.qq }}
+              :{{ item.qq }}
             </div>
           </el-col>
         </el-row>
 
         <el-divider content-position="left">现场工况</el-divider>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 仪表型号 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>仪表型号</strong>
@@ -142,6 +125,7 @@
               {{ meter_info.meterName }}
             </div>
           </el-col>
+          <!-- 仪表编号 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>仪表编号</strong>
@@ -152,6 +136,7 @@
               {{ meter_info.meterNumber }}
             </div>
           </el-col>
+          <!-- 位号 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>位号</strong>
@@ -164,6 +149,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 容器形状 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>容器形状</strong>
@@ -174,6 +160,7 @@
               {{ container_info.shape }}
             </div>
           </el-col>
+          <!-- 容器材质 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>容器材质</strong>
@@ -184,6 +171,7 @@
               {{ container_info.material }}
             </div>
           </el-col>
+          <!-- 保温层 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>保温层</strong>
@@ -194,6 +182,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 其他液位计安装情况 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>其他液位计安装情况</strong>
@@ -204,6 +193,7 @@
               {{ model.otherCondition }}
             </div>
           </el-col>
+          <!-- 二次仪表类型及数据存储 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>二次仪表类型及数据存储</strong>
@@ -212,6 +202,7 @@
           <el-col :span="4">
             <div class="grid-content bg-purple">{{ model.meterType }}</div>
           </el-col>
+          <!-- 容器投用时间 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>容器投用时间</strong>
@@ -222,6 +213,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 液体介质 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>液体介质</strong>
@@ -232,6 +224,7 @@
               {{ medium_info.mediumName }}
             </div>
           </el-col>
+          <!-- 粘度 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>粘度</strong>
@@ -240,6 +233,7 @@
           <el-col :span="4">
             <div class="grid-content bg-purple">{{ model.viscosity }}</div>
           </el-col>
+          <!-- 密度 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">密度</div>
           </el-col>
@@ -248,6 +242,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 温度范围 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">温度范围</div>
           </el-col>
@@ -256,6 +251,7 @@
               {{ model.temperatureRange }}
             </div>
           </el-col>
+          <!-- 压力范围 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">压力范围</div>
           </el-col>
@@ -264,6 +260,7 @@
               {{ model.pressureRange }}
             </div>
           </el-col>
+          <!-- 液位变化范围 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">液位变化范围</div>
           </el-col>
@@ -273,17 +270,28 @@
             </div>
           </el-col>
         </el-row>
-        <el-row type="flex" align="middle" class="row" :gutter="24">
+
+        <!-- 用户参数 -->
+        <el-row align="middle" class="row" :gutter="24">
           <el-col :span="4">
             <div class="grid-content bg-purple">用户参数</div>
           </el-col>
-          <el-col :span="20">
-            <div class="grid-content bg-purple">乌拉</div>
+          <el-col :span="20" style="display:flex;flex-wrap:wrap">
+            <div
+              v-for="item in model.userPreferences"
+              :key="item._id"
+              style="width:10%"
+            >
+              <div class="grid-content bg-purple">
+                {{ item.parameterNumber + "#" + item.parameterValue }}
+              </div>
+            </div>
           </el-col>
         </el-row>
 
         <el-divider content-position="left">技术信息</el-divider>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 电源电压 -->
           <el-col :span="4">
             <div class="grid-content bg-purple" style="height:80px">
               电源电压
@@ -297,6 +305,7 @@
               {{ model.minVoltage.voltage }}
             </div>
           </el-col>
+          <!-- 校准信号 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">校准1信号</div>
             <div class="grid-content bg-purple">校准2信号</div>
@@ -310,6 +319,7 @@
             </div>
           </el-col>
         </el-row>
+        <!-- 仪表电流 -->
         <el-row type="flex" align="middle" class="row" :gutter="24">
           <el-col :span="4">
             <div class="grid-content bg-purple">仪表电流</div>
@@ -337,6 +347,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 探头安装示意图 -->
           <el-col :span="4">
             <div style="height:144px" class="grid-content bg-purple">
               探头安装示意图
@@ -345,8 +356,24 @@
           <el-col style="height:144px" :span="20">
             <img :src="model.installationDiagram" style="height:100%" />
           </el-col>
+          <!--内部参数  -->
         </el-row>
-
+        <el-row align="middle" class="row" :gutter="24">
+          <el-col :span="4">
+            <div class="grid-content bg-purple">内部参数</div>
+          </el-col>
+          <el-col :span="20" style="display:flex;flex-wrap:wrap">
+            <div
+              v-for="item in model.intrinsicPreferences"
+              :key="item._id"
+              style="width:10%"
+            >
+              <div class="grid-content bg-purple">
+                {{ item.parameterNumber + "#" + item.parameterValue }}
+              </div>
+            </div>
+          </el-col>
+        </el-row>
         <el-divider content-position="left">现场数据记录</el-divider>
         <el-row type="flex" align="middle" class="row" :gutter="24">
           <el-col :span="3">
@@ -451,8 +478,8 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
-          <el-col :span="4">
-            <div style="height:244px" class="grid-content bg-purple">
+          <el-col style="height:244px" :span="4">
+            <div class="grid-content bg-purple">
               探头全景
             </div>
           </el-col>
@@ -460,7 +487,25 @@
             <img style="height:100%" :src="model.probePanorama" alt />
           </el-col>
         </el-row>
-        <el-row type="flex" align="middle" class="row" :gutter="24">
+        <el-divider content-position="left">附加信息</el-divider>
+        <el-row
+          type="flex"
+          style="margin-bottom:20px"
+          align="middle"
+          class="row"
+          :gutter="24"
+        >
+          <!-- 详细地址 -->
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <strong>说明</strong>
+            </div>
+          </el-col>
+          <el-col :span="20">
+            <div class="grid-content bg-purple">{{ model.otherContent }}</div>
+          </el-col>
+        </el-row>
+        <el-row class="report-header" type="flex" align="middle" :gutter="24">
           <el-col :span="4">
             <div class="grid-content">
               <strong>部门主管</strong>
@@ -477,9 +522,11 @@
             </div>
           </el-col>
           <el-col :span="4">time</el-col>
-          <el-col :span="4">报告得分</el-col>
+          <el-col :span="4">
+            <div class="grid-content"><strong>报告得分</strong></div>
+          </el-col>
           <el-col style="h" :span="4">
-            <div class="grid-content bg-purple">
+            <div class="grid-content">
               <el-rate v-model="model.scoreReport"></el-rate>
             </div>
           </el-col>
@@ -488,6 +535,7 @@
     </div>
     <el-row type="flex" align="middle" style="margin-top:15px">
       <el-button type="danger" @click="reject">打回报告单</el-button>
+      <!-- v-if="this.model.reportStatus != '已通过'" -->
 
       <el-button type="success" @click="pass">通过报告单</el-button>
     </el-row>
@@ -498,7 +546,7 @@
 import html2canvas from "html2canvas";
 export default {
   props: {
-    id: { type: String }
+    id: { type: String },
   },
   data() {
     return {
@@ -508,22 +556,16 @@ export default {
         code: null,
         address: "",
         route: "",
-        contacts1: {
+        contacts: {
           name: "",
+
           department: "",
           phoneNumber: null,
           email: "",
-          qq: null
+          qq: null,
         },
         container: "",
         medium: "",
-        contacts2: {
-          name: "",
-          department: "",
-          phoneNumber: null,
-          email: "",
-          qq: null
-        },
         // 现场工况
         meter: null,
         otherCondition: "",
@@ -539,16 +581,16 @@ export default {
         // 技术信息
         maxVoltage: {
           voltage: "",
-          calibratingSignal: ""
+          calibratingSignal: "",
         },
         minVoltage: {
           voltage: "",
-          calibratingSignal: ""
+          calibratingSignal: "",
         },
         electricity: "",
         liquidLevel: "",
         resistance: "",
-        intrinsicParameter: "",
+        intrinsicPreferences: [],
         installationDiagram: "",
         // 现场数据记录
         time: "",
@@ -560,7 +602,7 @@ export default {
         mediumTemperature: "",
         status: {
           value: null,
-          label: ""
+          label: "",
         },
         signalFigure: "",
         // 现场照片
@@ -576,14 +618,14 @@ export default {
         // 提交者
         submitter: "",
         // 报告单评分
-        scoreReport: null
+        scoreReport: null,
       },
       meter_info: {},
       submitter_info: {},
       supervisor_info: {},
       container_info: {},
       medium_info: {},
-      scoreReport: ""
+      scoreReport: "",
     };
   },
   computed: {
@@ -593,12 +635,12 @@ export default {
       } else {
         return "无";
       }
-    }
+    },
   },
   methods: {
     // 获取所编辑分类信息的方法
     async fetch() {
-      const res = await this.$http.get(`rest/erectionReports/${this.id}`);
+      const res = await this.$http.get(`rest/installationReports/${this.id}`);
       //  有个问题会把服务端的数据完整替换到客户端 相当于scores还是个undefined undefined.difficlut还会报错
       console.log(res);
       this.model = Object.assign({}, this.model, res.data[0]);
@@ -611,8 +653,8 @@ export default {
     },
     saveImg() {
       html2canvas(this.$refs.imageWrapper, {
-        useCORS: true
-      }).then(canvas => {
+        useCORS: true,
+      }).then((canvas) => {
         this.imgURL = canvas.toDataURL();
         // console.log(999, this.imgURL);
         if (window.navigator.msSaveOrOpenBlob) {
@@ -629,7 +671,7 @@ export default {
           );
           this.$message({
             message: "下载成功",
-            type: "success"
+            type: "success",
           });
         } else {
           // 这里就按照chrome等新版浏览器来处理
@@ -639,7 +681,7 @@ export default {
           a.click();
           this.$message({
             message: "下载成功",
-            type: "success"
+            type: "success",
           });
         }
       });
@@ -647,43 +689,81 @@ export default {
     async reject() {
       this.$prompt("请输入退回理由", "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
       })
         .then(async ({ value }) => {
           this.$message({
             type: "success",
-            message: "退回理由是: " + value
+            message: "退回理由是: " + value,
           });
           this.model.returnReason = value;
           this.model.reportStatus = "未通过";
-          await this.$http.put(`rest/erectionReports/${this.id}`, this.model);
+          await this.$http.put(
+            `rest/installationReports/${this.id}`,
+            this.model
+          );
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "取消输入"
+            message: "取消输入",
           });
         });
     },
     // 通过报告单
     async pass() {
-      this.$confirm(`请确定是否通过此报告单`, "提示", {
+      this.$prompt("请输入评语", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "警告"
-      }).then(async () => {
-        this.model.reportStatus = "已通过";
-        await this.$http.put(`rest/erectionReports/${this.id}`, this.model);
-      });
-    }
+      })
+        .then(async ({ value }) => {
+          this.$message({
+            type: "success",
+            message: "已通过报告单！ ",
+          });
+          this.model.returnReason = "/";
+          this.model.comments = value;
+          this.model.reportStatus = "已通过";
+          await this.$http.put(
+            `rest/installationReports/${this.id}`,
+            this.model
+          );
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消输入",
+          });
+        });
+
+      // this.$confirm(`请确定是否通过此报告单`, "提示", {
+      //   confirmButtonText: "确定",
+      //   cancelButtonText: "取消",
+      //   type: "警告",
+      // }).then(async () => {
+      //   this.model.reportStatus = "已通过";
+      //   await this.$http.put(`rest/installationReports/${this.id}`, this.model);
+      // });
+    },
   },
   created() {
     this.fetch();
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.container {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.274);
+
+  padding: 5px;
+}
+.report-header {
+  font-size: 24px;
+  margin: 20px 0;
+  text-align: center;
+}
 .title {
   color: #606266;
   border-left: 6px solid #409eff;
@@ -700,11 +780,15 @@ export default {
 .el-col {
   border-radius: 4px;
 }
-.bg-purple-dark {
-  background: #99a9bf;
-}
+
 .bg-purple {
-  background: #d3dce6;
+  // line-height: 100%;
+  // text-align: center;
+  display: flex;
+  align-items: center;
+  // background: #88b7ee81;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.116);
+  padding: 0.5em;
 }
 .bg-purple-light {
   background: #e5e9f2;

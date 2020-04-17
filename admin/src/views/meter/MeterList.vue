@@ -11,7 +11,7 @@
         <el-input
           @keyup.enter.native="search"
           v-model="searchData"
-          placeholder="输入仪表名称"
+          placeholder="输入仪表型号"
         ></el-input>
       </el-col>
       <el-col :span="2">
@@ -21,11 +21,11 @@
     <!-- 表格数据 items -->
     <el-table border :data="list">
       <el-table-column label="序号" align="center" width="70">
-        <template scope="scope">
+        <template v-slot="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
-      <el-table-column prop="meterName" label="仪表名称"></el-table-column>
+      <el-table-column prop="meterName" label="仪表型号"></el-table-column>
       <el-table-column prop="tagNumber" label="位号"></el-table-column>
       <!-- <el-table-column prop="icon" label="图标" width="220">
         <template slot-scope="scope">
@@ -34,7 +34,7 @@
       </el-table-column>-->
 
       <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="text"
             size="small"
@@ -72,7 +72,7 @@ export default {
       // 每页多少条数据
       pageSize: 5,
       // 当前在第几页
-      currentPage: 1
+      currentPage: 1,
     };
   },
   methods: {
@@ -87,12 +87,12 @@ export default {
       this.$confirm(`此操作将删除${row.meterName}, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       }).then(async () => {
         const res = await this.$http.delete(`rest/meters/${row._id}`);
         this.$message({
           type: "success",
-          message: "删除成功!"
+          message: "删除成功!",
         });
         this.fetch();
       });
@@ -114,9 +114,35 @@ export default {
       this.getList();
       console.log(this.list);
     },
+    // getList() {
+    //   // 通过filter方法过滤得到满足搜索条件的展示数据
+    //   let list = this.items.filter((item, index) => {
+    //     return item.meterName.includes(this.searchData);
+    //     // return true;
+    //   });
+    //   // let list = this.items.filter((item, index) => {
+    //   //   console.log(item.meterName);
+    //   //   return item.meterName.includes(this.searchData);
+    //   //   // return true;
+    //   // });
+    //   this.list = list;
+    //   // 过滤分页
+    //   this.list = list.filter((item, index) => {
+    //     return (
+    //       index < this.currentPage * this.pageSize &&
+    //       index >= this.pageSize * (this.currentPage - 1)
+    //     );
+    //   });
+    //   // 分页的总数据
+    //   this.total = list.length;
+    //   console.log(this.list);
+    //   // 过滤分页
+    // },
+    // 获取展示数据
     getList() {
       // 通过filter方法过滤得到满足搜索条件的展示数据
       let list = this.items.filter((item, index) => {
+        console.log(item);
         return item.meterName.includes(this.searchData);
         // return true;
       });
@@ -132,7 +158,7 @@ export default {
       this.total = list.length;
       console.log(this.list);
       // 过滤分页
-    }
+    },
   },
   created() {
     this.fetch();
@@ -142,8 +168,8 @@ export default {
       if (value == "") {
         this.search();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

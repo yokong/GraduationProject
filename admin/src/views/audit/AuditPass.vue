@@ -81,13 +81,13 @@ export default {
       // 每页多少条数据
       pageSize: 5,
       // 当前在第几页
-      currentPage: 1
+      currentPage: 1,
     };
   },
   methods: {
     // 查询分类数据方法-fetch
     async fetch() {
-      const res = await this.$http.get("rest/erectionReports");
+      const res = await this.$http.get("rest/installationReports");
       console.log(res.data);
       if (localStorage.authority == 3) {
         this.items = res.data;
@@ -139,7 +139,7 @@ export default {
       this.total = list.length;
       console.log(this.list);
       // 过滤分页
-    }
+    },
   },
   created() {
     this.fetch();
@@ -149,8 +149,8 @@ export default {
       if (value == "") {
         this.search();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

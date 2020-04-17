@@ -7,13 +7,12 @@ const schema = new mongoose.Schema({
   // 密码
   password: {
     type: String,
-    required: true,
     // 别把它查出来查出来再保存 又会进行一次散列
     select: false,
-    // 使用bcryptjs来做密码的散列
+    // 使用bcryptjs来做密码的散列加密
     set(val) {
       return require("bcryptjs").hashSync(val, 12);
-    }
+    },
   },
   // 姓名
   name: { type: String, required: true },
@@ -22,7 +21,7 @@ const schema = new mongoose.Schema({
   // 邮箱
   email: { type: String, required: true },
   // 头像
-  avatar: { type: String, required: true }
+  avatar: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Account", schema);

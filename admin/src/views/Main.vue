@@ -75,10 +75,10 @@
             </template>
             <!-- 安装报告开始 -->
             <el-menu-item-group>
-              <el-menu-item index="/erectionReports/create"
+              <el-menu-item index="/installationReports/create"
                 >新建安装报告</el-menu-item
               >
-              <el-menu-item index="/erectionReports/list"
+              <el-menu-item index="/installationReports/list"
                 >安装报告列表</el-menu-item
               >
             </el-menu-item-group>
@@ -128,7 +128,7 @@
                 @click="show"
                 style="font-size:20px;"
                 :class="[
-                  isCollapse ? 'el-icon-arrow-right' : 'el-icon-arrow-left'
+                  isCollapse ? 'el-icon-arrow-right' : 'el-icon-arrow-left',
                 ]"
               ></i>
             </el-col>
@@ -173,7 +173,7 @@ export default {
       fit: "contain",
       model: {},
       circleUrl:
-        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg"
+        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg",
       // tableData: Array(20).fill(item)
     };
   },
@@ -195,7 +195,6 @@ export default {
         }
       } else if (command == "exit") {
         this.$router.push("/login");
-
         localStorage.clear();
       }
     },
@@ -208,11 +207,11 @@ export default {
     // 面板折叠效果
     show() {
       this.isCollapse = !this.isCollapse;
-    }
+    },
   },
   created() {
     this.fetchAccount();
-  }
+  },
 };
 </script>
 

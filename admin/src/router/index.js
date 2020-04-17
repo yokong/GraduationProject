@@ -6,11 +6,11 @@ const Login = () => import("../views/Login.vue");
 // 主面板组件
 const Main = () => import("../views/Main.vue");
 // 报告单编辑组件
-const ErectionReportEdit = () =>
-  import("../views/report/ErectionReportEdit.vue");
+const InstallationReportEdit = () =>
+  import("../views/report/InstallationReportEdit.vue");
 // 报告单列表组件
-const ErectionReportList = () =>
-  import("../views/report/ErectionReportList.vue");
+const InstallationReportList = () =>
+  import("../views/report/InstallationReportList.vue");
 // 仪表编辑组件
 const MeterEdit = () => import("../views/meter/MeterEdit.vue");
 // 仪表列表组件
@@ -47,13 +47,16 @@ const routes = [
       { path: "/", redirect: "/home" },
       { path: "/home", component: Home },
 
-      { path: "/erectionReports/create", component: ErectionReportEdit },
       {
-        path: "/erectionReports/edit/:id",
-        component: ErectionReportEdit,
-        props: true
+        path: "/installationReports/create",
+        component: InstallationReportEdit,
       },
-      { path: "/erectionReports/list", component: ErectionReportList },
+      {
+        path: "/installationReports/edit/:id",
+        component: InstallationReportEdit,
+        props: true,
+      },
+      { path: "/installationReports/list", component: InstallationReportList },
 
       { path: "/meters/create", component: MeterEdit },
       { path: "/meters/edit/:id", component: MeterEdit, props: true },
@@ -73,13 +76,13 @@ const routes = [
 
       { path: "/audits/list", component: AuditList },
       { path: "/audits/pass", component: AuditPass },
-      { path: "/audits/show/:id", component: AuditShow, props: true }
-    ]
-  }
+      { path: "/audits/show/:id", component: AuditShow, props: true },
+    ],
+  },
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
@@ -92,18 +95,18 @@ router.beforeEach((to, from, next) => {
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是管理员"
+      message: "权限不足，您不是管理员",
     });
   }
   if (
-    (to.path == "/erectionReports/create" ||
-      to.path == "/erectionReports/list") &&
+    (to.path == "/installationReports/create" ||
+      to.path == "/installationReports/list") &&
     localStorage.authority != 1 &&
     localStorage.authority != 3
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是安装工程师或管理员"
+      message: "权限不足，您不是安装工程师或管理员",
     });
   }
 
@@ -114,7 +117,37 @@ router.beforeEach((to, from, next) => {
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是技术主管或管理员"
+      message: "权限不足，您不是技术主管或管理员",
+    });
+  }
+  if (
+    (to.path == "/mediums/create" || to.path == "/mediums/list") &&
+    localStorage.authority != 2 &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是技术主管或管理员",
+    });
+  }
+  if (
+    (to.path == "/audits/list" || to.path == "/audits/pass") &&
+    localStorage.authority != 2 &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是技术主管或管理员",
+    });
+  }
+  if (
+    (to.path == "/containers/create" || to.path == "/containers/list") &&
+    localStorage.authority != 2 &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是技术主管或管理员",
     });
   }
   next();
