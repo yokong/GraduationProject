@@ -117,6 +117,18 @@
             </el-menu-item-group>
           </el-submenu>
           <!-- 审核结束 -->
+          <!-- 通知开始 -->
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span>公告管理</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/notices/create">公告编辑</el-menu-item>
+              <el-menu-item index="/notices/list">公告列表</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 通知结束 -->
         </el-menu>
       </el-aside>
 
@@ -155,7 +167,7 @@
             </el-col>
           </el-row>
         </el-header>
-        <el-main>
+        <el-main style="padding:20px 50px">
           <transition name="fade" mode="out-in">
             <router-view :key="$route.path"></router-view>
           </transition>

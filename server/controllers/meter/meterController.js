@@ -12,108 +12,68 @@ const meterCreate = async (req, res) => {
 };
 // 获取仪表列表数据方法
 const meterListGet = async (req, res) => {
-  const items = await Meter.aggregate([
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "supervisor",
-        foreignField: "_id",
-        as: "supervisor_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "media",
-        localField: "medium",
-        foreignField: "_id",
-        as: "medium_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "meters",
-        localField: "meter",
-        foreignField: "_id",
-        as: "meter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "submitter",
-        foreignField: "_id",
-        as: "submitter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "containers",
-        localField: "container",
-        foreignField: "_id",
-        as: "container_info",
-      },
-    },
-  ]);
+  const items = await Meter.find({});
   res.send(items);
 };
 
 // 仪表 详情/编辑 页面方法
 const meterDetail = async (req, res) => {
-  const model = await Meter.aggregate([
-    {
-      $match: {
-        _id: mongoose.Types.ObjectId(req.params.id),
-      },
-    },
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "supervisor",
-        foreignField: "_id",
-        as: "supervisor_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "meters",
-        localField: "meter",
-        foreignField: "_id",
-        as: "meter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "submitter",
-        foreignField: "_id",
-        as: "submitter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "submitter",
-        foreignField: "_id",
-        as: "submitter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "containers",
-        localField: "container",
-        foreignField: "_id",
-        as: "container_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "media",
-        localField: "medium",
-        foreignField: "_id",
-        as: "medium_info",
-      },
-    },
-  ]);
+  const model = await Meter.findById(req.params.id);
+  // const model = await Meter.aggregate([
+  //   {
+  //     $match: {
+  //       _id: mongoose.Types.ObjectId(req.params.id),
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "accounts",
+  //       localField: "supervisor",
+  //       foreignField: "_id",
+  //       as: "supervisor_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "meters",
+  //       localField: "meter",
+  //       foreignField: "_id",
+  //       as: "meter_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "accounts",
+  //       localField: "submitter",
+  //       foreignField: "_id",
+  //       as: "submitter_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "accounts",
+  //       localField: "submitter",
+  //       foreignField: "_id",
+  //       as: "submitter_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "containers",
+  //       localField: "container",
+  //       foreignField: "_id",
+  //       as: "container_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "media",
+  //       localField: "medium",
+  //       foreignField: "_id",
+  //       as: "medium_info",
+  //     },
+  //   },
+  // ]);
   res.send(model);
 };
 

@@ -35,6 +35,10 @@ const AuditList = () => import("../views/audit/AuditList.vue");
 const AuditShow = () => import("../views/audit/AuditShow.vue");
 const AuditPass = () => import("../views/audit/AuditPass.vue");
 
+// 公告编辑组件
+const NoticeEdit = () => import("../views/notice/NoticeEdit.vue");
+// 公告列表组件
+const NoticeList = () => import("../views/notice/NoticeList.vue");
 Vue.use(VueRouter);
 
 const routes = [
@@ -77,6 +81,10 @@ const routes = [
       { path: "/audits/list", component: AuditList },
       { path: "/audits/pass", component: AuditPass },
       { path: "/audits/show/:id", component: AuditShow, props: true },
+
+      { path: "/notices/create", component: NoticeEdit },
+      { path: "/notices/edit/:id", component: NoticeEdit, props: true },
+      { path: "/notices/list", component: NoticeList },
     ],
   },
 ];

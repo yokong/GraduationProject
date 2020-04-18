@@ -15,7 +15,7 @@ const authMiddleware = require("./middleware/auth");
 // const authMiddleware = require("./middleware/auth");
 // 托管静态资源目录-图片上传目录
 app.use("/uploads", express.static(__dirname + "/uploads"));
-
+app.use("/admin", express.static(__dirname + "/admin"));
 // 引入路由文件
 const meterRouter = require("./routes/meter");
 const mediumRouter = require("./routes/medium");
@@ -24,6 +24,8 @@ const installationReportRouter = require("./routes/installationReport");
 const containerRouter = require("./routes/container");
 const uploadRouter = require("./routes/upload");
 const loginRouter = require("./routes/loginRouter");
+const dataShowRouter = require("./routes/dataShow");
+const noticesRouter = require("./routes/notice");
 // 挂载路由
 app.use("/admin/api/rest/meters", authMiddleware(), meterRouter);
 app.use("/admin/api/rest/mediums", authMiddleware(), mediumRouter);
@@ -34,12 +36,14 @@ app.use(
   installationReportRouter
 );
 app.use("/admin/api/rest/containers", authMiddleware(), containerRouter);
+app.use("/admin/api/rest/notices", noticesRouter);
 app.use("/admin/api/upload", uploadRouter);
 app.use("/admin/api/login", loginRouter);
+app.use("/admin/api/rest/datashow", dataShowRouter);
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 // // 错误处理 error handler
 
 // 错误处理函数

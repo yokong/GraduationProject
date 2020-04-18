@@ -78,7 +78,7 @@
 <script>
 export default {
   props: {
-    id: { type: String }
+    id: { type: String },
   },
   data() {
     return {
@@ -88,8 +88,8 @@ export default {
         tagNumber: "",
         shape: "",
         material: "",
-        thermalInsulation: false
-      }
+        thermalInsulation: false,
+      },
     };
   },
   methods: {
@@ -107,14 +107,14 @@ export default {
       this.$router.push("/meters/list");
       this.$message({
         type: "success",
-        message: "保存成功"
+        message: "保存成功",
       });
     },
     // 获取所编辑分类信息的方法
     async fetch() {
       const res = await this.$http.get(`rest/meters/${this.id}`);
-      this.model = res.data.pop();
-    }
+      this.model = res.data;
+    },
     // res->服务端返回的数据
     // afterUpload(res) {
     //   // this.$set(this.model,'icon',res.url)
@@ -123,7 +123,7 @@ export default {
   },
   created() {
     this.id && this.fetch();
-  }
+  },
 };
 </script>
 
