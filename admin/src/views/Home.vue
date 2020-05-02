@@ -6,7 +6,7 @@
     </el-breadcrumb>
     <el-divider></el-divider>
     <el-row :gutter="20" style="padding-bottom:30px">
-      <el-col :span="6">
+      <el-col :span="10">
         <el-card header="个人信息">
           <div style="height:300px">
             <el-row style="margin-bottom:30px" class="user-info">
@@ -51,7 +51,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="14">
         <el-card header="通知" class="report">
           <div class="notice-container">
             <el-row
@@ -72,11 +72,6 @@
               >
             </el-row>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card header="通知" class="report">
-          <div style="height:300px" id="weather-view-he"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -180,19 +175,6 @@ export default {
     this.containerShow();
     this.fetchAccount();
     this.fetchNotice();
-    window.WIDGET = { ID: "D5FBxzHHSI" };
-    (function(d) {
-      var cs = d.createElement("link");
-      cs.rel = "stylesheet";
-      cs.href =
-        "https://apip.weatherdt.com/view/static/css/tqw_widget_view.css?v=0101";
-      var s = d.createElement("script");
-      s.src =
-        "https://apip.weatherdt.com/view/static/js/tqw_widget_view.js?v=0101";
-      var sn = d.getElementsByTagName("script")[0];
-      sn.parentNode.insertBefore(cs, sn);
-      sn.parentNode.insertBefore(s, sn);
-    })(document);
   },
 };
 </script>

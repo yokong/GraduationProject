@@ -23,7 +23,6 @@ const login = async (req, res) => {
   // 3.返回token(前提：用户名，密码正确)
   // jwt.sign生成token 接受两个参数 a. 数据 2. secret
   // token数据
-
   const token = jwt.sign({ id: user._id }, req.app.get("secret"));
   res.send({
     // 返回token

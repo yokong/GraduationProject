@@ -68,6 +68,7 @@ const accountDetail = async (req, res) => {
         _id: mongoose.Types.ObjectId(req.params.id),
       },
     },
+
     {
       $lookup: {
         from: "accounts",

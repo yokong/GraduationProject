@@ -90,17 +90,16 @@ export default {
     // 查询分类数据方法-fetch
     async fetch() {
       const res = await this.$http.get("rest/installationReports");
-      console.log(res.data);
       if (localStorage.authority == 3) {
         this.items = res.data;
         this.getList();
       } else {
         this.items = res.data.filter((item, index) => {
+          console.log(item.reportStatus);
           return (
             item.supervisor == localStorage.id && item.reportStatus == "已提交"
           );
         });
-        console.log(this.items);
         this.getList();
       }
     },
