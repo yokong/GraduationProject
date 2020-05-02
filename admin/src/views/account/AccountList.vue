@@ -20,9 +20,12 @@
       <el-col :span="2">
         <el-button type="primary" @click="search">搜索</el-button>
       </el-col>
+      <el-col :span="2">
+        <el-button type="primary" @click="exportToExcel">导出为excle</el-button>
+      </el-col>
     </el-row>
     <!-- 表格数据 items -->
-    <el-table border :data="list">
+    <el-table border id="account_table" :data="list">
       <el-table-column label="序号" align="center" width="70">
         <template scope="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
@@ -60,6 +63,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页组件 -->
     <div class="pagination">
       <el-pagination
         class="abc"
@@ -74,6 +78,8 @@
   </div>
 </template>
 <script>
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 export default {
   data() {
     return {
@@ -85,7 +91,7 @@ export default {
       // 每页多少条数据
       pageSize: 5,
       // 当前在第几页
-      currentPage: 1
+      currentPage: 1,
     };
   },
   computed: {},
@@ -94,7 +100,6 @@ export default {
     async fetch() {
       const res = await this.$http.get("rest/accounts");
       this.items = res.data;
-
       this.getList();
     },
 
@@ -103,12 +108,12 @@ export default {
       this.$confirm(`此操作将删除${row.name}, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       }).then(async () => {
         const res = await this.$http.delete(`rest/accounts/${row._id}`);
         this.$message({
           type: "success",
-          message: "删除成功!"
+          message: "删除成功!",
         });
         this.fetch();
       });
@@ -152,7 +157,35 @@ export default {
       this.total = list.length;
       console.log(this.list);
       // 过滤分页
-    }
+    },
+    // 导出表格方法
+    exportToExcel() {
+      // let ignore = document.getElementById("ignore");
+      // console.log("ignore", ignore);
+      const et = XLSX.utils.table_to_book(
+        document.getElementById("account_table")
+      ); //此处传入table的DOM节点
+
+      const etout = XLSX.write(et, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array",
+      });
+      try {
+        FileSaver.saveAs(
+          new Blob([etout], {
+            type: "application/octet-stream",
+          }),
+          `account-table-${this.$moment().format("YYYY-MM-DD")}.xlsx`
+        ); //trade-publish.xlsx 为导出的文件名
+        this.$message.success("导出成功");
+      } catch (e) {
+        if (typeof console !== "undefined") {
+          console.log(e, etout);
+        }
+      }
+      return etout;
+    },
   },
   created() {
     this.fetch();
@@ -162,8 +195,8 @@ export default {
       if (value == "") {
         this.search();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

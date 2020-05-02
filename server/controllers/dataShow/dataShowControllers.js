@@ -50,7 +50,7 @@ const searchAccount = async (req, res) => {
       {
         name: "比例及使用次数",
         type: "pie",
-        radius: ["50%", "30%"],
+        radius: ["40%", "20%"],
         avoidLabelOverlap: false,
         label: {
           show: false,

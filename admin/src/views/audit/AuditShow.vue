@@ -521,7 +521,9 @@
               <strong>审核时间</strong>
             </div>
           </el-col>
-          <el-col :span="4">time</el-col>
+          <el-col :span="4">{{
+            model.checkTime == "" ? "暂未通过审核" : model.checkTime
+          }}</el-col>
           <el-col :span="4">
             <div class="grid-content"><strong>报告得分</strong></div>
           </el-col>
@@ -619,6 +621,7 @@ export default {
         submitter: "",
         // 报告单评分
         scoreReport: null,
+        checkTime: "",
       },
       meter_info: {},
       submitter_info: {},
@@ -723,6 +726,7 @@ export default {
           });
           this.model.returnReason = "/";
           this.model.comments = value;
+          this.model.checkTime = this.$moment().format("YYYY-MM-DD");
           this.model.reportStatus = "已通过";
           await this.$http.put(
             `rest/installationReports/${this.id}`,

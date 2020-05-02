@@ -139,6 +139,15 @@ router.beforeEach((to, from, next) => {
     });
   }
   if (
+    (to.path == "/notices/create" || to.path == "/notices/list") &&
+    localStorage.authority != 3
+  ) {
+    return Vue.prototype.$message({
+      type: "error",
+      message: "权限不足，您不是管理员",
+    });
+  }
+  if (
     (to.path == "/audits/list" || to.path == "/audits/pass") &&
     localStorage.authority != 2 &&
     localStorage.authority != 3
