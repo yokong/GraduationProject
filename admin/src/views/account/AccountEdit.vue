@@ -75,33 +75,32 @@
 <script>
 export default {
   props: {
-    id: { type: String }
+    id: { type: String },
   },
   data() {
     return {
       authorities: [
         {
           value: 1,
-          label: "安装工程师"
+          label: "安装工程师",
         },
         {
           value: 2,
-          label: "技术主管"
+          label: "技术主管",
         },
         {
           value: 3,
-          label: "管理员"
-        }
+          label: "管理员",
+        },
       ],
       model: {
         authority: null,
         account: "",
-        password: "",
         name: "",
         phoneNumber: null,
         email: "",
-        avatar: ""
-      }
+        avatar: "",
+      },
     };
   },
   methods: {
@@ -119,7 +118,7 @@ export default {
       this.$router.push("/accounts/list");
       this.$message({
         type: "success",
-        message: "保存成功"
+        message: "保存成功",
       });
     },
     // 获取所编辑信息的方法
@@ -127,16 +126,16 @@ export default {
       const res = await this.$http.get(`/rest/accounts/${this.id}`);
       console.log(res.data);
       // this.model = res.data;
-      this.model = Object.assign({}, this.model, res.data.pop());
+      this.model = Object.assign({}, this.model, res.data);
     },
     afterUpload(res) {
       // this.$set(this.model,'icon',res.url)
       this.model.avatar = res.url;
-    }
+    },
   },
   created() {
     this.id && this.fetch();
-  }
+  },
 };
 </script>
 

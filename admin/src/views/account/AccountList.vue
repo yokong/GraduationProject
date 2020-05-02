@@ -21,11 +21,15 @@
         <el-button type="primary" @click="search">搜索</el-button>
       </el-col>
       <el-col :span="2">
-        <el-button type="primary" @click="exportToExcel">导出为excle</el-button>
+        <el-button type="primary" @click="batchDelete">批量删除</el-button>
+      </el-col>
+      <el-col :span="2">
+        <el-button type="success" @click="exportToExcel">导出为excle</el-button>
       </el-col>
     </el-row>
-    <!-- 表格数据 items -->
-    <el-table border id="account_table" :data="list">
+    <!-- 表格数据  -->
+    <el-table border @selection-change="handleSelectionChange" :data="list">
+      <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="序号" align="center" width="70">
         <template scope="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
@@ -34,7 +38,8 @@
 
       <el-table-column prop="account" label="账号"></el-table-column>
       <el-table-column prop="name" label="姓名"></el-table-column>
-
+      <el-table-column prop="phoneNumber" label="手机"></el-table-column>
+      <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column label="权限">
         <template slot-scope="scope">
           <el-tag type="info">
@@ -48,7 +53,6 @@
           </el-tag>
         </template>
       </el-table-column>
-
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
@@ -60,6 +64,28 @@
           <el-button type="text" size="small" @click="remove(scope.row)"
             >删除</el-button
           >
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 导出用表格  隐藏-->
+    <el-table v-show="false" id="account_table" border :data="items">
+      <el-table-column label="序号" type="index" align="center" width="70">
+      </el-table-column>
+      <el-table-column prop="account" label="账号"></el-table-column>
+      <el-table-column prop="name" label="姓名"></el-table-column>
+      <el-table-column prop="phoneNumber" label="手机"></el-table-column>
+      <el-table-column prop="email" label="邮箱"></el-table-column>
+      <el-table-column label="权限">
+        <template slot-scope="scope">
+          <el-tag type="info">
+            {{
+              scope.row.authority == "1"
+                ? "安装工程师"
+                : scope.row.authority == "2"
+                ? "技术主管"
+                : "管理员"
+            }}
+          </el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -92,6 +118,8 @@ export default {
       pageSize: 5,
       // 当前在第几页
       currentPage: 1,
+      // 批量删除的数组
+      idList: [],
     };
   },
   computed: {},
@@ -108,7 +136,7 @@ export default {
       this.$confirm(`此操作将删除${row.name}, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "error",
       }).then(async () => {
         const res = await this.$http.delete(`rest/accounts/${row._id}`);
         this.$message({
@@ -117,6 +145,24 @@ export default {
         });
         this.fetch();
       });
+    },
+    async batchDelete() {
+      this.$confirm(`此操作将批量删除选择项目, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
+      }).then(async () => {
+        const idList = this.idList.map((item) => String(item._id));
+        const res = await this.$http.get(`rest/accounts/delete-many/${idList}`);
+        this.$message({
+          type: "success",
+          message: "批量删除成功!",
+        });
+        this.fetch();
+      });
+    },
+    handleSelectionChange(val) {
+      this.idList = val;
     },
     search() {
       this.page = 1;
@@ -162,6 +208,11 @@ export default {
     exportToExcel() {
       // let ignore = document.getElementById("ignore");
       // console.log("ignore", ignore);
+
+      // const et = XLSX.utils.table_to_book(
+      //   document.getElementById("account_table")
+      // );
+
       const et = XLSX.utils.table_to_book(
         document.getElementById("account_table")
       ); //此处传入table的DOM节点
@@ -176,7 +227,7 @@ export default {
           new Blob([etout], {
             type: "application/octet-stream",
           }),
-          `account-table-${this.$moment().format("YYYY-MM-DD")}.xlsx`
+          `account-table-${this.$moment().format("YYYY-MM-DD HH-MM-SS")}.xlsx`
         ); //trade-publish.xlsx 为导出的文件名
         this.$message.success("导出成功");
       } catch (e) {
@@ -186,6 +237,7 @@ export default {
       }
       return etout;
     },
+    // 详细导出
   },
   created() {
     this.fetch();

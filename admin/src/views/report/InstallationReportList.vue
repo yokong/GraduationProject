@@ -143,13 +143,18 @@ export default {
     },
     //提交方法
     async submit(row) {
-      this.$confirm(`将向提交${row.supervisor_info[0].name}报告的`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "警告",
-      }).then(async () => {
+      this.$confirm(
+        `将向提交${row.supervisor_info[0].name}报告单,请确认是否执行`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "警告",
+        }
+      ).then(async () => {
         console.log(row._id);
         row.reportStatus = "已提交";
+        row.submitTime = this.$moment().format("YYYY-MM-DD HH:MM:SS");
         await this.$http.put(`rest/installationReports/${row._id}`, row);
         // const res = await this.$http.put(`rest/installationReports`);
         // console.log(123);

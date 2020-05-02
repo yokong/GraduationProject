@@ -34,9 +34,9 @@
           <el-col :span="6">{{ this.submitter_info.name }}</el-col>
           <!-- 填写时间 -->
           <el-col :span="6">
-            <strong>填写时间</strong>
+            <strong>提交时间时间</strong>
           </el-col>
-          <el-col :span="6">123</el-col>
+          <el-col :span="6">{{ this.model.submitTime }}</el-col>
         </el-row>
 
         <el-divider content-position="left">客户信息</el-divider>
@@ -644,7 +644,6 @@ export default {
     // 获取所编辑分类信息的方法
     async fetch() {
       const res = await this.$http.get(`rest/installationReports/${this.id}`);
-      //  有个问题会把服务端的数据完整替换到客户端 相当于scores还是个undefined undefined.difficlut还会报错
       console.log(res);
       this.model = Object.assign({}, this.model, res.data[0]);
       console.log(222, this.model);
@@ -726,7 +725,7 @@ export default {
           });
           this.model.returnReason = "/";
           this.model.comments = value;
-          this.model.checkTime = this.$moment().format("YYYY-MM-DD");
+          this.model.checkTime = this.$moment().format("YYYY-MM-DD HH:MM:SS");
           this.model.reportStatus = "已通过";
           await this.$http.put(
             `rest/installationReports/${this.id}`,

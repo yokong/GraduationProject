@@ -41,7 +41,9 @@
             </el-row>
             <el-row style="margin-top:20px">
               <el-col class="changeAvatar" :span="12">
-                <el-button>修改头像</el-button>
+                <el-button @click="passwordDialogVisible = true"
+                  >修改头像</el-button
+                >
               </el-col>
               <el-col class="changePassword" :span="12">
                 <el-button>修改密码</el-button>
@@ -51,6 +53,80 @@
         </el-card>
       </el-col>
 
+      <!-- 密码修改区域 -->
+      <el-dialog
+        title="修改密码"
+        :visible.sync="passwordDialogVisible"
+        width="50%"
+      >
+        <el-form label-width="50">
+          <el-row type="flex" justify="space-around">
+            <el-col :span="8">
+              <el-form-item label="新密码">
+                <el-input
+                  v-model="model.password"
+                  :placeholder="model.password"
+                >
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="新电话">
+                <el-input
+                  v-model="accountInfo.phoneNumber"
+                  :placeholder="model.phoneNumber"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row type="flex" justify="space-around">
+            <el-col :span="8"
+              ><el-form-item label="新邮箱">
+                <el-input
+                  v-model="accountInfo.email"
+                  :placeholder="model.email"
+                ></el-input> </el-form-item
+            ></el-col>
+            <el-col :span="8">
+              <el-form-item label="头像">
+                <el-upload
+                  class="avatar-uploader"
+                  :action="$http.defaults.baseURL + '/upload'"
+                  :show-file-list="false"
+                  :on-success="afterUpload"
+                >
+                  <img
+                    v-if="model.avatar"
+                    width="70"
+                    :src="model.avatar"
+                    class="avatar"
+                  />
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload> </el-form-item
+            ></el-col>
+          </el-row>
+        </el-form>
+        <!-- 底部区域 -->
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="passwordDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="changePassword">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 头像修改区域 -->
+
+      <!-- <el-dialog
+      :title="noticeDetail.title"
+      :visible.sync="avatarDialogVisible"
+      width="30%"
+    >
+      <div style="margin-bottom:40px">{{ noticeDetail.content }}</div>
+      <div style="text-align:right">
+        {{ "于 " + noticeDetail.date + " 发布" }}
+      </div>
+    </el-dialog> -->
+
+      <!-- 通知区域 -->
       <el-col :span="14">
         <el-card header="通知" class="report">
           <div class="notice-container">
@@ -75,10 +151,10 @@
         </el-card>
       </el-col>
     </el-row>
-
+    <!-- 通知对话框区域 -->
     <el-dialog
       :title="noticeDetail.title"
-      :visible.sync="dialogVisible"
+      :visible.sync="noticeDialogVisible"
       width="30%"
     >
       <div style="margin-bottom:40px">{{ noticeDetail.content }}</div>
@@ -86,7 +162,7 @@
         {{ "于 " + noticeDetail.date + " 发布" }}
       </div>
     </el-dialog>
-
+    <!-- 图标展示区域 -->
     <el-row margin-top="50px" :gutter="20">
       <el-col :span="6">
         <el-card header="账户数据信息" class="account">
@@ -122,25 +198,33 @@ export default {
   data() {
     return {
       model: {},
+      accountInfo: {},
       noticeModel: {},
       noticeDetail: {},
-      dialogVisible: false,
+      noticeDialogVisible: false,
+      avatarDialogVisible: false,
+      passwordDialogVisible: false,
     };
   },
   methods: {
+    // 当前账户数据信息请求
     async fetchAccount() {
       const res = await this.$http.get(`rest/accounts/${localStorage.id}`);
-      this.model = res.data.pop(); // console.log(this.model);
+      console.log("数据", res.data);
+      // this.model = res.data.pop(); // console.log(this.model);
+      this.model = res.data;
     },
+    // 通知列表数据请求
     async fetchNotice() {
       const res = await this.$http.get(`rest/notices`);
       this.noticeModel = res.data.reverse();
       console.log(this.noticeModel);
     },
+    // 通知细节请求
     async showDetail(id) {
       const res = await this.$http.get(`rest/notices/${id}`);
       this.noticeDetail = res.data;
-      this.dialogVisible = true;
+      this.noticeDialogVisible = true;
     },
     async accountShow() {
       // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
@@ -165,6 +249,27 @@ export default {
       var myChart = echarts.init(document.getElementById("container"), "light");
       const res = await this.$http.get("rest/datashow/containers");
       myChart.setOption(res.data);
+    },
+
+    // 修改密码方法
+    async changePassword() {
+      if (this.accountInfo.email) {
+        this.model.email = this.accountInfo.email;
+      }
+      if (this.accountInfo.phoneNumber) {
+        this.model.phoneNumber = this.accountInfo.phoneNumber;
+      }
+      const res = await this.$http.put(
+        `rest/accounts/${this.model._id}`,
+        this.model
+      );
+      this.$message.success("更改成功");
+      this.passwordDialogVisible = false;
+      console.log(res);
+    },
+    // 上传
+    afterUpload(res) {
+      this.model.avatar = res.url;
     },
   },
   created() {},

@@ -6,15 +6,14 @@ const router = express.Router({
 const account = require("../controllers/account/accountController");
 // 导入权限校验中间件
 const authMiddleware = require("../middleware/auth");
-// 创建仪表
+// 创建账号
 router.post("/", account.accountCreate);
-// 查询仪表数据
+// 查询账号数据
 router.get("/", account.accountListGet);
-// 仪表详情数据
+// 账号详情数据
 router.get("/:id", account.accountDetail);
-// 仪表更新
+// 账号更新
 router.put("/:id", account.accountUpdate);
-// 仪表删除
-router.delete("/:id", account.accountDelete);
-
+// 账号删除
+router.get("/delete-many/:idList", account.accountBatchDelete);
 module.exports = router;

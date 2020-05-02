@@ -636,12 +636,11 @@ export default {
 
         // 现场工况
         meter: null,
-
-        container: null,
         otherCondition: "",
         meterType: "",
         useTime: "",
         medium: "",
+        container: null,
         liquidMedium: "",
         viscosity: "",
         desity: "",

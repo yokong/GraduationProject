@@ -156,5 +156,7 @@ const schema = new mongoose.Schema({
   comments: { type: String },
   // 审核时间
   checkTime: { type: String },
+  // 提交时间
+  submitTime: { type: String },
 });
 module.exports = mongoose.model("InstallationReport", schema);

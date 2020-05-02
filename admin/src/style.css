@@ -4,6 +4,9 @@ body {
   padding: 0;
   background-color: #ffffff;
 }
+body .el-table th.gutter {
+  display: table-cell !important;
+}
 .el-menu {
   border-right: none;
 }

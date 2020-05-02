@@ -62,62 +62,63 @@ const accountListGet = async (req, res) => {
 
 // 账户 详情/编辑 页面方法
 const accountDetail = async (req, res) => {
-  const model = await Account.aggregate([
-    {
-      $match: {
-        _id: mongoose.Types.ObjectId(req.params.id),
-      },
-    },
+  const model = await Account.findById(req.params.id, "-password");
+  // const model = await Account.aggregate([
+  //   {
+  //     $match: {
+  //       _id: mongoose.Types.ObjectId(req.params.id),
+  //     },
+  //   },
 
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "supervisor",
-        foreignField: "_id",
-        as: "supervisor_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "meters",
-        localField: "meter",
-        foreignField: "_id",
-        as: "meter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "submitter",
-        foreignField: "_id",
-        as: "submitter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "accounts",
-        localField: "submitter",
-        foreignField: "_id",
-        as: "submitter_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "containers",
-        localField: "container",
-        foreignField: "_id",
-        as: "container_info",
-      },
-    },
-    {
-      $lookup: {
-        from: "media",
-        localField: "medium",
-        foreignField: "_id",
-        as: "medium_info",
-      },
-    },
-  ]);
+  //   {
+  //     $lookup: {
+  //       from: "accounts",
+  //       localField: "supervisor",
+  //       foreignField: "_id",
+  //       as: "supervisor_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "meters",
+  //       localField: "meter",
+  //       foreignField: "_id",
+  //       as: "meter_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "accounts",
+  //       localField: "submitter",
+  //       foreignField: "_id",
+  //       as: "submitter_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "accounts",
+  //       localField: "submitter",
+  //       foreignField: "_id",
+  //       as: "submitter_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "containers",
+  //       localField: "container",
+  //       foreignField: "_id",
+  //       as: "container_info",
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "media",
+  //       localField: "medium",
+  //       foreignField: "_id",
+  //       as: "medium_info",
+  //     },
+  //   },
+  // ]);
   res.send(model);
 };
 
@@ -134,11 +135,18 @@ const accountDelete = async (req, res) => {
   const model = await Account.findByIdAndDelete(req.params.id, req.body);
   res.send(model);
 };
-
+// 账户批量删除方法
+const accountBatchDelete = async (req, res) => {
+  const { idList } = req.params;
+  const idListArr = idList.split(",");
+  const model = await Account.deleteMany({ _id: { $in: idListArr } });
+  res.send(model);
+};
 module.exports = {
   accountCreate,
   accountListGet,
   accountDetail,
   accountUpdate,
   accountDelete,
+  accountBatchDelete,
 };
