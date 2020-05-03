@@ -14,8 +14,10 @@
           placeholder="输入提交者姓名"
         ></el-input>
       </el-col>
-      <el-col :span="2">
-        <el-button type="primary" @click="search">搜索</el-button>
+      <el-col :span="3">
+        <el-button type="primary" icon="el-icon-search" @click="search"
+          >搜索</el-button
+        >
       </el-col>
     </el-row>
     <!-- 表格数据 items -->

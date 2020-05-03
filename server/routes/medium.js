@@ -14,5 +14,6 @@ router.get("/:id", medium.mediumDetail);
 router.put("/:id", medium.mediumUpdate);
 // 介质删除
 router.delete("/:id", medium.mediumDelete);
-
+// 介质批量删除
+router.get("/delete-many/:idList", medium.mediumBatchDelete);
 module.exports = router;

@@ -133,11 +133,18 @@ const containerDelete = async (req, res) => {
   const model = await Container.findByIdAndDelete(req.params.id, req.body);
   res.send(model);
 };
-
+// 容器批量删除方法
+const containerBatchDelete = async (req, res) => {
+  const { idList } = req.params;
+  const idListArr = idList.split(",");
+  const model = await Container.deleteMany({ _id: { $in: idListArr } });
+  res.send(model);
+};
 module.exports = {
   containerCreate,
   containerListGet,
   containerDetail,
   containerUpdate,
   containerDelete,
+  containerBatchDelete,
 };

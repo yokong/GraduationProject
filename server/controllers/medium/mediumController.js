@@ -134,10 +134,20 @@ const mediumDelete = async (req, res) => {
   res.send(model);
 };
 
+// 介质批量删除方法
+const mediumBatchDelete = async (req, res) => {
+  // console.log(req.params);
+  const { idList } = req.params;
+  const idListArr = idList.split(",");
+  const model = await Medium.deleteMany({ _id: { $in: idListArr } });
+  res.send(model);
+};
+
 module.exports = {
   mediumCreate,
   mediumListGet,
   mediumDetail,
   mediumUpdate,
   mediumDelete,
+  mediumBatchDelete,
 };

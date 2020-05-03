@@ -41,12 +41,12 @@
             </el-row>
             <el-row style="margin-top:20px">
               <el-col class="changeAvatar" :span="12">
-                <el-button @click="passwordDialogVisible = true"
-                  >修改头像</el-button
-                >
+                <el-button type="text" @click="passwordDialogVisible = true">
+                  修改信息
+                </el-button>
               </el-col>
               <el-col class="changePassword" :span="12">
-                <el-button>修改密码</el-button>
+                <el-button type="text" @click="exit">退出登录</el-button>
               </el-col>
             </el-row>
           </div>
@@ -109,28 +109,22 @@
         </el-form>
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
-          <el-button @click="passwordDialogVisible = false">取 消</el-button>
+          <el-button @click="passwordDialogVisible = false">
+            取 消
+          </el-button>
           <el-button type="primary" @click="changePassword">确 定</el-button>
         </span>
       </el-dialog>
-      <!-- 头像修改区域 -->
-
-      <!-- <el-dialog
-      :title="noticeDetail.title"
-      :visible.sync="avatarDialogVisible"
-      width="30%"
-    >
-      <div style="margin-bottom:40px">{{ noticeDetail.content }}</div>
-      <div style="text-align:right">
-        {{ "于 " + noticeDetail.date + " 发布" }}
-      </div>
-    </el-dialog> -->
 
       <!-- 通知区域 -->
       <el-col :span="14">
         <el-card header="通知" class="report">
           <div class="notice-container">
+            <el-row v-show="!noticeModel.length" type="flex" justify="center">
+              <el-col :span="4">暂无公告</el-col>
+            </el-row>
             <el-row
+              v-show="noticeModel.length"
               v-for="item in noticeModel"
               class="text item"
               :key="item._id"
@@ -270,6 +264,12 @@ export default {
     // 上传
     afterUpload(res) {
       this.model.avatar = res.url;
+    },
+
+    // 退出功能
+    exit() {
+      this.$router.push("/login");
+      localStorage.clear();
     },
   },
   created() {},

@@ -91,10 +91,18 @@ const meterDelete = async (req, res) => {
   res.send(model);
 };
 
+// 仪表批量删除方法
+const meterBatchDelete = async (req, res) => {
+  const { idList } = req.params;
+  const idListArr = idList.split(",");
+  const model = await Meter.deleteMany({ _id: { $in: idListArr } });
+  res.send(model);
+};
 module.exports = {
   meterCreate,
   meterListGet,
   meterDetail,
   meterUpdate,
   meterDelete,
+  meterBatchDelete,
 };

@@ -4,15 +4,19 @@ const router = express.Router({
   mergeParams: true,
 });
 const installationReport = require("../controllers/installationReport/installationReportController");
-// 创建仪表
+// 创建报告单
 router.post("/", installationReport.installationReportCreate);
-// 查询仪表数据
+// 查询报告单数据
 router.get("/", installationReport.installationReportListGet);
-// 仪表详情数据
+// 报告单详情数据
 router.get("/:id", installationReport.installationReportDetail);
-// 仪表更新
+// 报告单更新
 router.put("/:id", installationReport.installationReportUpdate);
-// 仪表删除
+// 报告单删除
 router.delete("/:id", installationReport.installationReportDelete);
-
+// 批量删除
+router.get(
+  "/delete-many/:idList",
+  installationReport.installationReportBatchDelete
+);
 module.exports = router;

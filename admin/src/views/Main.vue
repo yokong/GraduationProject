@@ -21,6 +21,7 @@
           @close="handleClose"
           :collapse="isCollapse"
           :collapse-transition="false"
+          :default-active="activeIndex"
         >
           <!-- 主页开始 -->
           <el-menu-item style="height:60px" index="/home">
@@ -106,7 +107,7 @@
           <!-- 审核开始 -->
           <el-submenu index="4">
             <template slot="title">
-              <i class="el-icon-document"></i>
+              <i class="el-icon-document-checked"></i>
               <span>审核安装报告</span>
             </template>
             <el-menu-item-group>
@@ -120,7 +121,7 @@
           <!-- 通知开始 -->
           <el-submenu index="5">
             <template slot="title">
-              <i class="el-icon-document"></i>
+              <i class="el-icon-chat-square"></i>
               <span>公告管理</span>
             </template>
             <el-menu-item-group>
@@ -152,7 +153,6 @@
                 <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
                 <el-avatar
                   shape="square"
-                  :fit="fit"
                   :size="40"
                   :src="model.avatar"
                 ></el-avatar>
@@ -168,8 +168,9 @@
           </el-row>
         </el-header>
         <el-main style="padding:20px 50px">
+          {{ $route.path }}
           <transition name="fade" mode="out-in">
-            <router-view :key="$route.path"></router-view>
+            <router-view :key="$route.Path"></router-view>
           </transition>
         </el-main>
       </el-container>
@@ -184,9 +185,7 @@ export default {
       isCollapse: false,
       fit: "contain",
       model: {},
-      circleUrl:
-        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3437873027,2858754537&fm=111&gp=0.jpg",
-      // tableData: Array(20).fill(item)
+      activeIndex: this.$route.path,
     };
   },
   methods: {
@@ -223,6 +222,15 @@ export default {
   },
   created() {
     this.fetchAccount();
+  },
+  watch: {
+    model(value) {
+      this.fetchAccount();
+    },
+
+    $route() {
+      this.activeIndex = this.$route.path;
+    },
   },
 };
 </script>

@@ -14,12 +14,20 @@
           placeholder="输入仪表型号"
         ></el-input>
       </el-col>
-      <el-col :span="2">
-        <el-button type="primary" @click="search">搜索</el-button>
+      <el-col :span="3">
+        <el-button type="primary" icon="el-icon-search" @click="search"
+          >搜索</el-button
+        >
+      </el-col>
+      <el-col :span="3">
+        <el-button type="danger" icon="el-icon-delete" @click="batchDelete"
+          >批量删除</el-button
+        >
       </el-col>
     </el-row>
     <!-- 表格数据 items -->
-    <el-table border :data="list">
+    <el-table border @selection-change="handleSelectionChange" :data="list">
+      <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="序号" align="center" width="70">
         <template v-slot="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
@@ -73,6 +81,8 @@ export default {
       pageSize: 5,
       // 当前在第几页
       currentPage: 1,
+      // 批量删除数据
+      idList: [],
     };
   },
   methods: {
@@ -96,6 +106,27 @@ export default {
         });
         this.fetch();
       });
+    },
+    async batchDelete() {
+      if (this.idList.length == 0) {
+        return this.$message.error("请至少选择一项数据");
+      }
+      this.$confirm(`此操作将批量删除选择项目, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error",
+      }).then(async () => {
+        const idList = this.idList.map((item) => item._id);
+        const res = await this.$http.get(`rest/meters/delete-many/${idList}`);
+        this.$message({
+          type: "success",
+          message: "批量删除成功!",
+        });
+        this.fetch();
+      });
+    },
+    handleSelectionChange(val) {
+      this.idList = val;
     },
     // 分页
     handleSizeChange(val) {

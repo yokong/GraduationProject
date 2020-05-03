@@ -14,5 +14,6 @@ router.get("/:id", meter.meterDetail);
 router.put("/:id", meter.meterUpdate);
 // 仪表删除
 router.delete("/:id", meter.meterDelete);
-
+// 仪表删除
+router.get("/delete-many/:idList", meter.meterBatchDelete);
 module.exports = router;

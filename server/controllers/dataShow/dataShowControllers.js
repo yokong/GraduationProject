@@ -74,6 +74,7 @@ const searchAccount = async (req, res) => {
 };
 const searchMeter = async (req, res) => {
   const meterModel = await Meter.find({});
+  console.log(meterModel);
   const reportModel = await InstallationReport.aggregate([
     {
       $lookup: {
@@ -84,7 +85,9 @@ const searchMeter = async (req, res) => {
       },
     },
   ]);
+  console.log(meterModel);
   let reportArr = reportModel.map((item) => item.meter_info.pop());
+
   let meterArr = meterModel.map((item) => item.meterName);
   console.log(meterArr);
   let obj = {};

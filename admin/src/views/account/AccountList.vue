@@ -17,14 +17,20 @@
           placeholder="输入姓名或账号搜索"
         ></el-input>
       </el-col>
-      <el-col :span="2">
-        <el-button type="primary" @click="search">搜索</el-button>
+      <el-col :span="3">
+        <el-button type="primary" icon="el-icon-search" @click="search">
+          搜索
+        </el-button>
       </el-col>
-      <el-col :span="2">
-        <el-button type="primary" @click="batchDelete">批量删除</el-button>
+      <el-col :span="3">
+        <el-button type="danger" icon="el-icon-delete" @click="batchDelete">
+          批量删除
+        </el-button>
       </el-col>
-      <el-col :span="2">
-        <el-button type="success" @click="exportToExcel">导出为excle</el-button>
+      <el-col :span="3">
+        <el-button type="success" icon="el-icon-tickets" @click="exportToExcel"
+          >导出为excle</el-button
+        >
       </el-col>
     </el-row>
     <!-- 表格数据  -->
@@ -147,6 +153,9 @@ export default {
       });
     },
     async batchDelete() {
+      if (this.idList.length == 0) {
+        return this.$message.error("请至少选择一项数据");
+      }
       this.$confirm(`此操作将批量删除选择项目, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -154,11 +163,13 @@ export default {
       }).then(async () => {
         const idList = this.idList.map((item) => String(item._id));
         const res = await this.$http.get(`rest/accounts/delete-many/${idList}`);
+
         this.$message({
           type: "success",
           message: "批量删除成功!",
         });
         this.fetch();
+        this.handleCurrentChange();
       });
     },
     handleSelectionChange(val) {

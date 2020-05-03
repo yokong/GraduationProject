@@ -5,7 +5,7 @@ const router = express.Router({
 });
 const account = require("../controllers/account/accountController");
 // 导入权限校验中间件
-const authMiddleware = require("../middleware/auth");
+// const authMiddleware = require("../middleware/auth");
 // 创建账号
 router.post("/", account.accountCreate);
 // 查询账号数据

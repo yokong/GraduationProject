@@ -64,7 +64,7 @@ const installationReportListGet = async (req, res) => {
   res.send(items);
 };
 
-// 仪表 详情/编辑 页面方法
+// 报告单 详情/编辑 页面方法
 const installationReportDetail = async (req, res) => {
   const model = await InstallationReport.aggregate([
     {
@@ -124,7 +124,7 @@ const installationReportDetail = async (req, res) => {
   res.send(model);
 };
 
-// 仪表修改方法
+// 报告单修改方法
 const installationReportUpdate = async (req, res) => {
   // 根据id进行查询并更新
   const model = await InstallationReport.findByIdAndUpdate(
@@ -134,7 +134,7 @@ const installationReportUpdate = async (req, res) => {
   res.send(model);
 };
 
-// 仪表删除方法
+// 报告单删除方法
 const installationReportDelete = async (req, res) => {
   // 根据id进行查询并删除
   const model = await InstallationReport.findByIdAndDelete(
@@ -143,11 +143,20 @@ const installationReportDelete = async (req, res) => {
   );
   res.send(model);
 };
-
+// 报告单批量删除方法
+const installationReportBatchDelete = async (req, res) => {
+  const { idList } = req.params;
+  const idListArr = idList.split(",");
+  const model = await InstallationReport.deleteMany({
+    _id: { $in: idListArr },
+  });
+  res.send(model);
+};
 module.exports = {
   installationReportCreate,
   installationReportListGet,
   installationReportDetail,
   installationReportUpdate,
   installationReportDelete,
+  installationReportBatchDelete,
 };

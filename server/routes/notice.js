@@ -15,5 +15,6 @@ router.get("/:id", notice.noticeDetail);
 router.put("/:id", notice.noticeUpdate);
 // 公告删除
 router.delete("/:id", notice.noticeDelete);
-
+// 公告批量删除
+router.get("/delete-many/:idList", notice.noticeBatchDelete);
 module.exports = router;
