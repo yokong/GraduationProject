@@ -41,11 +41,11 @@
             </el-row>
             <el-row style="margin-top:20px">
               <el-col class="changeAvatar" :span="12">
-                <el-button type="text" @click="passwordDialogVisible = true">
+                <el-button type="text" @click="userInfoDialogVisible = true">
                   修改信息
                 </el-button>
               </el-col>
-              <el-col class="changePassword" :span="12">
+              <el-col class="changeUserInfo" :span="12">
                 <el-button type="text" @click="exit">退出登录</el-button>
               </el-col>
             </el-row>
@@ -53,10 +53,10 @@
         </el-card>
       </el-col>
 
-      <!-- 密码修改区域 -->
+      <!-- 用户信息修改区域 -->
       <el-dialog
-        title="修改密码"
-        :visible.sync="passwordDialogVisible"
+        title="修改用户信息"
+        :visible.sync="userInfoDialogVisible"
         width="50%"
       >
         <el-form label-width="50">
@@ -109,10 +109,10 @@
         </el-form>
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
-          <el-button @click="passwordDialogVisible = false">
+          <el-button @click="userInfoDialogVisible = false">
             取 消
           </el-button>
-          <el-button type="primary" @click="changePassword">确 定</el-button>
+          <el-button type="primary" @click="changeUserInfo">确 定</el-button>
         </span>
       </el-dialog>
 
@@ -156,7 +156,7 @@
         {{ "于 " + noticeDetail.date + " 发布" }}
       </div>
     </el-dialog>
-    <!-- 图标展示区域 -->
+    <!-- 图表展示区域 -->
     <el-row margin-top="50px" :gutter="20">
       <el-col :span="6">
         <el-card header="账户数据信息" class="account">
@@ -167,19 +167,49 @@
       <!-- 仪表使用情况 -->
       <el-col :span="6">
         <el-card header="仪表数据信息" class="account">
-          <div id="meter" style="width: 100%;height:300px"></div>
+          <div
+            v-show="meterInfo.flag"
+            id="meter"
+            style="width: 100%;height:300px"
+          ></div>
+          <div
+            style="width: 100%;height:300px;text-align:center;line-height:300px"
+            v-show="!meterInfo.flag"
+          >
+            {{ meterInfo.msg }}
+          </div>
         </el-card>
       </el-col>
       <!-- 介质使用情况 -->
       <el-col :span="6">
         <el-card header="介质数据信息" class="account">
-          <div id="medium" style="width: 100%;height:300px"></div>
+          <div
+            v-show="mediumInfo.flag"
+            id="medium"
+            style="width: 100%;height:300px"
+          ></div>
+          <div
+            style="width: 100%;height:300px;text-align:center;line-height:300px"
+            v-show="!mediumInfo.flag"
+          >
+            {{ mediumInfo.msg }}
+          </div>
         </el-card>
       </el-col>
       <!-- 容器使用情况 -->
       <el-col :span="6">
         <el-card header="容器数据信息" class="account">
-          <div id="container" style="width: 100%;height:300px"></div>
+          <div
+            v-show="containerInfo.flag"
+            id="container"
+            style="width: 100%;height:300px"
+          ></div>
+          <div
+            style="width: 100%;height:300px;text-align:center;line-height:300px"
+            v-show="!containerInfo.flag"
+          >
+            {{ containerInfo.msg }}
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -197,7 +227,19 @@ export default {
       noticeDetail: {},
       noticeDialogVisible: false,
       avatarDialogVisible: false,
-      passwordDialogVisible: false,
+      userInfoDialogVisible: false,
+      meterInfo: {
+        flag: true,
+        msg: "",
+      },
+      containerInfo: {
+        flag: true,
+        msg: "",
+      },
+      mediumInfo: {
+        flag: true,
+        msg: "",
+      },
     };
   },
   methods: {
@@ -222,31 +264,54 @@ export default {
     },
     async accountShow() {
       // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
-      var myChart = echarts.init(document.getElementById("account"), "light");
       const res = await this.$http.get("rest/datashow/accounts");
+
+      const myChart = echarts.init(document.getElementById("account"), "light");
       myChart.setOption(res.data);
     },
     async meterShow() {
       // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
-      var myChart = echarts.init(document.getElementById("meter"), "light");
       const res = await this.$http.get("rest/datashow/meters");
-      myChart.setOption(res.data);
+      console.log("meter", res.data);
+      if (res.data.status == 0) {
+        this.meterInfo.flag = false;
+        this.meterInfo.msg = res.data.msg;
+      } else {
+        const myChart = echarts.init(document.getElementById("meter"), "light");
+        myChart.setOption(res.data);
+      }
     },
     async mediumShow() {
-      // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
-      var myChart = echarts.init(document.getElementById("medium"), "light");
       const res = await this.$http.get("rest/datashow/mediums");
-      myChart.setOption(res.data);
+      if (res.data.status == 0) {
+        this.mediumInfo.flag = false;
+        this.mediumInfo.msg = res.data.msg;
+      } else {
+        // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
+        const myChart = echarts.init(
+          document.getElementById("medium"),
+          "light"
+        );
+        myChart.setOption(res.data);
+      }
     },
     async containerShow() {
-      // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
-      var myChart = echarts.init(document.getElementById("container"), "light");
       const res = await this.$http.get("rest/datashow/containers");
-      myChart.setOption(res.data);
+      if (res.data.status == 0) {
+        this.containerInfo.flag = false;
+        this.containerInfo.msg = res.data.msg;
+      } else {
+        // 基于准备好的dom，初始化echarts实例-必须在实例渲染完后初始化
+        const myChart = echarts.init(
+          document.getElementById("container"),
+          "light"
+        );
+        myChart.setOption(res.data);
+      }
     },
 
-    // 修改密码方法
-    async changePassword() {
+    // 修改信息方法
+    async changeUserInfo() {
       if (this.accountInfo.email) {
         this.model.email = this.accountInfo.email;
       }
@@ -258,14 +323,12 @@ export default {
         this.model
       );
       this.$message.success("更改成功");
-      this.passwordDialogVisible = false;
-      console.log(res);
+      this.userInfoDialogVisible = false;
     },
     // 上传
     afterUpload(res) {
       this.model.avatar = res.url;
     },
-
     // 退出功能
     exit() {
       this.$router.push("/login");

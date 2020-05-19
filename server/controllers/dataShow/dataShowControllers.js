@@ -24,7 +24,6 @@ const searchAccount = async (req, res) => {
   });
   let dataArr = [];
   for (let i in data) {
-    console.log(i);
     let temp = {};
     temp.value = data[i];
     if (i === "worker") {
@@ -72,9 +71,13 @@ const searchAccount = async (req, res) => {
   };
   res.send(option);
 };
+
 const searchMeter = async (req, res) => {
   const meterModel = await Meter.find({});
-  console.log(meterModel);
+  if (meterModel.length == 0) {
+    return res.send({ msg: "暂无应用数据", status: 0 });
+  }
+  // 报告单信息- 用来统计报告单中使用模块的次数
   const reportModel = await InstallationReport.aggregate([
     {
       $lookup: {
@@ -85,11 +88,8 @@ const searchMeter = async (req, res) => {
       },
     },
   ]);
-  console.log(meterModel);
   let reportArr = reportModel.map((item) => item.meter_info.pop());
-
   let meterArr = meterModel.map((item) => item.meterName);
-  console.log(meterArr);
   let obj = {};
   reportArr.map((item) => {
     if (!obj[item.meterName]) {
@@ -144,6 +144,9 @@ const searchMeter = async (req, res) => {
 
 const searchMedium = async (req, res) => {
   const mediumModel = await Medium.find({});
+  if (mediumModel.length == 0) {
+    return res.send({ msg: "暂无应用数据", status: 0 });
+  }
   const reportModel = await InstallationReport.aggregate([
     {
       $lookup: {
@@ -156,7 +159,6 @@ const searchMedium = async (req, res) => {
   ]);
   let reportArr = reportModel.map((item) => item.medium_info.pop());
   let mediumArr = mediumModel.map((item) => item.mediumName);
-  console.log(mediumArr);
   let obj = {};
   reportArr.map((item) => {
     if (!obj[item.mediumName]) {
@@ -210,6 +212,9 @@ const searchMedium = async (req, res) => {
 };
 const searchContainer = async (req, res) => {
   const containerModel = await Container.find({});
+  if (containerModel.length == 0) {
+    return res.send({ msg: "暂无应用数据", status: 0 });
+  }
   const reportModel = await InstallationReport.aggregate([
     {
       $lookup: {
@@ -220,20 +225,16 @@ const searchContainer = async (req, res) => {
       },
     },
   ]);
-  console.log(reportModel[1].container_info);
   let reportArr = reportModel.map((item) => item.container_info.pop());
   let containerArr = containerModel.map((item) => item.material);
-  // console.log(containerArr);
   let obj = {};
   reportArr.map((item) => {
-    console.log(item.material);
     if (!obj[item.material]) {
       obj[item.material] = 1;
     } else {
       obj[item.material]++;
     }
   });
-  console.log(obj);
   let data = [];
   for (let i in obj) {
     let temp = {};
@@ -241,7 +242,6 @@ const searchContainer = async (req, res) => {
     temp.value = obj[i];
     data.push(temp);
   }
-  console.log(data);
   const option = {
     tooltip: {
       trigger: "item",

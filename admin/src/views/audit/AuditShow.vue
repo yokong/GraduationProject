@@ -558,28 +558,21 @@ export default {
         code: null,
         address: "",
         route: "",
-        contacts: {
-          name: "",
-
-          department: "",
-          phoneNumber: null,
-          email: "",
-          qq: null,
-        },
-        container: "",
-        medium: "",
+        contacts: [],
         // 现场工况
         meter: null,
         otherCondition: "",
         meterType: "",
         useTime: "",
+        medium: "",
+        container: "",
         liquidMedium: "",
         viscosity: "",
         desity: "",
         temperatureRange: "",
         pressureRange: "",
         liquidLevelRange: "",
-        userPreferences: "",
+        userPreferences: [],
         // 技术信息
         maxVoltage: {
           voltage: "",
@@ -597,7 +590,7 @@ export default {
         // 现场数据记录
         time: "",
         contrastLiquidLevel: "",
-        meterliquidLevel: "",
+        meterLiquidLevel: "",
         meterSignal: "",
         signalFileName: "",
         mediumPressure: "",
@@ -620,8 +613,11 @@ export default {
         // 提交者
         submitter: "",
         // 报告单评分
-        scoreReport: null,
+        returnReason: "",
+        scoreReport: "",
+        comments: "",
         checkTime: "",
+        submitTime: "",
       },
       meter_info: {},
       submitter_info: {},
@@ -644,9 +640,7 @@ export default {
     // 获取所编辑分类信息的方法
     async fetch() {
       const res = await this.$http.get(`rest/installationReports/${this.id}`);
-      console.log(res);
       this.model = Object.assign({}, this.model, res.data[0]);
-      console.log(222, this.model);
       this.meter_info = this.model.meter_info[0];
       this.submitter_info = this.model.submitter_info[0];
       this.supervisor_info = this.model.supervisor_info[0];

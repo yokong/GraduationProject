@@ -39,13 +39,15 @@ const AuditPass = () => import("../views/audit/AuditPass.vue");
 const NoticeEdit = () => import("../views/notice/NoticeEdit.vue");
 // 公告列表组件
 const NoticeList = () => import("../views/notice/NoticeList.vue");
+
+const NotFound = () => import("../views/NotFound.vue");
 Vue.use(VueRouter);
 
 const routes = [
   { path: "/login", name: "login", component: Login, meta: { isLogin: true } },
   {
     path: "/",
-    name: "Home",
+
     component: Main,
     children: [
       { path: "/", redirect: "/home" },
@@ -87,6 +89,7 @@ const routes = [
       { path: "/notices/list", component: NoticeList },
     ],
   },
+  { path: "*", component: NotFound },
 ];
 
 const router = new VueRouter({

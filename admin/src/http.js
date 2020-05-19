@@ -24,7 +24,7 @@ http.interceptors.response.use(
     return res;
   },
   (err) => {
-    console.log(err, "dddd");
+    console.log(err.response, "12312321");
     if (err.response.data.message) {
       Vue.prototype.$message({
         type: "error",

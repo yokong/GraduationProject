@@ -37,7 +37,7 @@
     <el-table border @selection-change="handleSelectionChange" :data="list">
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="序号" align="center" width="70">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
@@ -163,13 +163,12 @@ export default {
       }).then(async () => {
         const idList = this.idList.map((item) => String(item._id));
         const res = await this.$http.get(`rest/accounts/delete-many/${idList}`);
-
         this.$message({
           type: "success",
           message: "批量删除成功!",
         });
         this.fetch();
-        this.handleCurrentChange();
+        // this.handleCurrentChange();
       });
     },
     handleSelectionChange(val) {

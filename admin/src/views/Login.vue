@@ -59,7 +59,7 @@ export default {
   background: url("../assets/images/bg-login.jpg") center center;
 }
 .login {
-  width: 350px;
+  width: 250px;
   background-color: rgba(53, 52, 52, 0.89);
   border-radius: 15px;
   padding: 20px;

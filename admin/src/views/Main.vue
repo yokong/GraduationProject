@@ -168,7 +168,6 @@
           </el-row>
         </el-header>
         <el-main style="padding:20px 50px">
-          {{ $route.path }}
           <transition name="fade" mode="out-in">
             <router-view :key="$route.Path"></router-view>
           </transition>
@@ -224,10 +223,6 @@ export default {
     this.fetchAccount();
   },
   watch: {
-    model(value) {
-      this.fetchAccount();
-    },
-
     $route() {
       this.activeIndex = this.$route.path;
     },

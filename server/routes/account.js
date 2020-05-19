@@ -14,6 +14,8 @@ router.get("/", account.accountListGet);
 router.get("/:id", account.accountDetail);
 // 账号更新
 router.put("/:id", account.accountUpdate);
+// 账号批量删除
+router.delete("/:id", account.accountDelete);
 // 账号删除
 router.get("/delete-many/:idList", account.accountBatchDelete);
 module.exports = router;

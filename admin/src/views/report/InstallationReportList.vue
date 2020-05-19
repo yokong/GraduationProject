@@ -31,7 +31,7 @@
       </el-table-column>
 
       <el-table-column label="序号" align="center" width="70">
-        <template scope="scope">
+        <template v-slot="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
@@ -48,7 +48,7 @@
         label="提交主管"
       ></el-table-column>
       <el-table-column fixed="right" label="安装报告单状态">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-tag
             :type="scope.row.reportStatus == '未提交' ? 'info' : 'warning'"
             >{{ scope.row.reportStatus }}</el-tag
@@ -58,7 +58,7 @@
       </el-table-column>
 
       <el-table-column fixed="right" label="操作" width="180">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="text"
             size="small"
@@ -119,18 +119,13 @@ export default {
       const res = await this.$http.get("rest/installationReports");
       if (localStorage.authority == 3) {
         this.items = res.data;
-
         this.getList();
       } else {
         this.items = res.data.filter((item, index) => {
           return item.submitter_info[0]._id == localStorage.id;
         });
-
         this.getList();
       }
-
-      // console.log(this.items);
-      console.log(res.data);
     },
     // 删除方法
     async remove(row) {

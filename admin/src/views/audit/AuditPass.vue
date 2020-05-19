@@ -23,7 +23,7 @@
     <!-- 表格数据 items -->
     <el-table border :data="list">
       <el-table-column label="序号" align="center" width="70">
-        <template scope="scope">
+        <template v-slot="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
@@ -38,7 +38,7 @@
         label="提交主管"
       ></el-table-column>
       <el-table-column label="安装报告单状态" width="220">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-tag
             :type="scope.row.reportStatus == '未提交' ? 'info' : 'warning'"
             >{{ scope.row.reportStatus }}</el-tag
@@ -48,7 +48,7 @@
       </el-table-column>
 
       <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="text"
             size="small"

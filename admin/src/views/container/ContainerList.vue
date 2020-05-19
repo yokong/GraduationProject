@@ -29,7 +29,7 @@
     <el-table border @selection-change="handleSelectionChange" :data="list">
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="序号" align="center" width="70">
-        <template scope="scope">
+        <template v-slot="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
@@ -39,7 +39,7 @@
       ></el-table-column>
       <el-table-column prop="material" label="容器材质名称"></el-table-column>
       <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="text"
             size="small"

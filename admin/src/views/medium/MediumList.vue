@@ -36,7 +36,7 @@
       <el-table-column prop="mediumNumber" label="介质编号"></el-table-column>
       <el-table-column prop="mediumName" label="介质名称"></el-table-column>
       <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="text"
             size="small"

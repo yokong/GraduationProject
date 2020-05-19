@@ -36,7 +36,7 @@
       <el-table-column prop="meterName" label="仪表型号"></el-table-column>
       <el-table-column prop="tagNumber" label="位号"></el-table-column>
       <!-- <el-table-column prop="icon" label="图标" width="220">
-        <template slot-scope="scope">
+        <template v-solt="scope">
           <img :src="scope.row.icon" style="height:3em" />
         </template>
       </el-table-column>-->
@@ -187,7 +187,6 @@ export default {
       });
       // 分页的总数据
       this.total = list.length;
-      console.log(this.list);
       // 过滤分页
     },
   },
