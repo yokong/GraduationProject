@@ -3,7 +3,11 @@ const schema = new mongoose.Schema({
   // 权限
   authority: { type: Number, required: true },
   // 账号
-  account: { type: String, required: true },
+  account: {
+    type: String,
+    required: true,
+    unique: [true, "该账号已存在请重新输入"],
+  },
   // 密码
   password: {
     type: String,
@@ -21,7 +25,7 @@ const schema = new mongoose.Schema({
   // 邮箱
   email: { type: String, required: true },
   // 头像
-  avatar: { type: String, required: true },
+  avatar: { type: String, required: [true, "请填入头像"] },
 });
 
 module.exports = mongoose.model("Account", schema);

@@ -1,3 +1,4 @@
+import { CodeToText } from 'element-china-area-data';
 <template>
   <div>
     <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
@@ -38,6 +39,12 @@
         label="容器材质编号"
       ></el-table-column>
       <el-table-column prop="material" label="容器材质名称"></el-table-column>
+      <el-table-column prop="thickness" label="材质厚度"></el-table-column>
+      <el-table-column prop="isRust" label="是否锈蚀">
+        <template slot-scope="scope">
+          {{ scope.row.isRust == true ? "是" : "否" }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="180">
         <template v-slot="scope">
           <el-button

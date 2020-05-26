@@ -12,7 +12,7 @@
         <input
           class="password"
           v-model="model.password"
-          type="text"
+          type="password"
           placeholder="密码"
         />
       </div>

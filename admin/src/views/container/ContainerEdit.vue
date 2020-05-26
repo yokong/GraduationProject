@@ -15,13 +15,24 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="容器材质">
+          <el-form-item label="容器材料">
             <el-input v-model="model.material"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="容器形状尺寸">
-            <el-input v-model="model.shape"></el-input>
+          <el-form-item label="容器厚度">
+            <el-input v-model="model.thickness"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item label="容器直径">
+            <el-input v-model="model.diameter"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="容器高度">
+            <el-input v-model="model.height"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -31,6 +42,18 @@
             <el-switch
               style="display: block;margin-top:0.5rem"
               v-model="model.thermalInsulation"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-text="有"
+              inactive-text="无"
+            ></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="是否锈蚀">
+            <el-switch
+              style="display: block;margin-top:0.5rem"
+              v-model="model.isRust"
               active-color="#13ce66"
               inactive-color="#ff4949"
               active-text="有"
@@ -56,16 +79,18 @@
 <script>
 export default {
   props: {
-    id: { type: String }
+    id: { type: String },
   },
   data() {
     return {
       model: {
         materialNumber: "",
         material: "",
-        shape: "",
-        note: ""
-      }
+        thickness: "",
+        diameter: "",
+        height: "",
+        note: "",
+      },
     };
   },
   // containers
@@ -84,14 +109,14 @@ export default {
       this.$router.push("/containers/list");
       this.$message({
         type: "success",
-        message: "保存成功"
+        message: "保存成功",
       });
     },
     // 获取所编辑分类信息的方法
     async fetch() {
       const res = await this.$http.get(`rest/containers/${this.id}`);
       this.model = res.data.pop();
-    }
+    },
     // res->服务端返回的数据
     // afterUpload(res) {
     //   // this.$set(this.model,'icon',res.url)
@@ -100,7 +125,7 @@ export default {
   },
   created() {
     this.id && this.fetch();
-  }
+  },
 };
 </script>
 

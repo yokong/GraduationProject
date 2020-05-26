@@ -6,7 +6,8 @@ const schema = new mongoose.Schema({
   // 客户编码
   code: { type: Number },
   // 用户详细地址
-  address: { type: String },
+  regionalAddress: { type: Array },
+  detailedAddress: { type: String },
   // 行车路线
   route: { type: String },
   // // // 用户名称
@@ -127,14 +128,16 @@ const schema = new mongoose.Schema({
   //--------------------现场数据记录结束-------------------
 
   // -----------现场照片开始------------------
+
   // 仪表全景
-  meterPanorama: { type: String },
+  meterPanoramas: { type: Array },
   // 仪表近景
-  meterClose: { type: String },
+  meterCloses: { type: Array },
   // 管线全景
-  pipelinePanorama: { type: String },
+  pipelinePanoramas: { type: Array },
   // 探头全景
-  probePanorama: { type: String },
+  probePanoramas: { type: Array },
+  // probePanorama: [{ type: String }],
   // -------------现场数据结束------------------------
   // -----------附加信息开始------------
   //主管选择

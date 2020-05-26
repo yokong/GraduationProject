@@ -8,6 +8,7 @@ const multer = require("multer");
 const upload = multer({ dest: "./uploads" });
 router.post("/", upload.single("file"), async (req, res) => {
   const file = req.file;
+  console.log(file);
   file.url = `http://localhost:3000/uploads/${file.filename}`;
   res.send(file);
 });

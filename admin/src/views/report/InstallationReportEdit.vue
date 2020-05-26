@@ -6,10 +6,10 @@
  * @Description: 安装报告单组件
  -->
 <template>
-  <div>
+  <div class="installation-report">
     <el-breadcrumb class="title" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>按照报告</el-breadcrumb-item>
+      <el-breadcrumb-item>安装报告</el-breadcrumb-item>
       <el-breadcrumb-item
         >{{ id ? "编辑" : "新建" }}安装报告</el-breadcrumb-item
       >
@@ -42,15 +42,27 @@
 
           <el-row type="flex">
             <!-- 详细地址开始 -->
-            <el-col :span="8">
+            <el-col :span="18">
               <el-form-item label="详细地址">
-                <el-input v-model="model.address"></el-input>
+                <div style="display:flex">
+                  <el-cascader
+                    style="flex:1"
+                    size="large"
+                    :options="options"
+                    v-model="model.regionalAddress"
+                  >
+                  </el-cascader>
+                  <el-input style="flex:2" v-model="model.detailedAddress">
+                    <template slot="prepend">具体地址</template>
+                  </el-input>
+                </div>
               </el-form-item>
             </el-col>
             <!-- 详细地址结束 -->
-
+          </el-row>
+          <el-row>
             <!-- 行车路线开始 -->
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="行车路线">
                 <el-input v-model="model.route"></el-input>
               </el-form-item>
@@ -238,24 +250,37 @@
               model.userPreferences.length ? model.userPreferences.pop() : null
             "
           ></el-button>
-          <el-row type="flex" style="flex-wrap:wrap">
+          <el-row type="flex" class="preference" style="flex-wrap:wrap">
             <el-col
               v-for="(item, index) in model.userPreferences"
               :key="index"
-              :md="6"
+              :span="12"
             >
-              <el-form-item style="margin-top:45px" label="参数号">
-                <el-input
-                  v-model="item.parameterNumber"
-                  placeholder="参数号"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="参数值">
-                <el-input
-                  v-model="item.parameterValue"
-                  placeholder="参数值"
-                ></el-input>
-              </el-form-item>
+              <div class="user-preferences">
+                <span style="color:#909399;font-size:0.5em"
+                  >第{{ index + 1 }}组</span
+                >
+
+                <el-form-item label-width="0">
+                  <el-input
+                    style="width:80%"
+                    v-model="item.parameterNumber"
+                    placeholder="参数号"
+                  >
+                    <template slot="prepend">参数号</template>
+                  </el-input>
+                </el-form-item>
+
+                <el-form-item label-width="0">
+                  <el-input
+                    style="width:80%"
+                    v-model="item.parameterValue"
+                    placeholder="参数值"
+                  >
+                    <template slot="prepend">参数值</template>
+                  </el-input>
+                </el-form-item>
+              </div>
             </el-col>
           </el-row>
           <!-- 其他信息结束 -->
@@ -267,7 +292,7 @@
           <el-divider content-position="left">电源电压</el-divider>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="最大电压">
+              <el-form-item label="空载电压">
                 <el-input v-model="model.maxVoltage.voltage"></el-input>
               </el-form-item>
             </el-col>
@@ -281,7 +306,7 @@
           </el-row>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="最小电压">
+              <el-form-item label="负载电压">
                 <el-input v-model="model.minVoltage.voltage"></el-input>
               </el-form-item>
             </el-col>
@@ -333,13 +358,38 @@
                 : null
             "
           ></el-button>
-          <el-row type="flex" style="flex-wrap:wrap">
+          <el-row type="flex" class="preference" style="flex-wrap:wrap">
             <el-col
               v-for="(item, index) in model.intrinsicPreferences"
               :key="index"
-              :md="6"
+              :span="12"
             >
-              <el-form-item style="margin-top:45px" label="参数号">
+              <div class="user-preferences">
+                <span style="color:#909399;font-size:0.5em"
+                  >第{{ index + 1 }}组</span
+                >
+
+                <el-form-item label-width="0">
+                  <el-input
+                    style="width:80%"
+                    v-model="item.parameterNumber"
+                    placeholder="参数号"
+                  >
+                    <template slot="prepend">参数号</template>
+                  </el-input>
+                </el-form-item>
+
+                <el-form-item label-width="0">
+                  <el-input
+                    style="width:80%"
+                    v-model="item.parameterValue"
+                    placeholder="参数值"
+                  >
+                    <template slot="prepend">参数值</template>
+                  </el-input>
+                </el-form-item>
+              </div>
+              <!-- <el-form-item style="margin-top:45px" label="参数号">
                 <el-input
                   v-model="item.parameterNumber"
                   placeholder="参数号"
@@ -350,7 +400,7 @@
                   v-model="item.parameterValue"
                   placeholder="参数值"
                 ></el-input>
-              </el-form-item>
+              </el-form-item> -->
             </el-col>
           </el-row>
 
@@ -478,24 +528,25 @@
 
         <!-- 分页6：现场照片开始 -->
         <el-tab-pane label="现场照片" name="sitePhotos">
-          <el-divider content-position="left">仪表全景</el-divider>
           <el-form-item label="仪表全景">
             <el-upload
-              class="avatar-uploader"
               :action="$http.defaults.baseURL + '/upload'"
-              :show-file-list="false"
-              :on-success="afterUpload3"
+              list-type="picture-card"
+              :file-list="model.meterPanoramas"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :on-success="handleSuccess"
+              :before-remove="beforeRemove"
             >
-              <img
-                v-if="model.meterPanorama"
-                :src="model.meterPanorama"
-                class="avatar"
-              />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <i class="el-icon-plus"></i>
             </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
           </el-form-item>
+
           <el-form-item label="仪表近景">
-            <el-upload
+            <!-- <el-upload
               class="avatar-uploader"
               :action="$http.defaults.baseURL + '/upload'"
               :show-file-list="false"
@@ -507,10 +558,24 @@
                 class="avatar"
               />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload> -->
+            <el-upload
+              :action="$http.defaults.baseURL + '/upload'"
+              list-type="picture-card"
+              :file-list="model.meterCloses"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove2"
+              :on-success="handleSuccess2"
+              :before-remove="beforeRemove"
+            >
+              <i class="el-icon-plus"></i>
             </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
           </el-form-item>
           <el-form-item label="管线全景">
-            <el-upload
+            <!-- <el-upload
               class="avatar-uploader"
               :action="$http.defaults.baseURL + '/upload'"
               :show-file-list="false"
@@ -522,10 +587,25 @@
                 class="avatar"
               />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload> -->
+
+            <el-upload
+              :action="$http.defaults.baseURL + '/upload'"
+              list-type="picture-card"
+              :file-list="model.pipelinePanoramas"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove3"
+              :on-success="handleSuccess3"
+              :before-remove="beforeRemove"
+            >
+              <i class="el-icon-plus"></i>
             </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
           </el-form-item>
           <el-form-item label="探头全景">
-            <el-upload
+            <!-- <el-upload
               class="avatar-uploader"
               :action="$http.defaults.baseURL + '/upload'"
               :show-file-list="false"
@@ -537,7 +617,21 @@
                 class="avatar"
               />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload> -->
+            <el-upload
+              :action="$http.defaults.baseURL + '/upload'"
+              list-type="picture-card"
+              :file-list="model.probePanoramas"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove4"
+              :on-success="handleSuccess4"
+              :before-remove="beforeRemove"
+            >
+              <i class="el-icon-plus"></i>
             </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
           </el-form-item>
         </el-tab-pane>
         <!-- 分页6：现场照片结束 -->
@@ -607,12 +701,23 @@
 </template>
 
 <script>
+import {
+  provinceAndCityData,
+  regionData,
+  provinceAndCityDataPlus,
+  regionDataPlus,
+  CodeToText,
+  TextToCode,
+} from "element-china-area-data";
 export default {
   props: {
     id: { type: String },
   },
   data() {
     return {
+      // 图片列表数据
+      dialogImageUrl: "",
+      dialogVisible: false,
       // 状态 进料、出料、静止
       status: [
         { value: 1, label: "进料" },
@@ -630,7 +735,8 @@ export default {
       model: {
         company: "",
         code: null,
-        address: "",
+        regionalAddress: "",
+        detailedAddress: "",
         route: "",
         contacts: [],
 
@@ -677,10 +783,10 @@ export default {
         },
         signalFigure: "",
         // 现场照片
-        meterPanorama: "",
-        meterClose: "",
-        pipelinePanorama: "",
-        probePanorama: "",
+        meterPanoramas: [],
+        meterCloses: [],
+        pipelinePanoramas: [],
+        probePanoramas: [],
         // 审核人
         supervisor: null,
         // 附加信息
@@ -690,9 +796,108 @@ export default {
         // 提交者
         submitter: "",
       },
+      // 省市区数据
+      options: regionData,
+      regionalAddress: [],
     };
   },
   methods: {
+    // 图片列表
+    handleSuccess(res, file, fileList) {
+      this.model.meterPanoramas.push({
+        name: res.originalname,
+        url: res.url,
+      });
+    },
+    handleRemove(file, fileList) {
+      // console.log(file.name);
+      let temp = this.model.meterPanoramas;
+      for (let i = 0; i < temp.length; i++) {
+        console.log(temp[i].name, "file-name", file.name);
+        if (temp[i].name == file.name) {
+          temp.splice(i, 1);
+          console.log(i);
+          break;
+        }
+      }
+      this.model.meterPanoramas = temp;
+      this.$message.success("删除成功");
+    },
+    handleSuccess2(res, file, fileList) {
+      console.log(res, file, fileList);
+      this.model.meterCloses.push({
+        name: res.originalname,
+        url: res.url,
+      });
+    },
+    handleRemove2(file, fileList) {
+      // console.log(file.name);
+      let temp = this.model.meterCloses;
+      for (let i = 0; i < temp.length; i++) {
+        console.log(temp[i].name, "file-name", file.name);
+        if (temp[i].name == file.name) {
+          temp.splice(i, 1);
+          console.log(i);
+          break;
+        }
+      }
+      this.model.meterCloses = temp;
+      this.$message.success("删除成功");
+    },
+    handleSuccess3(res, file, fileList) {
+      console.log(res, file, fileList);
+      this.model.pipelinePanoramas.push({
+        name: res.originalname,
+        url: res.url,
+      });
+    },
+    handleRemove3(file, fileList) {
+      // console.log(file.name);
+      let temp = this.model.pipelinePanoramas;
+      for (let i = 0; i < temp.length; i++) {
+        console.log(temp[i].name, "file-name", file.name);
+        if (temp[i].name == file.name) {
+          temp.splice(i, 1);
+          console.log(i);
+          break;
+        }
+      }
+      this.model.pipelinePanoramas = temp;
+      this.$message.success("删除成功");
+    },
+    handleSuccess4(res, file, fileList) {
+      console.log(res, file, fileList);
+      this.model.probePanoramas.push({
+        name: res.originalname,
+        url: res.url,
+      });
+    },
+    handleRemove4(file, fileList) {
+      // console.log(file.name);
+      let temp = this.model.probePanoramas;
+      for (let i = 0; i < temp.length; i++) {
+        console.log(temp[i].name, "file-name", file.name);
+        if (temp[i].name == file.name) {
+          temp.splice(i, 1);
+          console.log(i);
+          break;
+        }
+      }
+      this.model.probePanoramas = temp;
+      this.$message.success("删除成功");
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确认要删除 ${file.name}么?`, {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+      });
+    },
+
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+
     // 保存方法
     async save() {
       // this.$http.post()
@@ -733,26 +938,26 @@ export default {
       // this.$set(this.model,'avatar',res.url)
       this.model.signalFigure = res.url;
     },
-    // 仪表全景
-    afterUpload3(res) {
-      // this.$set(this.model,'avatar',res.url)
-      this.model.meterPanorama = res.url;
-    },
-    // 仪表近景
-    afterUpload4(res) {
-      // this.$set(this.model,'avatar',res.url)
-      this.model.meterClose = res.url;
-    },
-    // 管线全景
-    afterUpload5(res) {
-      // this.$set(this.model,'avatar',res.url)
-      this.model.pipelinePanorama = res.url;
-    },
-    // 探头全景
-    afterUpload6(res) {
-      // this.$set(this.model,'avatar',res.url)
-      this.model.probePanorama = res.url;
-    },
+    // // 仪表全景
+    // afterUpload3(res, index) {
+    //   console.log(this.model.meterPanoramas);
+    //   this.model.meterPanoramas[index].meterPanorama = res.url;
+    // },
+    // // 仪表近景
+    // afterUpload4(res) {
+    //   // this.$set(this.model,'avatar',res.url)
+    //   this.model.meterClose = res.url;
+    // },
+    // // 管线全景
+    // afterUpload5(res) {
+    //   // this.$set(this.model,'avatar',res.url)
+    //   this.model.pipelinePanorama = res.url;
+    // },
+    // // 探头全景
+    // afterUpload6(res) {
+    //   // this.$set(this.model,'avatar',res.url)
+    //   this.model.probePanorama = res.url;
+    // },
     // 查询仪表
     async fetchMeters() {
       const res = await this.$http.get(`rest/meters`);
@@ -791,11 +996,27 @@ export default {
 };
 </script>
 
-<style scoped>
-.title {
+<style>
+.installation-report .title {
   color: #606266;
   border-left: 6px solid #409eff;
   padding-left: 2rem;
   font-size: 1em;
+}
+.installation-report .preference .el-form-item__content {
+  text-align: center;
+}
+.installation-report .input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
+.user-preferences {
+  box-sizing: border-box;
+  margin-top: 45px;
+  display: flex;
+  padding: 0 30px;
+  align-items: center;
+}
+.user-preferences .el-form-item {
+  margin-bottom: 0;
 }
 </style>

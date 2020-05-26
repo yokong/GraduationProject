@@ -193,8 +193,12 @@ export default {
       ).then(async () => {
         console.log(row._id);
         row.reportStatus = "已提交";
-        row.submitTime = this.$moment().format("YYYY-MM-DD HH:MM:SS");
+        row.submitTime = this.$moment().format("YYYY-MM-DD HH:mm:ss");
         await this.$http.put(`rest/installationReports/${row._id}`, row);
+        this.$message({
+          type: "success",
+          message: "提交成功!",
+        });
         // const res = await this.$http.put(`rest/installationReports`);
         // console.log(123);
       });

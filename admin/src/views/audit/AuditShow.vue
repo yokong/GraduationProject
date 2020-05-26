@@ -26,7 +26,7 @@
     </el-backtop>
     <div class="wrap" ref="imageWrapper">
       <el-row class="container">
-        <el-row class="report-header " :gutter="24">
+        <el-row class="report-header" :gutter="24">
           <!-- 安装人员 -->
           <el-col :span="6">
             <strong>安装人员</strong>
@@ -34,7 +34,7 @@
           <el-col :span="6">{{ this.submitter_info.name }}</el-col>
           <!-- 填写时间 -->
           <el-col :span="6">
-            <strong>提交时间时间</strong>
+            <strong>提交时间</strong>
           </el-col>
           <el-col :span="6">{{ this.model.submitTime }}</el-col>
         </el-row>
@@ -68,7 +68,9 @@
             </div>
           </el-col>
           <el-col :span="20">
-            <div class="grid-content bg-purple">{{ model.address }}</div>
+            <div class="grid-content bg-purple">
+              {{ getAddress }}
+            </div>
           </el-col>
         </el-row>
         <!-- 联系人 -->
@@ -149,17 +151,6 @@
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="row" :gutter="24">
-          <!-- 容器形状 -->
-          <el-col :span="4">
-            <div class="grid-content bg-purple">
-              <strong>容器形状</strong>
-            </div>
-          </el-col>
-          <el-col :span="4">
-            <div class="grid-content bg-purple">
-              {{ container_info.shape }}
-            </div>
-          </el-col>
           <!-- 容器材质 -->
           <el-col :span="4">
             <div class="grid-content bg-purple">
@@ -171,13 +162,59 @@
               {{ container_info.material }}
             </div>
           </el-col>
-          <!-- 保温层 -->
+          <!-- 容器厚度 -->
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <strong>材质厚度</strong>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              {{ container_info.thickness }}
+            </div>
+          </el-col>
+          <!-- 是否锈蚀 -->
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <strong>是否锈蚀</strong>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <!-- <div class="grid-content bg-purple">{{ thermalInsulation }}</div> -->
+            <div class="grid-content bg-purple">{{ rustShift }}</div>
+          </el-col>
+        </el-row>
+        <el-row type="flex" align="middle" class="row" :gutter="24">
+          <!-- 容器材质 -->
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <strong>容器直径</strong>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              {{ container_info.diameter }}
+            </div>
+          </el-col>
+          <!-- 容器厚度 -->
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <strong>容器高度</strong>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              {{ container_info.height }}
+            </div>
+          </el-col>
+          <!-- 保卫处-->
           <el-col :span="4">
             <div class="grid-content bg-purple">
               <strong>保温层</strong>
             </div>
           </el-col>
           <el-col :span="4">
+            <!-- <div class="grid-content bg-purple">{{ thermalInsulation }}</div> -->
             <div class="grid-content bg-purple">{{ thermalInsulation }}</div>
           </el-col>
         </el-row>
@@ -457,34 +494,64 @@
           <el-col style="height:244px" :span="4">
             <div class="grid-content bg-purple">仪表全景</div>
           </el-col>
-          <el-col style="height:244px" :span="20">
-            <img style="height:100%" :src="model.meterPanorama" alt />
+          <el-col :span="20">
+            <img
+              class="img-list"
+              v-for="(item, index) in model.meterPanoramas"
+              :key="index"
+              :src="item.url"
+              :alt="item.name"
+            />
           </el-col>
         </el-row>
+        <el-divider></el-divider>
+        <!-- 仪表近景 -->
         <el-row type="flex" align="middle" class="row" :gutter="24">
           <el-col style="height:244px" :span="4">
             <div class="grid-content bg-purple">仪表近景</div>
           </el-col>
-          <el-col style="height:244px" :span="20">
-            <img style="height:100%" :src="model.meterClose" alt />
+          <el-col :span="20">
+            <img
+              class="img-list"
+              v-for="(item, index) in model.meterCloses"
+              :key="index"
+              :src="item.url"
+              :alt="item.name"
+            />
           </el-col>
         </el-row>
+        <el-divider></el-divider>
+        <!-- 管线全景 -->
         <el-row type="flex" align="middle" class="row" :gutter="24">
           <el-col style="height:244px" :span="4">
             <div class="grid-content bg-purple">管线全景</div>
           </el-col>
-          <el-col style="height:244px" :span="20">
-            <img style="height:100%" :src="model.pipelinePanorama" alt />
+          <el-col :span="20">
+            <img
+              class="img-list"
+              v-for="(item, index) in model.pipelinePanoramas"
+              :key="index"
+              :src="item.url"
+              :alt="item.name"
+            />
           </el-col>
         </el-row>
+        <el-divider></el-divider>
+        <!-- 探头全景 -->
         <el-row type="flex" align="middle" class="row" :gutter="24">
           <el-col style="height:244px" :span="4">
             <div class="grid-content bg-purple">
               探头全景
             </div>
           </el-col>
-          <el-col style="height:244px" :span="20">
-            <img style="height:100%" :src="model.probePanorama" alt />
+          <el-col :span="20">
+            <img
+              class="img-list"
+              v-for="(item, index) in model.probePanoramas"
+              :key="index"
+              :src="item.url"
+              :alt="item.name"
+            />
           </el-col>
         </el-row>
         <el-divider content-position="left">附加信息</el-divider>
@@ -546,6 +613,7 @@
 
 <script>
 import html2canvas from "html2canvas";
+import { CodeToText } from "element-china-area-data";
 export default {
   props: {
     id: { type: String },
@@ -556,16 +624,18 @@ export default {
       model: {
         company: "",
         code: null,
-        address: "",
+        regionalAddress: "",
+        detailedAddress: "",
         route: "",
         contacts: [],
+
         // 现场工况
         meter: null,
         otherCondition: "",
         meterType: "",
         useTime: "",
         medium: "",
-        container: "",
+        container: null,
         liquidMedium: "",
         viscosity: "",
         desity: "",
@@ -586,11 +656,12 @@ export default {
         liquidLevel: "",
         resistance: "",
         intrinsicPreferences: [],
+        // intrinsicParameter: "",
         installationDiagram: "",
         // 现场数据记录
         time: "",
         contrastLiquidLevel: "",
-        meterLiquidLevel: "",
+        meterliquidLevel: "",
         meterSignal: "",
         signalFileName: "",
         mediumPressure: "",
@@ -601,23 +672,18 @@ export default {
         },
         signalFigure: "",
         // 现场照片
-        meterPanorama: "",
-        meterClose: "",
-        pipelinePanorama: "",
-        probePanorama: "",
-        // 附加信息
+        meterPanoramas: [],
+        meterCloses: [],
+        pipelinePanoramas: [],
+        probePanoramas: [],
+        // 审核人
         supervisor: null,
+        // 附加信息
         otherContent: "",
         // 特殊信息
         reportStatus: "",
         // 提交者
         submitter: "",
-        // 报告单评分
-        returnReason: "",
-        scoreReport: "",
-        comments: "",
-        checkTime: "",
-        submitTime: "",
       },
       meter_info: {},
       submitter_info: {},
@@ -634,6 +700,22 @@ export default {
       } else {
         return "无";
       }
+    },
+    rustShift() {
+      if (this.container_info.isRust) {
+        return "是";
+      } else {
+        return "否";
+      }
+    },
+    getAddress() {
+      let realAddress =
+        CodeToText[this.model.regionalAddress[0]] +
+        CodeToText[this.model.regionalAddress[1]] +
+        CodeToText[this.model.regionalAddress[2]] +
+        " " +
+        this.model.detailedAddress;
+      return realAddress;
     },
   },
   methods: {
@@ -719,12 +801,13 @@ export default {
           });
           this.model.returnReason = "/";
           this.model.comments = value;
-          this.model.checkTime = this.$moment().format("YYYY-MM-DD HH:MM:SS");
+          this.model.checkTime = this.$moment().format("YYYY-MM-DD HH:mm:ss");
           this.model.reportStatus = "已通过";
           await this.$http.put(
             `rest/installationReports/${this.id}`,
             this.model
           );
+          this.$router.push("/audits/pass");
         })
         .catch(() => {
           this.$message({
@@ -775,7 +858,6 @@ export default {
   }
 }
 .el-col {
-  border-radius: 4px;
 }
 
 .bg-purple {
@@ -784,7 +866,7 @@ export default {
   display: flex;
   align-items: center;
   // background: #88b7ee81;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.116);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.076);
   padding: 0.5em;
 }
 .bg-purple-light {
@@ -797,5 +879,11 @@ export default {
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
+}
+
+.img-list {
+  height: 244px;
+  display: block;
+  margin-top: 1em;
 }
 </style>

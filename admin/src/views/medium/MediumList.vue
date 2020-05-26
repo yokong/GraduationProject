@@ -11,7 +11,7 @@
         <el-input
           @keyup.enter.native="search"
           v-model="searchData"
-          placeholder="输入仪表名称"
+          placeholder="输入介质名称"
         ></el-input>
       </el-col>
       <el-col :span="3">
@@ -29,14 +29,14 @@
     <el-table @selection-change="handleSelectionChange" border :data="list">
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="序号" align="center" width="70">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }} </span>
         </template>
       </el-table-column>
       <el-table-column prop="mediumNumber" label="介质编号"></el-table-column>
       <el-table-column prop="mediumName" label="介质名称"></el-table-column>
       <el-table-column label="操作" width="180">
-        <template v-slot="scope">
+        <template slot-scope="scope">
           <el-button
             type="text"
             size="small"

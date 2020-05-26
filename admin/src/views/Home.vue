@@ -41,12 +41,16 @@
             </el-row>
             <el-row style="margin-top:20px">
               <el-col class="changeAvatar" :span="12">
-                <el-button type="text" @click="userInfoDialogVisible = true">
+                <el-button @click="userInfoDialogVisible = true">
                   修改信息
                 </el-button>
               </el-col>
-              <el-col class="changeUserInfo" :span="12">
-                <el-button type="text" @click="exit">退出登录</el-button>
+              <el-col
+                class="changeUserInfo"
+                style="text-align:center"
+                :span="12"
+              >
+                <el-button @click="exit">退出登录</el-button>
               </el-col>
             </el-row>
           </div>

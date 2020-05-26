@@ -145,10 +145,11 @@
                 ]"
               ></i>
             </el-col>
-            <el-col class="project-title" :span="19">
+            <el-col class="project-title" :span="14">
               <h3>基于B/S的危化品仪表行业客服管理系统</h3>
             </el-col>
-            <el-col class="profile-avatar" :span="4">
+            <el-col :span="6" style="text-align:right;">{{ nowTime }}</el-col>
+            <el-col class="profile-avatar" :span="2">
               <el-dropdown class="dropdown" @command="handleCommand">
                 <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
                 <el-avatar
@@ -156,6 +157,7 @@
                   :size="40"
                   :src="model.avatar"
                 ></el-avatar>
+
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item disabled>
                     {{ model.name }}
@@ -185,6 +187,8 @@ export default {
       fit: "contain",
       model: {},
       activeIndex: this.$route.path,
+      nowTime: null,
+      timer: "",
     };
   },
   methods: {
@@ -221,6 +225,19 @@ export default {
   },
   created() {
     this.fetchAccount();
+  },
+  mounted() {
+    let _this = this;
+    this.timer = setInterval(() => {
+      this.nowTime = this.$moment(new Date()).format(
+        "YYYY-MM-DD HH:mm:ss dddd"
+      );
+    }, 1000);
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   },
   watch: {
     $route() {

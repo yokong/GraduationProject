@@ -55,6 +55,7 @@ app.use(function (req, res, next) {
 app.listen(3000, () => {
   console.log("服务器已经运行");
 });
+// 全局错误捕获
 app.use(function async(err, req, res, next) {
   console.log(err.status);
   res.status(err.statusCode || 500).send({

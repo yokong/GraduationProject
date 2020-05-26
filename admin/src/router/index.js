@@ -128,7 +128,7 @@ router.beforeEach((to, from, next) => {
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是技术主管或管理员",
+      message: "权限不足，您不是技术主管",
     });
   }
   if (
@@ -138,7 +138,7 @@ router.beforeEach((to, from, next) => {
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是技术主管或管理员",
+      message: "权限不足，您不是技术主管",
     });
   }
   if (
@@ -157,7 +157,7 @@ router.beforeEach((to, from, next) => {
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是技术主管或管理员",
+      message: "权限不足，您不是技术主管",
     });
   }
   if (
@@ -167,7 +167,7 @@ router.beforeEach((to, from, next) => {
   ) {
     return Vue.prototype.$message({
       type: "error",
-      message: "权限不足，您不是技术主管或管理员",
+      message: "权限不足，您不是技术主管",
     });
   }
   next();
