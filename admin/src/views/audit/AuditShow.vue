@@ -438,43 +438,50 @@
             <div class="grid-content bg-purple">状态</div>
           </el-col>
         </el-row>
-        <el-row type="flex" align="middle" class="row" :gutter="24">
+        <el-row
+          v-for="(item, index) in model.fieldData"
+          :key="index"
+          type="flex"
+          align="middle"
+          class="row"
+          :gutter="24"
+        >
           <el-col :span="3">
-            <div class="grid-content bg-purple">{{ model.time }}</div>
+            <div class="grid-content bg-purple">{{ item.time }}</div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.contrastLiquidLevel }}
+              {{ item.contrastLiquidLevel }}
             </div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.meterLiquidLevel }}
+              {{ item.meterLiquidLevel }}
             </div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.meterSignal }}
+              {{ item.meterSignal }}
             </div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.signalFileName }}
+              {{ item.signalFileName }}
             </div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.mediumPressure }}
+              {{ item.mediumPressure }}
             </div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.mediumTempreature }}
+              {{ item.mediumTempreature }}
             </div>
           </el-col>
           <el-col :span="3">
             <div class="grid-content bg-purple">
-              {{ model.status.label }}
+              {{ item.status.label }}
             </div>
           </el-col>
         </el-row>
@@ -603,10 +610,20 @@
       </el-row>
     </div>
     <el-row type="flex" align="middle" style="margin-top:15px">
-      <el-button type="danger" @click="reject">打回报告单</el-button>
+      <el-button
+        type="danger"
+        v-if="this.model.reportStatus != '已通过'"
+        @click="reject"
+        >打回报告单</el-button
+      >
       <!-- v-if="this.model.reportStatus != '已通过'" -->
 
-      <el-button type="success" @click="pass">通过报告单</el-button>
+      <el-button
+        type="success"
+        v-if="this.model.reportStatus != '已通过'"
+        @click="pass"
+        >通过报告单</el-button
+      >
     </el-row>
   </div>
 </template>

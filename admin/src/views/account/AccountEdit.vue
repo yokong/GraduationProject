@@ -10,7 +10,7 @@
     <el-form label-width="120px" @submit.native.prevent="save">
       <el-row type="flex">
         <el-col :span="8">
-          <el-form-item label="权限">
+          <el-form-item label="用户身份">
             <el-select v-model="model.authority" placeholder="请选择">
               <el-option
                 v-for="item in authorities"

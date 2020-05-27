@@ -336,6 +336,7 @@ export default {
     // 退出功能
     exit() {
       this.$router.push("/login");
+      this.$message.success("退出成功");
       localStorage.clear();
     },
   },

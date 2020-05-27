@@ -39,7 +39,7 @@ import { CodeToText } from 'element-china-area-data';
         label="容器材质编号"
       ></el-table-column>
       <el-table-column prop="material" label="容器材质名称"></el-table-column>
-      <el-table-column prop="thickness" label="材质厚度"></el-table-column>
+      <el-table-column prop="thickness" label="壁厚"></el-table-column>
       <el-table-column prop="isRust" label="是否锈蚀">
         <template slot-scope="scope">
           {{ scope.row.isRust == true ? "是" : "否" }}
@@ -99,11 +99,15 @@ export default {
     },
     // 删除方法
     async remove(row) {
-      this.$confirm(`此操作将删除${row.meterName}, 是否继续?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(async () => {
+      this.$confirm(
+        `此操作将删除${row.materialNumber}容器, 是否继续?`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).then(async () => {
         const res = await this.$http.delete(`rest/containers/${row._id}`);
         this.$message({
           type: "success",

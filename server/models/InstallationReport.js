@@ -106,25 +106,31 @@ const schema = new mongoose.Schema({
   // -----------------------技术信息结束--------------------------
   //---------------------现场数据记录----------------------
   // 时间
-  time: { type: String },
-  // 对比液位
-  contrastLiquidLevel: { type: String },
-  // 仪表液位
-  meterLiquidLevel: { type: String },
-  // 仪表信号
-  meterSignal: { type: String },
-  // 信号波形文件名称
-  signalFileName: { type: String },
-  // 介质压力
-  mediumPressure: { type: String },
-  // 介质温度
-  mediumTemperature: { type: String },
-  // 状态
-  status: {
-    value: { type: Number },
-    label: { type: String },
-  },
-  signalFigure: { type: String },
+  fieldData: [
+    {
+      // 时间
+      time: { type: String },
+      // 对比液位
+      contrastLiquidLevel: { type: String },
+      // 仪表液位
+      meterLiquidLevel: { type: String },
+      // 仪表信号
+      meterSignal: { type: String },
+      // 信号波形文件名称
+      signalFileName: { type: String },
+      // 介质压力
+      mediumPressure: { type: String },
+      // 介质温度
+      mediumTemperature: { type: String },
+      // 状态
+      status: {
+        value: { type: Number },
+        label: { type: String },
+      },
+    },
+  ],
+
+  signalFigures: { type: Array },
   //--------------------现场数据记录结束-------------------
 
   // -----------现场照片开始------------------

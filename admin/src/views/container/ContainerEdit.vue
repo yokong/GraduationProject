@@ -20,18 +20,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="容器厚度">
+          <el-form-item label="壁厚(mm)">
             <el-input v-model="model.thickness"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="8">
-          <el-form-item label="容器直径">
+          <el-form-item label="容器直径(mm)">
             <el-input v-model="model.diameter"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="容器高度">
+          <el-form-item label="容器高度(mm)">
             <el-input v-model="model.height"></el-input>
           </el-form-item>
         </el-col>
@@ -56,8 +56,8 @@
               v-model="model.isRust"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-text="有"
-              inactive-text="无"
+              active-text="是"
+              inactive-text="否"
             ></el-switch>
           </el-form-item>
         </el-col>

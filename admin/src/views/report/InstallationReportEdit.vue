@@ -151,12 +151,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="14">
               <el-form-item label="容器">
                 <el-select v-model="model.container">
                   <el-option
                     v-for="item of containers"
-                    :label="item.material"
+                    :label="containerDetail(item)"
                     :value="item._id"
                     :key="item._id"
                   ></el-option>
@@ -389,32 +389,8 @@
                   </el-input>
                 </el-form-item>
               </div>
-              <!-- <el-form-item style="margin-top:45px" label="参数号">
-                <el-input
-                  v-model="item.parameterNumber"
-                  placeholder="参数号"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="参数值">
-                <el-input
-                  v-model="item.parameterValue"
-                  placeholder="参数值"
-                ></el-input>
-              </el-form-item> -->
             </el-col>
           </el-row>
-
-          <!-- <el-row>
-            <el-form-item label="内部参数">
-              <el-input
-                type="textarea"
-                placeholder="多个数据请用英文逗号(,)隔开"
-                :rows="2"
-                :cols="4"
-                v-model="model.intrinsicParameter"
-              ></el-input>
-            </el-form-item>
-          </el-row> -->
 
           <el-divider></el-divider>
           <el-row>
@@ -439,67 +415,91 @@
 
         <!-- 分页4:现场数据记录开始 -->
         <el-tab-pane label="现场数据记录" name="fieldData">
-          <!-- 日期开始 -->
-          <el-row>
-            <el-form-item label="时间">
-              <el-date-picker
-                v-model="model.time"
-                format="yyyy 年 MM 月 dd 日"
-                value-format="yyyy-MM-dd"
-                type="date"
-                placeholder="选择日期"
-              ></el-date-picker>
-            </el-form-item>
-          </el-row>
-          <!-- 日期结束 -->
+          <el-button
+            style="margin-left:2.5em"
+            type="text"
+            @click="model.fieldData.push({})"
+            ><i class="el-icon-plus"></i>添加</el-button
+          >
+          <!-- 现场数据渲染列表 -->
+          <el-row v-for="(item, index) in model.fieldData" :key="index">
+            <!-- 日期开始 -->
+            <el-row>
+              <el-form-item label="时间">
+                <el-date-picker
+                  v-model="item.time"
+                  format="yyyy 年 MM 月 dd 日"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="选择日期"
+                ></el-date-picker>
+              </el-form-item>
+            </el-row>
+            <!-- 日期结束 -->
 
-          <!-- 其他信息开始 -->
-          <el-row>
-            <el-col :span="6">
-              <el-form-item label="对比液位">
-                <el-input v-model="model.contrastLiquidLevel"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="仪表液位">
-                <el-input v-model="model.meterLiquidLevel"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="仪表信号">
-                <el-input v-model="model.meterSignal"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="信号波形文件名">
-                <el-input v-model="model.signalFileName"></el-input>
-              </el-form-item>
-            </el-col>
+            <!-- 其他信息开始 -->
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="对比液位">
+                  <el-input v-model="item.contrastLiquidLevel"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="仪表液位">
+                  <el-input v-model="item.meterLiquidLevel"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="仪表信号">
+                  <el-input v-model="item.meterSignal"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="信号波形文件名">
+                  <el-input v-model="item.signalFileName"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="介质压力">
+                  <el-input v-model="item.mediuPressure"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="介质温度">
+                  <el-input v-model="item.mediumTemperature"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="状态">
+                  <el-select
+                    @change="select(item2, index)"
+                    v-model="item.status"
+                  >
+                    <el-option
+                      v-for="item2 of status"
+                      :label="item2.label"
+                      :value="item2"
+                      :key="item2.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-button
+                    type="danger"
+                    size="small"
+                    @click="model.fieldData.splice(index, 1)"
+                    >删除</el-button
+                  >
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 其他信息结束 -->
           </el-row>
-          <el-row>
-            <el-col :span="6">
-              <el-form-item label="介质压力">
-                <el-input v-model="model.mediuPressure"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="介质温度">
-                <el-input v-model="model.mediumTemperature"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="状态">
-                <el-select @change="select" v-model="model.status">
-                  <el-option
-                    v-for="item of status"
-                    :label="item.label"
-                    :value="item"
-                    :key="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
+
           <!-- 其他信息结束 -->
         </el-tab-pane>
         <!-- 分页4:现场数据记录结束 -->
@@ -509,18 +509,19 @@
           <el-row>
             <el-form-item label="信号记录图">
               <el-upload
-                class="avatar-uploader"
                 :action="$http.defaults.baseURL + '/upload'"
-                :show-file-list="false"
-                :on-success="afterUpload2"
+                list-type="picture-card"
+                :file-list="model.signalFigures"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove5"
+                :on-success="handleSuccess5"
+                :before-remove="beforeRemove"
               >
-                <img
-                  v-if="model.signalFigure"
-                  :src="model.signalFigure"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <i class="el-icon-plus"></i>
               </el-upload>
+              <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="" />
+              </el-dialog>
             </el-form-item>
           </el-row>
         </el-tab-pane>
@@ -770,18 +771,19 @@ export default {
         // intrinsicParameter: "",
         installationDiagram: "",
         // 现场数据记录
-        time: "",
-        contrastLiquidLevel: "",
-        meterliquidLevel: "",
-        meterSignal: "",
-        signalFileName: "",
-        mediumPressure: "",
-        mediumTemperature: "",
-        status: {
-          value: null,
-          label: "",
-        },
-        signalFigure: "",
+        fieldData: [],
+        // time: "",
+        // contrastLiquidLevel: "",
+        // meterliquidLevel: "",
+        // meterSignal: "",
+        // signalFileName: "",
+        // mediumPressure: "",
+        // mediumTemperature: "",
+        // status: {
+        //   value: null,
+        //   label: "",
+        // },
+        signalFigures: [],
         // 现场照片
         meterPanoramas: [],
         meterCloses: [],
@@ -802,6 +804,11 @@ export default {
     };
   },
   methods: {
+    containerDetail(item) {
+      return `${item.materialNumber}--${item.material} ${item.thickness} ${
+        item.isRust ? "锈蚀" : "未锈蚀"
+      } `;
+    },
     // 图片列表
     handleSuccess(res, file, fileList) {
       this.model.meterPanoramas.push({
@@ -886,6 +893,25 @@ export default {
       this.model.probePanoramas = temp;
       this.$message.success("删除成功");
     },
+
+    handleSuccess5(res, file, fileList) {
+      this.model.signalFigures.push({
+        name: res.originalname,
+        url: res.url,
+      });
+    },
+    handleRemove5(file, fileList) {
+      // console.log(file.name);
+      let temp = this.model.signalFigures;
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i].name == file.name) {
+          temp.splice(i, 1);
+          break;
+        }
+      }
+      this.model.signalFigures = temp;
+      this.$message.success("删除成功");
+    },
     beforeRemove(file, fileList) {
       return this.$confirm(`确认要删除 ${file.name}么?`, {
         confirmButtonText: "确认",
@@ -938,26 +964,7 @@ export default {
       // this.$set(this.model,'avatar',res.url)
       this.model.signalFigure = res.url;
     },
-    // // 仪表全景
-    // afterUpload3(res, index) {
-    //   console.log(this.model.meterPanoramas);
-    //   this.model.meterPanoramas[index].meterPanorama = res.url;
-    // },
-    // // 仪表近景
-    // afterUpload4(res) {
-    //   // this.$set(this.model,'avatar',res.url)
-    //   this.model.meterClose = res.url;
-    // },
-    // // 管线全景
-    // afterUpload5(res) {
-    //   // this.$set(this.model,'avatar',res.url)
-    //   this.model.pipelinePanorama = res.url;
-    // },
-    // // 探头全景
-    // afterUpload6(res) {
-    //   // this.$set(this.model,'avatar',res.url)
-    //   this.model.probePanorama = res.url;
-    // },
+
     // 查询仪表
     async fetchMeters() {
       const res = await this.$http.get(`rest/meters`);
@@ -981,11 +988,13 @@ export default {
       const res = await this.$http.get(`rest/mediums`);
       this.mediums = res.data;
     },
-    select(item) {
-      this.model.status.label = item.label;
-      this.model.status.value = item.value;
+    select(item, index) {
+      console.log(item, index);
+      this.model.fieldData[index].status.label = item.label;
+      this.model.fieldData[index].status.value = item.value;
     },
   },
+  computed: {},
   created() {
     this.fetchMeters();
     this.fetchContainer();

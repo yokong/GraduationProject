@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <h1 class="admin-title">危化品仪表行业客服管理系统</h1>
     <div class="login">
       <span class="title">登录</span>
       <div>
@@ -34,7 +35,6 @@ export default {
     async login() {
       //请求完成得到一个token
       const res = await this.$http.post("/login", this.model);
-      console.log(res);
       localStorage.token = res.data.token;
       localStorage.authority = res.data.user.authority;
       localStorage.account = res.data.user.account;
@@ -51,6 +51,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.admin-title {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  color: #292e27;
+  background-color: rgba(53, 52, 52, 0.274);
+  position: absolute;
+  top: 0;
+  margin: 0;
+  margin: 0 0 1em 0;
+  border-bottom: 1px dashed;
+  font-weight: bold;
+}
+
 .login-container {
   display: flex;
   height: 100vh;

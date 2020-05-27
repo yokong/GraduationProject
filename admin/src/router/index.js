@@ -56,37 +56,289 @@ const routes = [
       {
         path: "/installationReports/create",
         component: InstallationReportEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 1) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是安装工程师",
+            });
+          }
+          next();
+        },
       },
       {
         path: "/installationReports/edit/:id",
         component: InstallationReportEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 1) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是安装工程师",
+            });
+          }
+          next();
+        },
         props: true,
       },
-      { path: "/installationReports/list", component: InstallationReportList },
+      {
+        path: "/installationReports/list",
+        component: InstallationReportList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 1) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是安装工程师",
+            });
+          }
+          next();
+        },
+      },
 
-      { path: "/meters/create", component: MeterEdit },
-      { path: "/meters/edit/:id", component: MeterEdit, props: true },
-      { path: "/meters/list", component: MeterList },
+      {
+        path: "/meters/create",
+        component: MeterEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/meters/edit/:id",
+        component: MeterEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+        props: true,
+      },
+      {
+        path: "/meters/list",
+        component: MeterList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
 
-      { path: "/mediums/create", component: MediumEdit },
-      { path: "/mediums/edit/:id", component: MediumEdit, props: true },
-      { path: "/mediums/list", component: MediumList },
+      {
+        path: "/mediums/create",
+        component: MediumEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/mediums/edit/:id",
+        component: MediumEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+        props: true,
+      },
+      {
+        path: "/mediums/list",
+        component: MediumList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
 
-      { path: "/containers/create", component: ContainerEdit },
-      { path: "/containers/edit/:id", component: ContainerEdit, props: true },
-      { path: "/containers/list", component: ContainerList },
+      {
+        path: "/containers/create",
+        component: ContainerEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/containers/edit/:id",
+        component: ContainerEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+        props: true,
+      },
+      {
+        path: "/containers/list",
+        component: ContainerList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
 
-      { path: "/accounts/create", component: AccountEdit },
-      { path: "/accounts/edit/:id", component: AccountEdit, props: true },
-      { path: "/accounts/list", component: AccountList },
+      {
+        path: "/accounts/create",
+        component: AccountEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 3) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是管理员",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/accounts/edit/:id",
+        component: AccountEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 3) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是管理员",
+            });
+          }
+          next();
+        },
+        props: true,
+      },
+      {
+        path: "/accounts/list",
+        component: AccountList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 3) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是管理员",
+            });
+          }
+          next();
+        },
+      },
 
-      { path: "/audits/list", component: AuditList },
-      { path: "/audits/pass", component: AuditPass },
-      { path: "/audits/show/:id", component: AuditShow, props: true },
+      {
+        path: "/audits/list",
+        component: AuditList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/audits/pass",
+        component: AuditPass,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/audits/show/:id",
+        component: AuditShow,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 2) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是技术主管",
+            });
+          }
+          next();
+        },
+        props: true,
+      },
 
-      { path: "/notices/create", component: NoticeEdit },
-      { path: "/notices/edit/:id", component: NoticeEdit, props: true },
-      { path: "/notices/list", component: NoticeList },
+      {
+        path: "/notices/create",
+        component: NoticeEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 3) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是管理员",
+            });
+          }
+          next();
+        },
+      },
+      {
+        path: "/notices/edit/:id",
+        component: NoticeEdit,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 3) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是管理员",
+            });
+          }
+          next();
+        },
+        props: true,
+      },
+      {
+        path: "/notices/list",
+        component: NoticeList,
+        beforeEnter: (to, from, next) => {
+          if (localStorage.authority != 3) {
+            return Vue.prototype.$message({
+              type: "error",
+              message: "权限不足，您不是管理员",
+            });
+          }
+          next();
+        },
+      },
     ],
   },
   { path: "*", component: NotFound },
@@ -100,77 +352,79 @@ router.beforeEach((to, from, next) => {
   if (!to.meta.isLogin && !localStorage.account) {
     return next("/login");
   }
-  if (
-    (to.path == "/accounts/list" || to.path == "/accounts/create") &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是管理员",
-    });
-  }
-  if (
-    (to.path == "/installationReports/create" ||
-      to.path == "/installationReports/list") &&
-    localStorage.authority != 1 &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是安装工程师或管理员",
-    });
-  }
-
-  if (
-    (to.path == "/meters/create" || to.path == "/meters/list") &&
-    localStorage.authority != 2 &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是技术主管",
-    });
-  }
-  if (
-    (to.path == "/mediums/create" || to.path == "/mediums/list") &&
-    localStorage.authority != 2 &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是技术主管",
-    });
-  }
-  if (
-    (to.path == "/notices/create" || to.path == "/notices/list") &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是管理员",
-    });
-  }
-  if (
-    (to.path == "/audits/list" || to.path == "/audits/pass") &&
-    localStorage.authority != 2 &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是技术主管",
-    });
-  }
-  if (
-    (to.path == "/containers/create" || to.path == "/containers/list") &&
-    localStorage.authority != 2 &&
-    localStorage.authority != 3
-  ) {
-    return Vue.prototype.$message({
-      type: "error",
-      message: "权限不足，您不是技术主管",
-    });
-  }
   next();
 });
+//   if (
+//     (to.path == "/accounts/list" || to.path == "/accounts/create") &&
+//     localStorage.authority != 3
+//   ) {
+//     return Vue.prototype.$message({
+//       type: "error",
+//       message: "权限不足，您不是管理员",
+//     });
+//   }
+//   if (
+//     (to.path == "/installationReports/create" ||
+//       to.path == "/installationReports/list") &&
+//     localStorage.authority != 1 &&
+//     localStorage.authority != 3
+//   ) {
+//     return Vue.prototype.$message({
+//       type: "error",
+//       message: "权限不足，您不是安装工程师或管理员",
+//     });
+//   }
+
+// if (
+//   (to.path == "/meters/create" || to.path == "/meters/list") &&
+//   localStorage.authority != 2 &&
+//   localStorage.authority != 3
+// ) {
+//   return Vue.prototype.$message({
+//     type: "error",
+//     message: "权限不足，您不是技术主管",
+//   });
+// }
+//   if (
+//     (to.path == "/mediums/create" || to.path == "/mediums/list") &&
+//     localStorage.authority != 2 &&
+//     localStorage.authority != 3
+//   ) {
+//     return Vue.prototype.$message({
+//       type: "error",
+//       message: "权限不足，您不是技术主管",
+//     });
+//   }
+//   if (
+//     (to.path == "/notices/create" || to.path == "/notices/list") &&
+//     localStorage.authority != 3
+//   ) {
+//     return Vue.prototype.$message({
+//       type: "error",
+//       message: "权限不足，您不是管理员",
+//     });
+//   }
+//   if (
+//     (to.path == "/audits/list" || to.path == "/audits/pass") &&
+//     localStorage.authority != 2 &&
+//     localStorage.authority != 3
+//   ) {
+//     return Vue.prototype.$message({
+//       type: "error",
+//       message: "权限不足，您不是技术主管",
+//     });
+//   }
+//   if (
+//     (to.path == "/containers/create" || to.path == "/containers/list") &&
+//     localStorage.authority != 2 &&
+//     localStorage.authority != 3
+//   ) {
+//     return Vue.prototype.$message({
+//       type: "error",
+//       message: "权限不足，您不是技术主管",
+//     });
+//   }
+//   next();
+// });
 
 export default router;
