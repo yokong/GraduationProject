@@ -436,7 +436,6 @@
               </el-form-item>
             </el-row>
             <!-- 日期结束 -->
-
             <!-- 其他信息开始 -->
             <el-row>
               <el-col :span="6">
@@ -497,6 +496,8 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-divider></el-divider>
+
             <!-- 其他信息结束 -->
           </el-row>
 
