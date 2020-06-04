@@ -69,7 +69,7 @@
           </el-col>
           <el-col :span="20">
             <div class="grid-content bg-purple">
-              {{ getAddress }}
+              {{ getAddress() }}
             </div>
           </el-col>
         </el-row>
@@ -77,8 +77,8 @@
         <el-row
           type="flex"
           align="middle"
-          v-for="(item, index) in model.contacts"
-          :key="index"
+          v-for="item in model.contacts"
+          :key="item._id"
           class="row"
           :gutter="24"
         >
@@ -439,8 +439,8 @@
           </el-col>
         </el-row>
         <el-row
-          v-for="(item, index) in model.fieldData"
-          :key="index"
+          v-for="item in model.fieldData"
+          :key="item._id"
           type="flex"
           align="middle"
           class="row"
@@ -491,8 +491,14 @@
           <el-col style="height:244px" :span="4">
             <div class="grid-content bg-purple">仪表信号存储图</div>
           </el-col>
-          <el-col style="height:244px" :span="20">
-            <img style="height:100%" :src="model.signalFigure" alt />
+          <el-col :span="20">
+            <img
+              class="img-list"
+              v-for="item in model.signalFigures"
+              :key="item._id"
+              :src="item.url"
+              :alt="item.name"
+            />
           </el-col>
         </el-row>
 
@@ -504,8 +510,8 @@
           <el-col :span="20">
             <img
               class="img-list"
-              v-for="(item, index) in model.meterPanoramas"
-              :key="index"
+              v-for="item in model.meterPanoramas"
+              :key="item._id"
               :src="item.url"
               :alt="item.name"
             />
@@ -520,8 +526,8 @@
           <el-col :span="20">
             <img
               class="img-list"
-              v-for="(item, index) in model.meterCloses"
-              :key="index"
+              v-for="item in model.meterCloses"
+              :key="item.uid"
               :src="item.url"
               :alt="item.name"
             />
@@ -536,8 +542,8 @@
           <el-col :span="20">
             <img
               class="img-list"
-              v-for="(item, index) in model.pipelinePanoramas"
-              :key="index"
+              v-for="item in model.pipelinePanoramas"
+              :key="item.uid"
               :src="item.url"
               :alt="item.name"
             />
@@ -554,8 +560,8 @@
           <el-col :span="20">
             <img
               class="img-list"
-              v-for="(item, index) in model.probePanoramas"
-              :key="index"
+              v-for="item in model.probePanoramas"
+              :key="item.uid"
               :src="item.url"
               :alt="item.name"
             />
@@ -639,26 +645,7 @@ export default {
     return {
       imgUrl: "",
       model: {
-        company: "",
-        code: null,
-        regionalAddress: "",
-        detailedAddress: "",
-        route: "",
         contacts: [],
-
-        // 现场工况
-        meter: null,
-        otherCondition: "",
-        meterType: "",
-        useTime: "",
-        medium: "",
-        container: null,
-        liquidMedium: "",
-        viscosity: "",
-        desity: "",
-        temperatureRange: "",
-        pressureRange: "",
-        liquidLevelRange: "",
         userPreferences: [],
         // 技术信息
         maxVoltage: {
@@ -673,21 +660,6 @@ export default {
         liquidLevel: "",
         resistance: "",
         intrinsicPreferences: [],
-        // intrinsicParameter: "",
-        installationDiagram: "",
-        // 现场数据记录
-        time: "",
-        contrastLiquidLevel: "",
-        meterliquidLevel: "",
-        meterSignal: "",
-        signalFileName: "",
-        mediumPressure: "",
-        mediumTemperature: "",
-        status: {
-          value: null,
-          label: "",
-        },
-        signalFigure: "",
         // 现场照片
         meterPanoramas: [],
         meterCloses: [],
@@ -707,7 +679,7 @@ export default {
       supervisor_info: {},
       container_info: {},
       medium_info: {},
-      scoreReport: "",
+      scoreReport: null,
     };
   },
   computed: {
@@ -724,15 +696,6 @@ export default {
       } else {
         return "否";
       }
-    },
-    getAddress() {
-      let realAddress =
-        CodeToText[this.model.regionalAddress[0]] +
-        CodeToText[this.model.regionalAddress[1]] +
-        CodeToText[this.model.regionalAddress[2]] +
-        " " +
-        this.model.detailedAddress;
-      return realAddress;
     },
   },
   methods: {
@@ -793,6 +756,7 @@ export default {
           });
           this.model.returnReason = value;
           this.model.reportStatus = "未通过";
+          this.$router.push("/audits/list");
           await this.$http.put(
             `rest/installationReports/${this.id}`,
             this.model
@@ -841,6 +805,18 @@ export default {
       //   this.model.reportStatus = "已通过";
       //   await this.$http.put(`rest/installationReports/${this.id}`, this.model);
       // });
+    },
+    getAddress() {
+      if (this.model.regionalAddress) {
+        let realAddress =
+          CodeToText[this.model.regionalAddress[0]] +
+          CodeToText[this.model.regionalAddress[1]] +
+          CodeToText[this.model.regionalAddress[2]] +
+          " " +
+          this.model.detailedAddress;
+        return realAddress;
+      }
+      return "";
     },
   },
   created() {

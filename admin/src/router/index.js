@@ -354,6 +354,7 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
 //   if (
 //     (to.path == "/accounts/list" || to.path == "/accounts/create") &&
 //     localStorage.authority != 3

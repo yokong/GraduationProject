@@ -57,7 +57,6 @@ app.listen(3000, () => {
 });
 // 全局错误捕获
 app.use(function async(err, req, res, next) {
-  console.log(err.status);
   res.status(err.statusCode || 500).send({
     message: err.message,
   });

@@ -6,9 +6,6 @@ import "./style.css";
 import "./icon/iconfont.css";
 // 导入日期处理文件
 import moment from "moment";
-moment.locale("zh-cn");
-
-import "../node_modules/moment/locale/zh-cn";
 Vue.prototype.$moment = moment;
 // 导入axios配置文件
 import http from "./http";

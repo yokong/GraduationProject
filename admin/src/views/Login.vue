@@ -56,13 +56,11 @@ export default {
   height: 80px;
   line-height: 80px;
   text-align: center;
-  color: #292e27;
-  background-color: rgba(53, 52, 52, 0.274);
+  color: white;
   position: absolute;
   top: 0;
   margin: 0;
   margin: 0 0 1em 0;
-  border-bottom: 1px dashed;
   font-weight: bold;
 }
 
@@ -71,7 +69,7 @@ export default {
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background: url("../assets/images/bg-login.jpg") center center;
+  background: url("../assets/images/bg-login.png") center center;
 }
 .login {
   width: 250px;

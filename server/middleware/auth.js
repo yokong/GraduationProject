@@ -13,10 +13,10 @@ module.exports = (options) => {
       .split(" ")
       .pop();
     // 对token进行判断 如果token为false 证明未传递token则 返回401(未授权)
-    assert(token, 401, "请提供jwt token");
+    assert(token, 401, "请提供token");
     const { id } = jwt.verify(token, req.app.get("secret"));
     // 如果id错误证明token无效
-    assert(id, 401, "无效jwt token");
+    assert(id, 401, "无效的token");
     // 根据解析token后获得的id 来进行数据库查询操作并 挂载到req.user上
     req.user = await Account.findById(id);
     // 如果未查询到这说明 还没有登录

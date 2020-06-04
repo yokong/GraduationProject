@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
   // 权限
-  authority: { type: Number, required: true },
+  authority: { type: Number, required: [true, "请选择权限"] },
   // 账号
   account: {
     type: String,
@@ -19,11 +19,11 @@ const schema = new mongoose.Schema({
     },
   },
   // 姓名
-  name: { type: String, required: true },
+  name: { type: String, required: [true, "请填入姓名"] },
   // 电话
-  phoneNumber: { type: Number, required: true },
+  phoneNumber: { type: Number, required: [true, "请填入电话"] },
   // 邮箱
-  email: { type: String, required: true },
+  email: { type: String, required: [true, "请填入邮箱"] },
   // 头像
   avatar: { type: String, required: [true, "请填入头像"] },
 });
