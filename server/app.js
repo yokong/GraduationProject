@@ -45,11 +45,9 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 // // 错误处理 error handler
-
 // 错误处理函数
 // app.use(async (err, req, res, next) => {
 //   console.log(err.statusCode, 22222222222222222222);
-
 // });
 
 app.listen(3000, () => {
